@@ -35,7 +35,9 @@ htmlcov/
 # Data outputs
 data/raw/clones/
 data/interim/
-data/processed/
+
+# Keep processed data (needed for dashboard)
+# data/processed/ is intentionally tracked
 
 # OS
 .DS_Store
