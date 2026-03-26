@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "github-portfolio-auditor"
+version = "0.1.0"
+description = "Deterministic-first GitHub repository portfolio auditor"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+  { name = "Mathieu" }
+]
+license = { text = "MIT" }
+dependencies = [
+  "requests>=2.32.0",
+  "pydantic>=2.8.0",
+  "pydantic-settings>=2.3.0",
+  "typer>=0.12.3",
+  "PyYAML>=6.0.1",
+  "pandas>=2.2.0",
+  "streamlit>=1.35.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.2.0",
+  "pytest-cov>=5.0.0",
+  "ruff>=0.5.0",
+]
+
+[project.scripts]
+portfolio-auditor = "portfolio_auditor.cli:app"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

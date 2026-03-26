@@ -1,0 +1,7 @@
+weights:
+  architecture: 20
+  documentation: 20
+  testing: 15
+  technical_depth: 15
+  portfolio_relevance: 20
+  cleanliness: 10

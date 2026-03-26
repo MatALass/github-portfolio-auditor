@@ -1,0 +1,4 @@
+decisions:
+  feature_now_min_score: 85
+  keep_and_improve_min_score: 70
+  merge_or_reposition_min_score: 55
