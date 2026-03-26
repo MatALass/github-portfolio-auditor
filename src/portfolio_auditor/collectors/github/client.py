@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from functools import lru_cache
 from typing import Any
 
 import requests
@@ -161,6 +162,24 @@ class GitHubClient:
     def get_org(self, org_name: str) -> dict[str, Any]:
         return self._request("GET", f"/orgs/{org_name}")
 
+    @lru_cache(maxsize=1)
+    def get_authenticated_user(self) -> dict[str, Any] | None:
+        if not self.settings.github_token:
+            return None
+        payload = self._request("GET", "/user")
+        if not isinstance(payload, dict):
+            return None
+        return payload
+
+    def get_authenticated_login(self) -> str | None:
+        payload = self.get_authenticated_user()
+        if not payload:
+            return None
+        login = payload.get("login")
+        if not isinstance(login, str) or not login.strip():
+            return None
+        return login.strip()
+
     def list_user_repos(
         self,
         username: str,
@@ -176,6 +195,37 @@ class GitHubClient:
                 "GET",
                 f"/users/{username}/repos",
                 params={
+                    "per_page": self.settings.github_max_repos_per_page,
+                    "page": page,
+                    "sort": sort,
+                    "direction": direction,
+                },
+            )
+            if not batch:
+                break
+            repos.extend(batch)
+            if len(batch) < self.settings.github_max_repos_per_page:
+                break
+            page += 1
+
+        return repos
+
+    def list_authenticated_user_repos(
+        self,
+        *,
+        sort: str = "updated",
+        direction: str = "desc",
+    ) -> list[dict[str, Any]]:
+        repos: list[dict[str, Any]] = []
+        page = 1
+
+        while True:
+            batch = self._request(
+                "GET",
+                "/user/repos",
+                params={
+                    "visibility": "all",
+                    "affiliation": "owner",
                     "per_page": self.settings.github_max_repos_per_page,
                     "page": page,
                     "sort": sort,

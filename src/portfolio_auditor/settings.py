@@ -31,6 +31,7 @@ class Settings(BaseSettings):
     github_clone_protocol: str = "https"
     github_request_timeout_seconds: float = 30.0
     github_max_repos_per_page: int = 100
+    github_excluded_repo_names: str = "github-portfolio-auditor"
 
     openai_api_key: str | None = Field(default=None, alias="OPENAI_API_KEY")
     llm_enabled: bool = False
@@ -39,6 +40,7 @@ class Settings(BaseSettings):
     raw_dir: Path = Path("data/raw")
     interim_dir: Path = Path("data/interim")
     processed_dir: Path = Path("data/processed")
+    processed_history_dir: Path = Path("data/processed_history")
 
     github_raw_dir: Path = Path("data/raw/github")
     clones_dir: Path = Path("data/raw/clones")
@@ -73,12 +75,23 @@ class Settings(BaseSettings):
         """
         return self.workspace_dir
 
+    @property
+    def normalized_excluded_repo_names(self) -> set[str]:
+        values = {
+            item.strip().lower()
+            for item in self.github_excluded_repo_names.split(",")
+            if item.strip()
+        }
+        values.add(self.app_name.strip().lower())
+        return values
+
     def ensure_directories(self) -> None:
         directories = [
             self.workspace_dir,
             self.raw_dir,
             self.interim_dir,
             self.processed_dir,
+            self.processed_history_dir,
             self.github_raw_dir,
             self.clones_dir,
             self.scans_dir,
@@ -99,6 +112,9 @@ class Settings(BaseSettings):
     def get_processed_owner_dir(self, owner: str) -> Path:
         return self.processed_dir / owner
 
+    def get_processed_history_owner_dir(self, owner: str) -> Path:
+        return self.processed_history_dir / owner
+
     def should_use_ssh_for_clone(self) -> bool:
         return self.github_clone_protocol.strip().lower() == "ssh"
 
@@ -112,7 +128,7 @@ def get_settings() -> Settings:
 
 def reset_settings_cache() -> None:
     """
-    Useful for tests.
+    Useful for tests and live dashboard refreshes after environment changes.
     """
     get_settings.cache_clear()
 

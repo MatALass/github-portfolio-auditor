@@ -33,11 +33,10 @@ htmlcov/
 .env
 
 # Data outputs
+# Keep processed artifacts tracked because the dashboard depends on them.
 data/raw/clones/
 data/interim/
-
-# Keep processed data (needed for dashboard)
-# data/processed/ is intentionally tracked
+data/processed_history/
 
 # OS
 .DS_Store

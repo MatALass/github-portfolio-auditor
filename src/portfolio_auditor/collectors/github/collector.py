@@ -146,6 +146,9 @@ class GitHubCollector:
             - "normalized_snapshot": cached normalized RepoMetadata payloads
         """
         try:
+            authenticated_login = self.client.get_authenticated_login()
+            if authenticated_login and authenticated_login.lower() == owner.lower():
+                return self.client.list_authenticated_user_repos(), "github_api"
             return self.client.list_user_repos(owner), "github_api"
         except GitHubRateLimitError as error:
             if self.has_raw_owner_snapshot(owner):
@@ -215,6 +218,14 @@ class GitHubCollector:
 
     def _apply_filters(self, repos: list[RepoMetadata]) -> list[RepoMetadata]:
         filtered = repos
+        excluded_names = self.settings.normalized_excluded_repo_names
+
+        filtered = [
+            repo
+            for repo in filtered
+            if repo.name.lower() != repo.owner.login.lower()
+            and repo.name.lower() not in excluded_names
+        ]
 
         if not self.settings.include_forks:
             filtered = [repo for repo in filtered if not repo.flags.fork]
