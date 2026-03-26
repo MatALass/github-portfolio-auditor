@@ -17,6 +17,7 @@ from portfolio_auditor.dashboard.components.redundancy_view import render_redund
 from portfolio_auditor.dashboard.components.repo_detail import render_repo_detail
 from portfolio_auditor.dashboard.components.repo_table import render_repo_table
 from portfolio_auditor.dashboard.data_loader import DashboardDataError, discover_owners, load_dashboard_data
+from portfolio_auditor.dashboard.live_audit import resolve_github_token, run_fresh_audit
 
 
 def _inject_styles() -> None:
@@ -118,6 +119,44 @@ def _inject_styles() -> None:
     )
 
 
+def _render_refresh_controls(owner: str) -> None:
+    with st.sidebar:
+        st.markdown("---")
+        st.markdown("### Data refresh")
+
+        token_loaded = bool(resolve_github_token())
+        st.caption(f"GitHub token loaded: {'yes' if token_loaded else 'no'}")
+
+        refresh_local_clones = st.checkbox(
+            "Refresh local clones during audit",
+            value=False,
+            help=(
+                "Enable this only if your pipeline supports a deeper refresh mode that "
+                "updates local clones before scanning."
+            ),
+        )
+
+        if st.button("Run fresh audit now", use_container_width=True, type="primary"):
+            with st.spinner("Running fresh audit from GitHub. This can take some time..."):
+                try:
+                    result = run_fresh_audit(
+                        owner=owner,
+                        refresh_local_clones=refresh_local_clones,
+                    )
+                except Exception as exc:
+                    st.error(f"Fresh audit failed: {exc}")
+                else:
+                    success_message = result.message
+                    if result.history_dir is not None:
+                        success_message += f" Previous snapshot saved to {result.history_dir.name}."
+                    if result.used_token:
+                        success_message += " Authenticated GitHub access was used."
+                    else:
+                        success_message += " No GitHub token was detected."
+                    st.success(success_message)
+                    st.rerun()
+
+
 def main() -> None:
     st.set_page_config(
         page_title="GitHub Portfolio Auditor Dashboard",
@@ -129,25 +168,38 @@ def main() -> None:
 
     st.title("GitHub Portfolio Auditor · Dashboard V2")
     st.caption(
-        "Deterministic portfolio decision dashboard powered only by processed JSON artifacts. V2 adds impact simulation and optimization views without rescanning repositories."
+        "Deterministic portfolio decision dashboard powered only by processed JSON artifacts. "
+        "V2 adds impact simulation and optimization views without rescanning repositories."
     )
 
-    owners = discover_owners()
-    if not owners:
-        st.error("No processed owner directory was found under data/processed. Run the CLI pipeline first.")
-        st.stop()
+    discovered_owners = discover_owners()
 
     with st.sidebar:
         st.header("Configuration")
-        owner = st.selectbox("Owner", options=owners)
+
+        if discovered_owners:
+            owner = st.selectbox("Owner", options=discovered_owners)
+        else:
+            owner = st.text_input("Owner", value="MatALass").strip()
+
+    _render_refresh_controls(owner)
+
+    if not discovered_owners and not owner:
+        st.error("No processed owner directory was found under data/processed, and no owner was provided.")
+        st.stop()
 
     try:
         data = load_dashboard_data(owner)
     except DashboardDataError as exc:
-        st.error(str(exc))
+        st.warning(str(exc))
+        st.info(
+            "You can use the sidebar action 'Run fresh audit now' to generate the required "
+            "processed artifacts directly from the app."
+        )
         st.stop()
 
     repo_options = data.repo_df["repo_name"].tolist()
+
     with st.sidebar:
         selected_repo = st.selectbox("Repository detail", options=repo_options)
         st.markdown("---")
@@ -163,15 +215,21 @@ def main() -> None:
                 2,
             ),
         )
+
         if data.next_actions:
             best_action = data.next_actions[0]
             st.markdown("---")
             st.markdown("### Best next move")
             st.write(best_action["action"])
             st.caption(
-                f"Affects {best_action['affected_repo_count']} repos · Lift {best_action['estimated_total_score_lift']:.2f} · ROI {best_action['roi']:.2f}"
+                f"Affects {best_action['affected_repo_count']} repos · "
+                f"Lift {best_action['estimated_total_score_lift']:.2f} · "
+                f"ROI {best_action['roi']:.2f}"
             )
-        st.caption("Use the optimizer tab to compare impact vs effort and decide the next portfolio upgrade batch.")
+
+        st.caption(
+            "Use the optimizer tab to compare impact vs effort and decide the next portfolio upgrade batch."
+        )
 
     tabs = st.tabs(
         [
