@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import shutil
 import subprocess
 from dataclasses import dataclass
@@ -27,6 +28,11 @@ class CloneResult:
 class CloneManager:
     """
     Handles local repository cloning for deeper file-level analysis.
+
+    Important behavior:
+    - public repositories can be cloned anonymously over HTTPS
+    - private repositories require an authenticated clone URL
+    - SSH remains supported if enabled in settings
     """
 
     def __init__(self, settings: Settings) -> None:
@@ -114,6 +120,50 @@ class CloneManager:
             return repo.links.ssh_url
 
         if repo.links.clone_url:
-            return str(repo.links.clone_url)
+            https_clone_url = str(repo.links.clone_url)
+            return self._build_authenticated_https_clone_url(https_clone_url)
 
         raise CloneError(f"HTTPS clone URL is missing for repository {repo.full_name}.")
+
+    def _build_authenticated_https_clone_url(self, clone_url: str) -> str:
+        """
+        Build an authenticated HTTPS clone URL when a GitHub token is available.
+
+        Example:
+            https://github.com/owner/repo.git
+        becomes:
+            https://x-access-token:<TOKEN>@github.com/owner/repo.git
+
+        Notes:
+        - This is only applied to GitHub HTTPS URLs.
+        - If no token is available, the original URL is returned unchanged.
+        - The authenticated URL must never be logged.
+        """
+        token = self._resolve_github_token()
+        if not token:
+            return clone_url
+
+        github_prefix = "https://github.com/"
+        if not clone_url.startswith(github_prefix):
+            return clone_url
+
+        return clone_url.replace(
+            github_prefix,
+            f"https://x-access-token:{token}@github.com/",
+            1,
+        )
+
+    def _resolve_github_token(self) -> str | None:
+        """
+        Resolve the GitHub token from environment variables.
+
+        This works both:
+        - locally when .env is loaded into the environment
+        - on Streamlit Community Cloud after secrets are copied into os.environ
+        """
+        token = os.getenv("GITHUB_TOKEN")
+        if not token:
+            return None
+
+        token = token.strip()
+        return token or None
