@@ -181,7 +181,7 @@ def _run_cli_subprocess(
         sys.executable,
         "-m",
         "portfolio_auditor.cli",
-        "--github-owner",
+        "--owner",
         owner,
         "--output",
         str(PROCESSED_DIR),
