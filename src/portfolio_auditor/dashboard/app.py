@@ -131,8 +131,8 @@ def _render_refresh_controls(owner: str) -> None:
             "Refresh local clones during audit",
             value=False,
             help=(
-                "Enable this only if your pipeline supports a deeper refresh mode that "
-                "updates local clones before scanning."
+                "Enable this only if you want to force repository re-cloning before scanning. "
+                "This is slower but can refresh outdated local mirrors."
             ),
         )
 
@@ -146,14 +146,17 @@ def _render_refresh_controls(owner: str) -> None:
                 except Exception as exc:
                     st.error(f"Fresh audit failed: {exc}")
                 else:
-                    success_message = result.message
+                    message = (
+                        f"{result.message} "
+                        f"{result.repo_count} repositories analyzed."
+                    )
                     if result.history_dir is not None:
-                        success_message += f" Previous snapshot saved to {result.history_dir.name}."
+                        message += f" Previous snapshot saved to {result.history_dir.name}."
                     if result.used_token:
-                        success_message += " Authenticated GitHub access was used."
+                        message += " Authenticated GitHub access was used."
                     else:
-                        success_message += " No GitHub token was detected."
-                    st.success(success_message)
+                        message += " No GitHub token was detected."
+                    st.success(message)
                     st.rerun()
 
 
@@ -169,7 +172,7 @@ def main() -> None:
     st.title("GitHub Portfolio Auditor · Dashboard V2")
     st.caption(
         "Deterministic portfolio decision dashboard powered only by processed JSON artifacts. "
-        "V2 adds impact simulation and optimization views without rescanning repositories."
+        "V2 adds impact simulation and optimization views."
     )
 
     discovered_owners = discover_owners()

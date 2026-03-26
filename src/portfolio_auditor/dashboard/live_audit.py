@@ -1,21 +1,19 @@
 from __future__ import annotations
 
-import inspect
 import os
 import shutil
-import subprocess
-import sys
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from importlib import import_module
 from pathlib import Path
-from typing import Any, Callable
 
 import streamlit as st
 
+from portfolio_auditor.audit_runner import AuditRunner
+from portfolio_auditor.collectors.github.client import GitHubApiError, GitHubRateLimitError
+from portfolio_auditor.settings import get_settings
+
 
 ROOT_DIR = Path(__file__).resolve().parents[3]
-SRC_DIR = ROOT_DIR / "src"
 DATA_DIR = ROOT_DIR / "data"
 PROCESSED_DIR = DATA_DIR / "processed"
 PROCESSED_HISTORY_DIR = DATA_DIR / "processed_history"
@@ -29,17 +27,24 @@ class AuditRunResult:
     output_dir: Path
     history_dir: Path | None = None
     used_token: bool = False
+    repo_count: int = 0
 
 
 def resolve_github_token() -> str | None:
+    """
+    Resolve the GitHub token from Streamlit secrets first, then environment variables.
+    Works both:
+    - locally via .env / environment variables
+    - on Streamlit Community Cloud via Secrets
+    """
     try:
         secret_token = st.secrets.get("GITHUB_TOKEN")
     except Exception:
         secret_token = None
 
     env_token = os.getenv("GITHUB_TOKEN")
-    token = secret_token or env_token
 
+    token = secret_token or env_token
     if not token:
         return None
 
@@ -60,6 +65,9 @@ def _owner_history_dir(owner: str) -> Path:
 
 
 def _snapshot_existing_processed_dir(owner: str) -> Path | None:
+    """
+    Keep a timestamped backup of the current processed artifacts before refresh.
+    """
     current_dir = _owner_output_dir(owner)
     if not current_dir.exists():
         return None
@@ -72,13 +80,18 @@ def _snapshot_existing_processed_dir(owner: str) -> Path | None:
     return snapshot_dir
 
 
-def _build_excluded_repo_names(owner: str) -> str:
-    default_names = {
-        owner.lower(),
+def _build_excluded_repo_names(owner: str) -> set[str]:
+    """
+    Default exclusions:
+    - profile README repo: owner/owner
+    - this project itself, to avoid self-bias
+    Plus optional additions from env or Streamlit secrets.
+    """
+    excluded = {
+        owner.strip().lower(),
         "github-portfolio-auditor",
     }
 
-    extra = ""
     try:
         extra = str(st.secrets.get("GITHUB_EXCLUDED_REPO_NAMES", "")).strip()
     except Exception:
@@ -88,139 +101,42 @@ def _build_excluded_repo_names(owner: str) -> str:
         for value in extra.split(","):
             cleaned = value.strip().lower()
             if cleaned:
-                default_names.add(cleaned)
+                excluded.add(cleaned)
 
-    return ",".join(sorted(default_names))
-
-
-def _try_call_python_runner(
-    owner: str,
-    token: str | None,
-    refresh_local_clones: bool,
-) -> bool:
-    candidates: list[tuple[str, str]] = [
-        ("portfolio_auditor.audit_runner", "run_full_audit"),
-        ("portfolio_auditor.cli", "run_full_audit"),
-        ("portfolio_auditor.runner", "run_full_audit"),
-        ("portfolio_auditor.main", "run_full_audit"),
-    ]
-
-    for module_name, function_name in candidates:
-        try:
-            module = import_module(module_name)
-            fn = getattr(module, function_name, None)
-            if fn is None or not callable(fn):
-                continue
-
-            _call_runner_function(
-                fn=fn,
-                owner=owner,
-                token=token,
-                refresh_local_clones=refresh_local_clones,
-            )
-            return True
-        except Exception:
-            continue
-
-    return False
+    return excluded
 
 
-def _call_runner_function(
-    fn: Callable[..., Any],
-    owner: str,
-    token: str | None,
-    refresh_local_clones: bool,
-) -> Any:
-    signature = inspect.signature(fn)
-    kwargs: dict[str, Any] = {}
-
-    for param_name in signature.parameters:
-        lowered = param_name.lower()
-
-        if lowered in {"owner", "github_owner", "username", "account"}:
-            kwargs[param_name] = owner
-        elif lowered in {"output_dir", "output_path", "output_root"}:
-            kwargs[param_name] = str(PROCESSED_DIR)
-        elif lowered in {"github_token", "token", "access_token"} and token:
-            kwargs[param_name] = token
-        elif lowered in {"refresh_local_clones", "refresh_clones", "refresh_clone"}:
-            kwargs[param_name] = refresh_local_clones
-        elif lowered in {"excluded_repo_names", "excluded_names"}:
-            kwargs[param_name] = _build_excluded_repo_names(owner)
-
-    return fn(**kwargs)
-
-
-def _build_subprocess_env(token: str | None, owner: str) -> dict[str, str]:
-    env = os.environ.copy()
-
+def _apply_runtime_github_env(owner: str, token: str | None) -> None:
+    """
+    Inject runtime environment variables so the existing settings / GitHub client
+    can pick them up without changing the whole project architecture.
+    """
     if token:
-        env["GITHUB_TOKEN"] = token
+        os.environ["GITHUB_TOKEN"] = token
 
-    env["GITHUB_EXCLUDED_REPO_NAMES"] = _build_excluded_repo_names(owner)
-
-    existing_pythonpath = env.get("PYTHONPATH", "").strip()
-    src_path = str(SRC_DIR)
-
-    if existing_pythonpath:
-        env["PYTHONPATH"] = f"{src_path}{os.pathsep}{existing_pythonpath}"
-    else:
-        env["PYTHONPATH"] = src_path
-
-    return env
-
-
-def _run_cli_subprocess(
-    owner: str,
-    token: str | None,
-    refresh_local_clones: bool,
-) -> None:
-    env = _build_subprocess_env(token=token, owner=owner)
-
-    cmd = [
-        sys.executable,
-        "-m",
-        "portfolio_auditor.cli",
-        "--owner",
-        owner,
-        "--output",
-        str(PROCESSED_DIR),
-    ]
-
-    if refresh_local_clones:
-        cmd.append("--refresh-local-clones")
-
-    completed = subprocess.run(
-        cmd,
-        cwd=str(ROOT_DIR),
-        env=env,
-        text=True,
-        capture_output=True,
-    )
-
-    if completed.returncode != 0:
-        stderr = (completed.stderr or "").strip()
-        stdout = (completed.stdout or "").strip()
-        message = stderr or stdout or "Unknown CLI execution failure."
-        raise RuntimeError(
-            "Fresh audit failed via CLI fallback.\n\n"
-            f"Command: {' '.join(cmd)}\n\n"
-            f"Details: {message}"
-        )
+    excluded_names = ",".join(sorted(_build_excluded_repo_names(owner)))
+    os.environ["GITHUB_EXCLUDED_REPO_NAMES"] = excluded_names
 
 
 def _validate_output(owner: str) -> Path:
     owner_dir = _owner_output_dir(owner)
-    ranking_path = owner_dir / "ranking.json"
+    required_files = [
+        owner_dir / "ranking.json",
+        owner_dir / "ranking_summary.json",
+        owner_dir / "portfolio_selection.json",
+        owner_dir / "redundancy_analysis.json",
+    ]
 
     if not owner_dir.exists():
         raise RuntimeError(
             f"Audit finished without creating the expected owner directory: {owner_dir}"
         )
 
-    if not ranking_path.exists():
+    missing = [str(path.name) for path in required_files if not path.exists()]
+    if missing:
         raise RuntimeError(
-            f"Audit finished but ranking.json was not found at: {ranking_path}"
+            "Audit finished but some required processed artifacts are missing: "
+            + ", ".join(missing)
         )
 
     return owner_dir
@@ -230,27 +146,42 @@ def run_fresh_audit(
     owner: str,
     refresh_local_clones: bool = False,
 ) -> AuditRunResult:
+    """
+    Launch a fresh GitHub audit directly from Streamlit using the existing Python
+    orchestration layer (AuditRunner), not the CLI.
+
+    This is the correct integration point for your project.
+    """
     normalized_owner = owner.strip()
     if not normalized_owner:
         raise ValueError("Owner cannot be empty.")
 
     token = resolve_github_token()
+    _apply_runtime_github_env(normalized_owner, token)
+
     history_dir = _snapshot_existing_processed_dir(normalized_owner)
 
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
 
-    python_runner_worked = _try_call_python_runner(
-        owner=normalized_owner,
-        token=token,
-        refresh_local_clones=refresh_local_clones,
-    )
+    settings = get_settings()
+    runner = AuditRunner(settings)
 
-    if not python_runner_worked:
-        _run_cli_subprocess(
+    try:
+        artifacts = runner.run(
             owner=normalized_owner,
-            token=token,
-            refresh_local_clones=refresh_local_clones,
+            refresh_clones=refresh_local_clones,
+            enrich=True,
+            export=True,
         )
+    except GitHubRateLimitError as exc:
+        raise RuntimeError(
+            "GitHub API rate limit exceeded during fresh audit. "
+            "Make sure GITHUB_TOKEN is configured correctly."
+        ) from exc
+    except GitHubApiError as exc:
+        raise RuntimeError(f"GitHub collection failed: {exc}") from exc
+    finally:
+        runner.close()
 
     output_dir = _validate_output(normalized_owner)
 
@@ -261,4 +192,5 @@ def run_fresh_audit(
         output_dir=output_dir,
         history_dir=history_dir,
         used_token=bool(token),
+        repo_count=len(artifacts.repos),
     )
