@@ -1,0 +1,2701 @@
+[
+  {
+    "repo_name": "3D_HOP",
+    "repo_full_name": "MatALass/3D_HOP",
+    "global_score": 22.05,
+    "breakdown": {
+      "architecture_structure": 5.0,
+      "documentation_delivery": 6.4,
+      "testing_reliability": 0.0,
+      "technical_depth": 5.25,
+      "portfolio_relevance": 9.4,
+      "maintainability_cleanliness": 10.0
+    },
+    "penalties": [
+      {
+        "code": "README_TOO_SHORT",
+        "label": "README too short",
+        "points": 3.0,
+        "reason": "A very short README weakens clarity and recruiter comprehension."
+      },
+      {
+        "code": "USAGE_MISSING",
+        "label": "Usage instructions missing",
+        "points": 2.5,
+        "reason": "The project is harder to evaluate without clear run instructions."
+      },
+      {
+        "code": "NO_TESTS_DETECTED",
+        "label": "No tests detected",
+        "points": 6.0,
+        "reason": "The absence of tests weakens reliability and engineering credibility."
+      },
+      {
+        "code": "MAIN_CODE_DIR_MISSING",
+        "label": "Main code directory missing",
+        "points": 2.5,
+        "reason": "A missing dedicated code directory reduces structural clarity."
+      }
+    ],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 5.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "No dedicated main code directory detected.",
+          "Top-level tests/ directory missing.",
+          "docs/ directory present.",
+          "Layout type classified as basic.",
+          "Repository root contains 4 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 6.40/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README detected with about 6 words.",
+          "Installation/setup guidance missing.",
+          "Usage instructions missing."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 0.00/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "No tests detected.",
+          "No explicit testing framework clearly detected.",
+          "Coverage-related configuration not detected.",
+          "CI test workflow not detected."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 5.25/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language detected: JavaScript.",
+          "Repository description missing.",
+          "Total detected issue count: 9.",
+          "Technical structure is not clearly documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 9.40/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project lacks a visible description.",
+          "GitHub Pages appears enabled.",
+          "README does not clearly highlight results or demo value.",
+          "Visual/documentation assets detected."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 10.00/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore detected.",
+          "No committed virtual environment detected.",
+          "No __pycache__ folders detected.",
+          "No major build/cache artifacts detected.",
+          "No oversized files detected."
+        ]
+      }
+    ],
+    "confidence": 0.8
+  },
+  {
+    "repo_name": "Analyse-des-Avis-et-Alertes-ANSSI",
+    "repo_full_name": "MatALass/Analyse-des-Avis-et-Alertes-ANSSI",
+    "global_score": 27.6,
+    "breakdown": {
+      "architecture_structure": 3.0,
+      "documentation_delivery": 13.4,
+      "testing_reliability": 0.0,
+      "technical_depth": 6.0,
+      "portfolio_relevance": 12.6,
+      "maintainability_cleanliness": 4.6
+    },
+    "penalties": [
+      {
+        "code": "OVERSIZED_FILES",
+        "label": "Oversized files detected",
+        "points": 3.5,
+        "reason": "Large files can hurt repository clarity and delivery quality."
+      },
+      {
+        "code": "NO_TESTS_DETECTED",
+        "label": "No tests detected",
+        "points": 6.0,
+        "reason": "The absence of tests weakens reliability and engineering credibility."
+      },
+      {
+        "code": "MAIN_CODE_DIR_MISSING",
+        "label": "Main code directory missing",
+        "points": 2.5,
+        "reason": "A missing dedicated code directory reduces structural clarity."
+      }
+    ],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 3.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "No dedicated main code directory detected.",
+          "Top-level tests/ directory missing.",
+          "Layout type classified as flat.",
+          "Repository root contains 10 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 13.40/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README detected with about 189 words.",
+          "Installation/setup guidance missing.",
+          "Usage instructions detected.",
+          "Architecture/structure section detected."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 0.00/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "No tests detected.",
+          "No explicit testing framework clearly detected.",
+          "Coverage-related configuration not detected.",
+          "CI test workflow not detected."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 6.00/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language detected: HTML.",
+          "Repository description is present.",
+          "Total detected issue count: 9.",
+          "Technical structure is partially documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 12.60/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project has a visible description.",
+          "No homepage/demo URL detected.",
+          "README includes features/results/demo-style content."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 4.60/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore missing.",
+          "No committed virtual environment detected.",
+          "No __pycache__ folders detected.",
+          "No major build/cache artifacts detected.",
+          "Oversized files detected: 5."
+        ]
+      }
+    ],
+    "confidence": 0.75
+  },
+  {
+    "repo_name": "Atelier_Alassoeur_Website",
+    "repo_full_name": "MatALass/Atelier_Alassoeur_Website",
+    "global_score": 25.0,
+    "breakdown": {
+      "architecture_structure": 3.0,
+      "documentation_delivery": 10.0,
+      "testing_reliability": 0.0,
+      "technical_depth": 6.0,
+      "portfolio_relevance": 12.0,
+      "maintainability_cleanliness": 5.0
+    },
+    "penalties": [
+      {
+        "code": "USAGE_MISSING",
+        "label": "Usage instructions missing",
+        "points": 2.5,
+        "reason": "The project is harder to evaluate without clear run instructions."
+      },
+      {
+        "code": "NO_TESTS_DETECTED",
+        "label": "No tests detected",
+        "points": 6.0,
+        "reason": "The absence of tests weakens reliability and engineering credibility."
+      },
+      {
+        "code": "MAIN_CODE_DIR_MISSING",
+        "label": "Main code directory missing",
+        "points": 2.5,
+        "reason": "A missing dedicated code directory reduces structural clarity."
+      }
+    ],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 3.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "No dedicated main code directory detected.",
+          "Top-level tests/ directory missing.",
+          "Layout type classified as basic.",
+          "Repository root contains 3 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 10.00/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README detected with about 122 words.",
+          "Installation/setup guidance missing.",
+          "Usage instructions missing.",
+          "Architecture/structure section detected."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 0.00/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "No tests detected.",
+          "No explicit testing framework clearly detected.",
+          "Coverage-related configuration not detected.",
+          "CI test workflow not detected."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 6.00/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language detected: CSS.",
+          "Repository description is present.",
+          "Total detected issue count: 8.",
+          "Technical structure is partially documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 12.00/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project has a visible description.",
+          "Homepage/demo URL detected.",
+          "README does not clearly highlight results or demo value.",
+          "Visual/documentation assets detected."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 5.00/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore missing.",
+          "No committed virtual environment detected.",
+          "No __pycache__ folders detected.",
+          "No major build/cache artifacts detected.",
+          "No oversized files detected."
+        ]
+      }
+    ],
+    "confidence": 0.75
+  },
+  {
+    "repo_name": "automata-toolkit",
+    "repo_full_name": "MatALass/automata-toolkit",
+    "global_score": 91.25,
+    "breakdown": {
+      "architecture_structure": 20.0,
+      "documentation_delivery": 14.6,
+      "testing_reliability": 14.25,
+      "technical_depth": 15.0,
+      "portfolio_relevance": 17.4,
+      "maintainability_cleanliness": 10.0
+    },
+    "penalties": [],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 20.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "Dedicated src/ directory detected.",
+          "Top-level tests/ directory present.",
+          "docs/ directory present.",
+          "Layout type classified as well_structured.",
+          "Repository root contains 7 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 14.60/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README detected with about 229 words.",
+          "Installation/setup guidance missing.",
+          "Usage instructions detected.",
+          "Architecture/structure section detected.",
+          "License file present."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 14.25/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "Detected 10 test file(s).",
+          "Detected testing framework(s): pytest.",
+          "Coverage-related configuration detected.",
+          "CI appears to run tests."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 15.00/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language detected: Python.",
+          "Repository description is present.",
+          "Repository exposes 9 topic(s).",
+          "Total detected issue count: 2.",
+          "Technical structure is partially documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 17.40/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project has a visible description.",
+          "No homepage/demo URL detected.",
+          "README includes features/results/demo-style content.",
+          "Visual/documentation assets detected."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 10.00/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore detected.",
+          "No committed virtual environment detected.",
+          "No __pycache__ folders detected.",
+          "No major build/cache artifacts detected.",
+          "No oversized files detected."
+        ]
+      }
+    ],
+    "confidence": 1.0
+  },
+  {
+    "repo_name": "between-light",
+    "repo_full_name": "MatALass/between-light",
+    "global_score": 32.35,
+    "breakdown": {
+      "architecture_structure": 3.0,
+      "documentation_delivery": 13.2,
+      "testing_reliability": 0.0,
+      "technical_depth": 3.75,
+      "portfolio_relevance": 13.8,
+      "maintainability_cleanliness": 9.6
+    },
+    "penalties": [
+      {
+        "code": "OVERSIZED_FILES",
+        "label": "Oversized files detected",
+        "points": 2.5,
+        "reason": "Large files can hurt repository clarity and delivery quality."
+      },
+      {
+        "code": "NO_TESTS_DETECTED",
+        "label": "No tests detected",
+        "points": 6.0,
+        "reason": "The absence of tests weakens reliability and engineering credibility."
+      },
+      {
+        "code": "MAIN_CODE_DIR_MISSING",
+        "label": "Main code directory missing",
+        "points": 2.5,
+        "reason": "A missing dedicated code directory reduces structural clarity."
+      }
+    ],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 3.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "No dedicated main code directory detected.",
+          "Top-level tests/ directory missing.",
+          "Layout type classified as basic.",
+          "Repository root contains 5 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 13.20/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README detected with about 252 words.",
+          "Installation/setup guidance missing.",
+          "Usage instructions detected.",
+          "Architecture/structure section detected."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 0.00/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "No tests detected.",
+          "No explicit testing framework clearly detected.",
+          "Coverage-related configuration not detected.",
+          "CI test workflow not detected."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 3.75/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language detected: Game Maker Language.",
+          "Repository description is present.",
+          "Repository exposes 7 topic(s).",
+          "Total detected issue count: 7.",
+          "Technical structure is partially documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 13.80/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project has a visible description.",
+          "No homepage/demo URL detected.",
+          "README does not clearly highlight results or demo value.",
+          "Visual/documentation assets detected."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 9.60/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore detected.",
+          "No committed virtual environment detected.",
+          "No __pycache__ folders detected.",
+          "No major build/cache artifacts detected.",
+          "Oversized files detected: 3."
+        ]
+      }
+    ],
+    "confidence": 0.85
+  },
+  {
+    "repo_name": "binwatch",
+    "repo_full_name": "MatALass/binwatch",
+    "global_score": 64.6,
+    "breakdown": {
+      "architecture_structure": 15.0,
+      "documentation_delivery": 18.0,
+      "testing_reliability": 0.0,
+      "technical_depth": 12.0,
+      "portfolio_relevance": 15.6,
+      "maintainability_cleanliness": 10.0
+    },
+    "penalties": [
+      {
+        "code": "NO_TESTS_DETECTED",
+        "label": "No tests detected",
+        "points": 6.0,
+        "reason": "The absence of tests weakens reliability and engineering credibility."
+      }
+    ],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 15.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "Dedicated src/ directory detected.",
+          "Top-level tests/ directory missing.",
+          "docs/ directory present.",
+          "Layout type classified as partially_structured.",
+          "Repository root contains 5 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 18.00/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README detected with about 443 words.",
+          "Installation/setup guidance detected.",
+          "Usage instructions detected.",
+          "Architecture/structure section detected.",
+          "License file present.",
+          "Environment example file present."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 0.00/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "No tests detected.",
+          "No explicit testing framework clearly detected.",
+          "Coverage-related configuration not detected.",
+          "CI test workflow not detected."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 12.00/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language detected: HTML.",
+          "Repository description is present.",
+          "Repository exposes 13 topic(s).",
+          "Total detected issue count: 3.",
+          "Technical structure is partially documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 15.60/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project has a visible description.",
+          "Homepage/demo URL detected.",
+          "README includes features/results/demo-style content."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 10.00/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore detected.",
+          "No committed virtual environment detected.",
+          "No __pycache__ folders detected.",
+          "No major build/cache artifacts detected.",
+          "No oversized files detected."
+        ]
+      }
+    ],
+    "confidence": 0.85
+  },
+  {
+    "repo_name": "Boardswipe",
+    "repo_full_name": "MatALass/Boardswipe",
+    "global_score": 21.5,
+    "breakdown": {
+      "architecture_structure": 3.0,
+      "documentation_delivery": 8.4,
+      "testing_reliability": 0.0,
+      "technical_depth": 4.5,
+      "portfolio_relevance": 10.4,
+      "maintainability_cleanliness": 9.2
+    },
+    "penalties": [
+      {
+        "code": "BUILD_ARTIFACTS_COMMITTED",
+        "label": "Build artifacts committed",
+        "points": 3.0,
+        "reason": "Generated build or cache artifacts reduce repository cleanliness."
+      },
+      {
+        "code": "USAGE_MISSING",
+        "label": "Usage instructions missing",
+        "points": 2.5,
+        "reason": "The project is harder to evaluate without clear run instructions."
+      },
+      {
+        "code": "NO_TESTS_DETECTED",
+        "label": "No tests detected",
+        "points": 6.0,
+        "reason": "The absence of tests weakens reliability and engineering credibility."
+      },
+      {
+        "code": "MAIN_CODE_DIR_MISSING",
+        "label": "Main code directory missing",
+        "points": 2.5,
+        "reason": "A missing dedicated code directory reduces structural clarity."
+      }
+    ],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 3.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "No dedicated main code directory detected.",
+          "Top-level tests/ directory missing.",
+          "Layout type classified as basic.",
+          "Repository root contains 5 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 8.40/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README detected with about 270 words.",
+          "Installation/setup guidance missing.",
+          "Usage instructions missing."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 0.00/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "No tests detected.",
+          "No explicit testing framework clearly detected.",
+          "Coverage-related configuration not detected.",
+          "CI test workflow not detected."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 4.50/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language detected: JavaScript.",
+          "Repository description is present.",
+          "Repository exposes 10 topic(s).",
+          "Total detected issue count: 9.",
+          "Technical structure is not clearly documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 10.40/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project has a visible description.",
+          "No homepage/demo URL detected.",
+          "README does not clearly highlight results or demo value."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 9.20/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore detected.",
+          "No committed virtual environment detected.",
+          "No __pycache__ folders detected.",
+          "Build/cache artifacts detected.",
+          "No oversized files detected."
+        ]
+      }
+    ],
+    "confidence": 0.8
+  },
+  {
+    "repo_name": "CanAdventure",
+    "repo_full_name": "MatALass/CanAdventure",
+    "global_score": 50.2,
+    "breakdown": {
+      "architecture_structure": 11.0,
+      "documentation_delivery": 16.2,
+      "testing_reliability": 0.0,
+      "technical_depth": 6.0,
+      "portfolio_relevance": 15.4,
+      "maintainability_cleanliness": 9.6
+    },
+    "penalties": [
+      {
+        "code": "OVERSIZED_FILES",
+        "label": "Oversized files detected",
+        "points": 2.0,
+        "reason": "Large files can hurt repository clarity and delivery quality."
+      },
+      {
+        "code": "NO_TESTS_DETECTED",
+        "label": "No tests detected",
+        "points": 6.0,
+        "reason": "The absence of tests weakens reliability and engineering credibility."
+      }
+    ],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 11.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "Dedicated src/ directory detected.",
+          "Top-level tests/ directory missing.",
+          "Layout type classified as partially_structured.",
+          "Repository root contains 9 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 16.20/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README detected with about 205 words.",
+          "Installation/setup guidance detected.",
+          "Usage instructions detected.",
+          "Architecture/structure section detected."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 0.00/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "No tests detected.",
+          "No explicit testing framework clearly detected.",
+          "Coverage-related configuration not detected.",
+          "CI test workflow not detected."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 6.00/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language detected: Vue.",
+          "Repository description is present.",
+          "Repository exposes 10 topic(s).",
+          "Total detected issue count: 6.",
+          "Technical structure is partially documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 15.40/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project has a visible description.",
+          "No homepage/demo URL detected.",
+          "README includes features/results/demo-style content.",
+          "Visual/documentation assets detected."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 9.60/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore detected.",
+          "No committed virtual environment detected.",
+          "No __pycache__ folders detected.",
+          "No major build/cache artifacts detected.",
+          "Oversized files detected: 2."
+        ]
+      }
+    ],
+    "confidence": 0.85
+  },
+  {
+    "repo_name": "contact-card",
+    "repo_full_name": "MatALass/contact-card",
+    "global_score": 37.55,
+    "breakdown": {
+      "architecture_structure": 3.0,
+      "documentation_delivery": 11.8,
+      "testing_reliability": 0.0,
+      "technical_depth": 5.25,
+      "portfolio_relevance": 16.0,
+      "maintainability_cleanliness": 10.0
+    },
+    "penalties": [
+      {
+        "code": "NO_TESTS_DETECTED",
+        "label": "No tests detected",
+        "points": 6.0,
+        "reason": "The absence of tests weakens reliability and engineering credibility."
+      },
+      {
+        "code": "MAIN_CODE_DIR_MISSING",
+        "label": "Main code directory missing",
+        "points": 2.5,
+        "reason": "A missing dedicated code directory reduces structural clarity."
+      }
+    ],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 3.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "No dedicated main code directory detected.",
+          "Top-level tests/ directory missing.",
+          "Layout type classified as basic.",
+          "Repository root contains 4 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 11.80/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README detected with about 142 words.",
+          "Installation/setup guidance missing.",
+          "Usage instructions detected."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 0.00/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "No tests detected.",
+          "No explicit testing framework clearly detected.",
+          "Coverage-related configuration not detected.",
+          "CI test workflow not detected."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 5.25/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language detected: HTML.",
+          "Repository description is present.",
+          "Repository exposes 5 topic(s).",
+          "Total detected issue count: 7.",
+          "Technical structure is not clearly documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 16.00/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project has a visible description.",
+          "GitHub Pages appears enabled.",
+          "README includes features/results/demo-style content.",
+          "Visual/documentation assets detected."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 10.00/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore detected.",
+          "No committed virtual environment detected.",
+          "No __pycache__ folders detected.",
+          "No major build/cache artifacts detected.",
+          "No oversized files detected."
+        ]
+      }
+    ],
+    "confidence": 0.8
+  },
+  {
+    "repo_name": "dataviz-dashboard",
+    "repo_full_name": "MatALass/dataviz-dashboard",
+    "global_score": 31.95,
+    "breakdown": {
+      "architecture_structure": 4.0,
+      "documentation_delivery": 15.6,
+      "testing_reliability": 0.0,
+      "technical_depth": 8.25,
+      "portfolio_relevance": 13.8,
+      "maintainability_cleanliness": 3.8
+    },
+    "penalties": [
+      {
+        "code": "PYCACHE_COMMITTED",
+        "label": "__pycache__ committed",
+        "points": 3.0,
+        "reason": "Python cache folders should not be versioned."
+      },
+      {
+        "code": "OVERSIZED_FILES",
+        "label": "Oversized files detected",
+        "points": 2.0,
+        "reason": "Large files can hurt repository clarity and delivery quality."
+      },
+      {
+        "code": "NO_TESTS_DETECTED",
+        "label": "No tests detected",
+        "points": 6.0,
+        "reason": "The absence of tests weakens reliability and engineering credibility."
+      },
+      {
+        "code": "MAIN_CODE_DIR_MISSING",
+        "label": "Main code directory missing",
+        "points": 2.5,
+        "reason": "A missing dedicated code directory reduces structural clarity."
+      }
+    ],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 4.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "No dedicated main code directory detected.",
+          "Top-level tests/ directory missing.",
+          "Layout type classified as basic.",
+          "Repository root contains 3 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 15.60/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README detected with about 373 words.",
+          "Installation/setup guidance detected.",
+          "Usage instructions detected.",
+          "Architecture/structure section detected."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 0.00/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "No tests detected.",
+          "No explicit testing framework clearly detected.",
+          "Coverage-related configuration not detected.",
+          "CI test workflow not detected."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 8.25/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language detected: Jupyter Notebook.",
+          "Repository description is present.",
+          "Repository exposes 9 topic(s).",
+          "Total detected issue count: 8.",
+          "Technical structure is partially documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 13.80/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project has a visible description.",
+          "No homepage/demo URL detected.",
+          "README does not clearly highlight results or demo value.",
+          "Visual/documentation assets detected."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 3.80/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore missing.",
+          "No committed virtual environment detected.",
+          "__pycache__ folders detected.",
+          "No major build/cache artifacts detected.",
+          "Oversized files detected: 2."
+        ]
+      }
+    ],
+    "confidence": 0.75
+  },
+  {
+    "repo_name": "email-signature",
+    "repo_full_name": "MatALass/email-signature",
+    "global_score": 35.15,
+    "breakdown": {
+      "architecture_structure": 5.0,
+      "documentation_delivery": 15.4,
+      "testing_reliability": 0.0,
+      "technical_depth": 5.25,
+      "portfolio_relevance": 13.0,
+      "maintainability_cleanliness": 5.0
+    },
+    "penalties": [
+      {
+        "code": "NO_TESTS_DETECTED",
+        "label": "No tests detected",
+        "points": 6.0,
+        "reason": "The absence of tests weakens reliability and engineering credibility."
+      },
+      {
+        "code": "MAIN_CODE_DIR_MISSING",
+        "label": "Main code directory missing",
+        "points": 2.5,
+        "reason": "A missing dedicated code directory reduces structural clarity."
+      }
+    ],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 5.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "No dedicated main code directory detected.",
+          "Top-level tests/ directory missing.",
+          "docs/ directory present.",
+          "Layout type classified as basic.",
+          "Repository root contains 4 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 15.40/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README detected with about 345 words.",
+          "Installation/setup guidance missing.",
+          "Usage instructions detected.",
+          "Architecture/structure section detected.",
+          "License file present."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 0.00/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "No tests detected.",
+          "No explicit testing framework clearly detected.",
+          "Coverage-related configuration not detected.",
+          "CI test workflow not detected."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 5.25/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language detected: HTML.",
+          "Repository description missing.",
+          "Total detected issue count: 6.",
+          "Technical structure is partially documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 13.00/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project lacks a visible description.",
+          "GitHub Pages appears enabled.",
+          "README includes features/results/demo-style content.",
+          "Visual/documentation assets detected."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 5.00/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore missing.",
+          "No committed virtual environment detected.",
+          "No __pycache__ folders detected.",
+          "No major build/cache artifacts detected.",
+          "No oversized files detected."
+        ]
+      }
+    ],
+    "confidence": 0.75
+  },
+  {
+    "repo_name": "final_portfolio",
+    "repo_full_name": "MatALass/final_portfolio",
+    "global_score": 45.4,
+    "breakdown": {
+      "architecture_structure": 10.0,
+      "documentation_delivery": 11.8,
+      "testing_reliability": 0.0,
+      "technical_depth": 6.0,
+      "portfolio_relevance": 13.6,
+      "maintainability_cleanliness": 10.0
+    },
+    "penalties": [
+      {
+        "code": "NO_TESTS_DETECTED",
+        "label": "No tests detected",
+        "points": 6.0,
+        "reason": "The absence of tests weakens reliability and engineering credibility."
+      }
+    ],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 10.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "Dedicated app/ directory detected.",
+          "Top-level tests/ directory missing.",
+          "Layout type classified as partially_structured.",
+          "Repository root contains 9 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 11.80/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README detected with about 155 words.",
+          "Installation/setup guidance missing.",
+          "Usage instructions detected."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 0.00/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "No tests detected.",
+          "No explicit testing framework clearly detected.",
+          "Coverage-related configuration not detected.",
+          "CI test workflow not detected."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 6.00/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language detected: TypeScript.",
+          "Repository description missing.",
+          "Total detected issue count: 7.",
+          "Technical structure is not clearly documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 13.60/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project lacks a visible description.",
+          "Homepage/demo URL detected.",
+          "README includes features/results/demo-style content.",
+          "Visual/documentation assets detected."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 10.00/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore detected.",
+          "No committed virtual environment detected.",
+          "No __pycache__ folders detected.",
+          "No major build/cache artifacts detected.",
+          "No oversized files detected."
+        ]
+      }
+    ],
+    "confidence": 0.8
+  },
+  {
+    "repo_name": "footpredict-pl",
+    "repo_full_name": "MatALass/footpredict-pl",
+    "global_score": 63.95,
+    "breakdown": {
+      "architecture_structure": 15.0,
+      "documentation_delivery": 18.2,
+      "testing_reliability": 0.0,
+      "technical_depth": 12.75,
+      "portfolio_relevance": 14.0,
+      "maintainability_cleanliness": 10.0
+    },
+    "penalties": [
+      {
+        "code": "NO_TESTS_DETECTED",
+        "label": "No tests detected",
+        "points": 6.0,
+        "reason": "The absence of tests weakens reliability and engineering credibility."
+      }
+    ],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 15.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "Dedicated src/ directory detected.",
+          "Top-level tests/ directory missing.",
+          "docs/ directory present.",
+          "Layout type classified as partially_structured.",
+          "Repository root contains 3 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 18.20/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README detected with about 628 words.",
+          "Installation/setup guidance detected.",
+          "Usage instructions detected.",
+          "Architecture/structure section detected."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 0.00/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "No tests detected.",
+          "No explicit testing framework clearly detected.",
+          "Coverage-related configuration not detected.",
+          "CI test workflow not detected."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 12.75/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language detected: Python.",
+          "Repository description is present.",
+          "Repository exposes 15 topic(s).",
+          "Total detected issue count: 4.",
+          "Technical structure is partially documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 14.00/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project has a visible description.",
+          "No homepage/demo URL detected.",
+          "README includes features/results/demo-style content."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 10.00/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore detected.",
+          "No committed virtual environment detected.",
+          "No __pycache__ folders detected.",
+          "No major build/cache artifacts detected.",
+          "No oversized files detected."
+        ]
+      }
+    ],
+    "confidence": 0.8
+  },
+  {
+    "repo_name": "GreenEscape",
+    "repo_full_name": "MatALass/GreenEscape",
+    "global_score": 25.3,
+    "breakdown": {
+      "architecture_structure": 3.0,
+      "documentation_delivery": 10.8,
+      "testing_reliability": 0.0,
+      "technical_depth": 4.5,
+      "portfolio_relevance": 11.8,
+      "maintainability_cleanliness": 9.2
+    },
+    "penalties": [
+      {
+        "code": "PYCACHE_COMMITTED",
+        "label": "__pycache__ committed",
+        "points": 3.0,
+        "reason": "Python cache folders should not be versioned."
+      },
+      {
+        "code": "USAGE_MISSING",
+        "label": "Usage instructions missing",
+        "points": 2.5,
+        "reason": "The project is harder to evaluate without clear run instructions."
+      },
+      {
+        "code": "NO_TESTS_DETECTED",
+        "label": "No tests detected",
+        "points": 6.0,
+        "reason": "The absence of tests weakens reliability and engineering credibility."
+      },
+      {
+        "code": "MAIN_CODE_DIR_MISSING",
+        "label": "Main code directory missing",
+        "points": 2.5,
+        "reason": "A missing dedicated code directory reduces structural clarity."
+      }
+    ],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 3.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "No dedicated main code directory detected.",
+          "Top-level tests/ directory missing.",
+          "Layout type classified as basic.",
+          "Repository root contains 5 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 10.80/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README detected with about 453 words.",
+          "Installation/setup guidance detected.",
+          "Usage instructions missing."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 0.00/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "No tests detected.",
+          "No explicit testing framework clearly detected.",
+          "Coverage-related configuration not detected.",
+          "CI test workflow not detected."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 4.50/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language detected: Python.",
+          "Repository description is present.",
+          "Repository exposes 6 topic(s).",
+          "Total detected issue count: 9.",
+          "Technical structure is not clearly documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 11.80/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project has a visible description.",
+          "Homepage/demo URL detected.",
+          "README does not clearly highlight results or demo value."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 9.20/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore detected.",
+          "No committed virtual environment detected.",
+          "__pycache__ folders detected.",
+          "No major build/cache artifacts detected.",
+          "No oversized files detected."
+        ]
+      }
+    ],
+    "confidence": 0.8
+  },
+  {
+    "repo_name": "MatALass",
+    "repo_full_name": "MatALass/MatALass",
+    "global_score": 18.15,
+    "breakdown": {
+      "architecture_structure": 3.0,
+      "documentation_delivery": 10.4,
+      "testing_reliability": 0.0,
+      "technical_depth": 3.75,
+      "portfolio_relevance": 7.0,
+      "maintainability_cleanliness": 5.0
+    },
+    "penalties": [
+      {
+        "code": "USAGE_MISSING",
+        "label": "Usage instructions missing",
+        "points": 2.5,
+        "reason": "The project is harder to evaluate without clear run instructions."
+      },
+      {
+        "code": "NO_TESTS_DETECTED",
+        "label": "No tests detected",
+        "points": 6.0,
+        "reason": "The absence of tests weakens reliability and engineering credibility."
+      },
+      {
+        "code": "MAIN_CODE_DIR_MISSING",
+        "label": "Main code directory missing",
+        "points": 2.5,
+        "reason": "A missing dedicated code directory reduces structural clarity."
+      }
+    ],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 3.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "No dedicated main code directory detected.",
+          "Top-level tests/ directory missing.",
+          "Layout type classified as basic.",
+          "Repository root contains 1 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 10.40/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README detected with about 287 words.",
+          "Installation/setup guidance missing.",
+          "Usage instructions missing.",
+          "Architecture/structure section detected."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 0.00/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "No tests detected.",
+          "No explicit testing framework clearly detected.",
+          "Coverage-related configuration not detected.",
+          "CI test workflow not detected."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 3.75/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language unclear.",
+          "Repository description missing.",
+          "Total detected issue count: 8.",
+          "Technical structure is partially documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 7.00/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project lacks a visible description.",
+          "No homepage/demo URL detected.",
+          "README does not clearly highlight results or demo value."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 5.00/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore missing.",
+          "No committed virtual environment detected.",
+          "No __pycache__ folders detected.",
+          "No major build/cache artifacts detected.",
+          "No oversized files detected."
+        ]
+      }
+    ],
+    "confidence": 0.75
+  },
+  {
+    "repo_name": "merge-tactics-optimizer",
+    "repo_full_name": "MatALass/merge-tactics-optimizer",
+    "global_score": 56.95,
+    "breakdown": {
+      "architecture_structure": 12.0,
+      "documentation_delivery": 17.2,
+      "testing_reliability": 0.0,
+      "technical_depth": 9.75,
+      "portfolio_relevance": 14.0,
+      "maintainability_cleanliness": 10.0
+    },
+    "penalties": [
+      {
+        "code": "NO_TESTS_DETECTED",
+        "label": "No tests detected",
+        "points": 6.0,
+        "reason": "The absence of tests weakens reliability and engineering credibility."
+      }
+    ],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 12.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "Dedicated src/ directory detected.",
+          "Top-level tests/ directory missing.",
+          "Layout type classified as partially_structured.",
+          "Repository root contains 3 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 17.20/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README detected with about 775 words.",
+          "Installation/setup guidance detected.",
+          "Usage instructions detected.",
+          "Architecture/structure section detected."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 0.00/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "No tests detected.",
+          "No explicit testing framework clearly detected.",
+          "Coverage-related configuration not detected.",
+          "CI test workflow not detected."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 9.75/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language detected: Python.",
+          "Repository description is present.",
+          "Repository exposes 7 topic(s).",
+          "Total detected issue count: 4.",
+          "Technical structure is partially documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 14.00/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project has a visible description.",
+          "No homepage/demo URL detected.",
+          "README includes features/results/demo-style content."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 10.00/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore detected.",
+          "No committed virtual environment detected.",
+          "No __pycache__ folders detected.",
+          "No major build/cache artifacts detected.",
+          "No oversized files detected."
+        ]
+      }
+    ],
+    "confidence": 0.8
+  },
+  {
+    "repo_name": "ML_Football",
+    "repo_full_name": "MatALass/ML_Football",
+    "global_score": 28.1,
+    "breakdown": {
+      "architecture_structure": 0.0,
+      "documentation_delivery": 15.0,
+      "testing_reliability": 0.0,
+      "technical_depth": 6.0,
+      "portfolio_relevance": 12.6,
+      "maintainability_cleanliness": 5.0
+    },
+    "penalties": [
+      {
+        "code": "NO_TESTS_DETECTED",
+        "label": "No tests detected",
+        "points": 6.0,
+        "reason": "The absence of tests weakens reliability and engineering credibility."
+      },
+      {
+        "code": "MAIN_CODE_DIR_MISSING",
+        "label": "Main code directory missing",
+        "points": 2.5,
+        "reason": "A missing dedicated code directory reduces structural clarity."
+      },
+      {
+        "code": "ROOT_TOO_CROWDED",
+        "label": "Root overcrowded",
+        "points": 2.0,
+        "reason": "A crowded repository root suggests weak organization."
+      }
+    ],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 0.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "No dedicated main code directory detected.",
+          "Top-level tests/ directory missing.",
+          "Layout type classified as flat.",
+          "Repository root contains 22 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 15.00/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README detected with about 119 words.",
+          "Installation/setup guidance detected.",
+          "Usage instructions detected.",
+          "Architecture/structure section detected."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 0.00/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "No tests detected.",
+          "No explicit testing framework clearly detected.",
+          "Coverage-related configuration not detected.",
+          "CI test workflow not detected."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 6.00/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language detected: Jupyter Notebook.",
+          "Repository description is present.",
+          "Total detected issue count: 9.",
+          "Technical structure is partially documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 12.60/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project has a visible description.",
+          "No homepage/demo URL detected.",
+          "README includes features/results/demo-style content."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 5.00/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore missing.",
+          "No committed virtual environment detected.",
+          "No __pycache__ folders detected.",
+          "No major build/cache artifacts detected.",
+          "No oversized files detected."
+        ]
+      }
+    ],
+    "confidence": 0.75
+  },
+  {
+    "repo_name": "morpion-ultime",
+    "repo_full_name": "MatALass/morpion-ultime",
+    "global_score": 65.75,
+    "breakdown": {
+      "architecture_structure": 6.0,
+      "documentation_delivery": 17.0,
+      "testing_reliability": 9.75,
+      "technical_depth": 7.5,
+      "portfolio_relevance": 20.0,
+      "maintainability_cleanliness": 10.0
+    },
+    "penalties": [
+      {
+        "code": "WEAK_TEST_BASELINE",
+        "label": "Weak test baseline",
+        "points": 2.0,
+        "reason": "A very small test suite provides limited confidence."
+      },
+      {
+        "code": "MAIN_CODE_DIR_MISSING",
+        "label": "Main code directory missing",
+        "points": 2.5,
+        "reason": "A missing dedicated code directory reduces structural clarity."
+      }
+    ],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 6.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "No dedicated main code directory detected.",
+          "Top-level tests/ directory present.",
+          "Layout type classified as basic.",
+          "Repository root contains 5 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 17.00/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README detected with about 401 words.",
+          "Installation/setup guidance detected.",
+          "Usage instructions detected.",
+          "Architecture/structure section detected."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 9.75/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "Detected 1 test file(s).",
+          "Detected testing framework(s): vitest.",
+          "Coverage-related configuration not detected.",
+          "CI appears to run tests."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 7.50/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language detected: JavaScript.",
+          "Repository description is present.",
+          "Repository exposes 12 topic(s).",
+          "Total detected issue count: 4.",
+          "Technical structure is partially documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 20.00/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project has a visible description.",
+          "Homepage/demo URL detected.",
+          "README includes features/results/demo-style content.",
+          "Visual/documentation assets detected."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 10.00/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore detected.",
+          "No committed virtual environment detected.",
+          "No __pycache__ folders detected.",
+          "No major build/cache artifacts detected.",
+          "No oversized files detected."
+        ]
+      }
+    ],
+    "confidence": 1.0
+  },
+  {
+    "repo_name": "network-flow-algorithms",
+    "repo_full_name": "MatALass/network-flow-algorithms",
+    "global_score": 62.8,
+    "breakdown": {
+      "architecture_structure": 15.0,
+      "documentation_delivery": 16.4,
+      "testing_reliability": 0.0,
+      "technical_depth": 12.0,
+      "portfolio_relevance": 15.4,
+      "maintainability_cleanliness": 10.0
+    },
+    "penalties": [
+      {
+        "code": "NO_TESTS_DETECTED",
+        "label": "No tests detected",
+        "points": 6.0,
+        "reason": "The absence of tests weakens reliability and engineering credibility."
+      }
+    ],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 15.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "Dedicated src/ directory detected.",
+          "Top-level tests/ directory missing.",
+          "docs/ directory present.",
+          "Layout type classified as partially_structured.",
+          "Repository root contains 5 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 16.40/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README detected with about 255 words.",
+          "Installation/setup guidance detected.",
+          "Usage instructions detected.",
+          "License file present.",
+          "Environment example file present."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 0.00/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "No tests detected.",
+          "No explicit testing framework clearly detected.",
+          "Coverage-related configuration not detected.",
+          "CI test workflow not detected."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 12.00/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language detected: Python.",
+          "Repository description is present.",
+          "Repository exposes 13 topic(s).",
+          "Total detected issue count: 4.",
+          "Technical structure is not clearly documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 15.40/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project has a visible description.",
+          "No homepage/demo URL detected.",
+          "README includes features/results/demo-style content.",
+          "Visual/documentation assets detected."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 10.00/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore detected.",
+          "No committed virtual environment detected.",
+          "No __pycache__ folders detected.",
+          "No major build/cache artifacts detected.",
+          "No oversized files detected."
+        ]
+      }
+    ],
+    "confidence": 0.85
+  },
+  {
+    "repo_name": "Puissance4",
+    "repo_full_name": "MatALass/Puissance4",
+    "global_score": 28.0,
+    "breakdown": {
+      "architecture_structure": 3.0,
+      "documentation_delivery": 11.4,
+      "testing_reliability": 0.0,
+      "technical_depth": 4.5,
+      "portfolio_relevance": 12.6,
+      "maintainability_cleanliness": 5.0
+    },
+    "penalties": [
+      {
+        "code": "NO_TESTS_DETECTED",
+        "label": "No tests detected",
+        "points": 6.0,
+        "reason": "The absence of tests weakens reliability and engineering credibility."
+      },
+      {
+        "code": "MAIN_CODE_DIR_MISSING",
+        "label": "Main code directory missing",
+        "points": 2.5,
+        "reason": "A missing dedicated code directory reduces structural clarity."
+      }
+    ],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 3.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "No dedicated main code directory detected.",
+          "Top-level tests/ directory missing.",
+          "Layout type classified as basic.",
+          "Repository root contains 2 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 11.40/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README detected with about 132 words.",
+          "Installation/setup guidance missing.",
+          "Usage instructions detected."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 0.00/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "No tests detected.",
+          "No explicit testing framework clearly detected.",
+          "Coverage-related configuration not detected.",
+          "CI test workflow not detected."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 4.50/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language detected: Python.",
+          "Repository description is present.",
+          "Total detected issue count: 8.",
+          "Technical structure is not clearly documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 12.60/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project has a visible description.",
+          "No homepage/demo URL detected.",
+          "README includes features/results/demo-style content."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 5.00/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore missing.",
+          "No committed virtual environment detected.",
+          "No __pycache__ folders detected.",
+          "No major build/cache artifacts detected.",
+          "No oversized files detected."
+        ]
+      }
+    ],
+    "confidence": 0.75
+  },
+  {
+    "repo_name": "repo-audit",
+    "repo_full_name": "MatALass/repo-audit",
+    "global_score": 75.6,
+    "breakdown": {
+      "architecture_structure": 14.0,
+      "documentation_delivery": 13.2,
+      "testing_reliability": 10.5,
+      "technical_depth": 13.5,
+      "portfolio_relevance": 14.4,
+      "maintainability_cleanliness": 10.0
+    },
+    "penalties": [],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 14.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "Dedicated src/ directory detected.",
+          "Top-level tests/ directory present.",
+          "Layout type classified as structured.",
+          "Repository root contains 11 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 13.20/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README detected with about 148 words.",
+          "Installation/setup guidance detected.",
+          "Usage instructions detected.",
+          "License file present."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 10.50/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "Detected 3 test file(s).",
+          "Detected testing framework(s): pytest.",
+          "Coverage-related configuration not detected.",
+          "CI appears to run tests."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 13.50/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language detected: Python.",
+          "Repository description is present.",
+          "Repository exposes 14 topic(s).",
+          "Total detected issue count: 2.",
+          "Technical structure is not clearly documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 14.40/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project has a visible description.",
+          "No homepage/demo URL detected.",
+          "README does not clearly highlight results or demo value."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 10.00/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore detected.",
+          "No committed virtual environment detected.",
+          "No __pycache__ folders detected.",
+          "No major build/cache artifacts detected.",
+          "No oversized files detected."
+        ]
+      }
+    ],
+    "confidence": 1.0
+  },
+  {
+    "repo_name": "repo_auditor",
+    "repo_full_name": "MatALass/repo_auditor",
+    "global_score": 73.35,
+    "breakdown": {
+      "architecture_structure": 19.0,
+      "documentation_delivery": 18.8,
+      "testing_reliability": 11.25,
+      "technical_depth": 9.0,
+      "portfolio_relevance": 11.6,
+      "maintainability_cleanliness": 9.2
+    },
+    "penalties": [
+      {
+        "code": "BUILD_ARTIFACTS_COMMITTED",
+        "label": "Build artifacts committed",
+        "points": 3.0,
+        "reason": "Generated build or cache artifacts reduce repository cleanliness."
+      },
+      {
+        "code": "NO_TEST_CI",
+        "label": "No CI test workflow",
+        "points": 2.5,
+        "reason": "Tests exist but are not clearly enforced in CI."
+      }
+    ],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 19.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "Dedicated src/ directory detected.",
+          "Top-level tests/ directory present.",
+          "docs/ directory present.",
+          "Layout type classified as well_structured.",
+          "Repository root contains 5 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 18.80/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README detected with about 716 words.",
+          "Installation/setup guidance detected.",
+          "Usage instructions detected.",
+          "Architecture/structure section detected.",
+          "Environment example file present."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 11.25/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "Detected 17 test file(s).",
+          "Detected testing framework(s): pytest.",
+          "Coverage-related configuration not detected.",
+          "CI test workflow not detected."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 9.00/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language detected: Python.",
+          "Repository description missing.",
+          "Total detected issue count: 4.",
+          "Technical structure is partially documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 11.60/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project lacks a visible description.",
+          "No homepage/demo URL detected.",
+          "README includes features/results/demo-style content."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 9.20/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore detected.",
+          "No committed virtual environment detected.",
+          "No __pycache__ folders detected.",
+          "Build/cache artifacts detected.",
+          "No oversized files detected."
+        ]
+      }
+    ],
+    "confidence": 0.95
+  },
+  {
+    "repo_name": "school-bus-dashboard",
+    "repo_full_name": "MatALass/school-bus-dashboard",
+    "global_score": 34.45,
+    "breakdown": {
+      "architecture_structure": 3.0,
+      "documentation_delivery": 15.2,
+      "testing_reliability": 0.0,
+      "technical_depth": 9.75,
+      "portfolio_relevance": 12.4,
+      "maintainability_cleanliness": 4.6
+    },
+    "penalties": [
+      {
+        "code": "OVERSIZED_FILES",
+        "label": "Oversized files detected",
+        "points": 2.0,
+        "reason": "Large files can hurt repository clarity and delivery quality."
+      },
+      {
+        "code": "NO_TESTS_DETECTED",
+        "label": "No tests detected",
+        "points": 6.0,
+        "reason": "The absence of tests weakens reliability and engineering credibility."
+      },
+      {
+        "code": "MAIN_CODE_DIR_MISSING",
+        "label": "Main code directory missing",
+        "points": 2.5,
+        "reason": "A missing dedicated code directory reduces structural clarity."
+      }
+    ],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 3.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "No dedicated main code directory detected.",
+          "Top-level tests/ directory missing.",
+          "Layout type classified as basic.",
+          "Repository root contains 5 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 15.20/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README detected with about 294 words.",
+          "Installation/setup guidance detected.",
+          "Usage instructions detected.",
+          "Architecture/structure section detected."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 0.00/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "No tests detected.",
+          "No explicit testing framework clearly detected.",
+          "Coverage-related configuration not detected.",
+          "CI test workflow not detected."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 9.75/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language detected: Python.",
+          "Repository description is present.",
+          "Repository exposes 9 topic(s).",
+          "Total detected issue count: 8.",
+          "Technical structure is partially documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 12.40/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project has a visible description.",
+          "No homepage/demo URL detected.",
+          "README does not clearly highlight results or demo value."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 4.60/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore missing.",
+          "No committed virtual environment detected.",
+          "No __pycache__ folders detected.",
+          "No major build/cache artifacts detected.",
+          "Oversized files detected: 2."
+        ]
+      }
+    ],
+    "confidence": 0.75
+  },
+  {
+    "repo_name": "Signature-carre-des-canotiers",
+    "repo_full_name": "MatALass/Signature-carre-des-canotiers",
+    "global_score": 33.9,
+    "breakdown": {
+      "architecture_structure": 5.0,
+      "documentation_delivery": 10.4,
+      "testing_reliability": 0.0,
+      "technical_depth": 6.0,
+      "portfolio_relevance": 14.8,
+      "maintainability_cleanliness": 9.2
+    },
+    "penalties": [
+      {
+        "code": "BUILD_ARTIFACTS_COMMITTED",
+        "label": "Build artifacts committed",
+        "points": 3.0,
+        "reason": "Generated build or cache artifacts reduce repository cleanliness."
+      },
+      {
+        "code": "NO_TESTS_DETECTED",
+        "label": "No tests detected",
+        "points": 6.0,
+        "reason": "The absence of tests weakens reliability and engineering credibility."
+      },
+      {
+        "code": "MAIN_CODE_DIR_MISSING",
+        "label": "Main code directory missing",
+        "points": 2.5,
+        "reason": "A missing dedicated code directory reduces structural clarity."
+      }
+    ],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 5.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "No dedicated main code directory detected.",
+          "Top-level tests/ directory missing.",
+          "docs/ directory present.",
+          "Layout type classified as basic.",
+          "Repository root contains 6 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 10.40/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README detected with about 114 words.",
+          "Installation/setup guidance missing.",
+          "Usage instructions detected.",
+          "License file present."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 0.00/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "No tests detected.",
+          "No explicit testing framework clearly detected.",
+          "Coverage-related configuration not detected.",
+          "CI test workflow not detected."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 6.00/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language detected: HTML.",
+          "Repository description is present.",
+          "Repository exposes 10 topic(s).",
+          "Total detected issue count: 8.",
+          "Technical structure is not clearly documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 14.80/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project has a visible description.",
+          "GitHub Pages appears enabled.",
+          "README does not clearly highlight results or demo value.",
+          "Visual/documentation assets detected."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 9.20/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore detected.",
+          "No committed virtual environment detected.",
+          "No __pycache__ folders detected.",
+          "Build/cache artifacts detected.",
+          "No oversized files detected."
+        ]
+      }
+    ],
+    "confidence": 0.85
+  },
+  {
+    "repo_name": "Space-Jumper",
+    "repo_full_name": "MatALass/Space-Jumper",
+    "global_score": 26.2,
+    "breakdown": {
+      "architecture_structure": 3.0,
+      "documentation_delivery": 12.0,
+      "testing_reliability": 0.0,
+      "technical_depth": 7.5,
+      "portfolio_relevance": 11.0,
+      "maintainability_cleanliness": 4.2
+    },
+    "penalties": [
+      {
+        "code": "PYCACHE_COMMITTED",
+        "label": "__pycache__ committed",
+        "points": 3.0,
+        "reason": "Python cache folders should not be versioned."
+      },
+      {
+        "code": "NO_TESTS_DETECTED",
+        "label": "No tests detected",
+        "points": 6.0,
+        "reason": "The absence of tests weakens reliability and engineering credibility."
+      },
+      {
+        "code": "MAIN_CODE_DIR_MISSING",
+        "label": "Main code directory missing",
+        "points": 2.5,
+        "reason": "A missing dedicated code directory reduces structural clarity."
+      }
+    ],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 3.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "No dedicated main code directory detected.",
+          "Top-level tests/ directory missing.",
+          "Layout type classified as basic.",
+          "Repository root contains 2 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 12.00/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README detected with about 129 words.",
+          "Installation/setup guidance missing.",
+          "Usage instructions detected.",
+          "Architecture/structure section detected."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 0.00/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "No tests detected.",
+          "No explicit testing framework clearly detected.",
+          "Coverage-related configuration not detected.",
+          "CI test workflow not detected."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 7.50/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language detected: Python.",
+          "Repository description is present.",
+          "Total detected issue count: 8.",
+          "Technical structure is partially documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 11.00/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project has a visible description.",
+          "No homepage/demo URL detected.",
+          "README does not clearly highlight results or demo value."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 4.20/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore missing.",
+          "No committed virtual environment detected.",
+          "__pycache__ folders detected.",
+          "No major build/cache artifacts detected.",
+          "No oversized files detected."
+        ]
+      }
+    ],
+    "confidence": 0.75
+  },
+  {
+    "repo_name": "Space_Jumper_Website",
+    "repo_full_name": "MatALass/Space_Jumper_Website",
+    "global_score": 31.4,
+    "breakdown": {
+      "architecture_structure": 3.0,
+      "documentation_delivery": 13.8,
+      "testing_reliability": 0.0,
+      "technical_depth": 6.0,
+      "portfolio_relevance": 14.0,
+      "maintainability_cleanliness": 4.6
+    },
+    "penalties": [
+      {
+        "code": "OVERSIZED_FILES",
+        "label": "Oversized files detected",
+        "points": 1.5,
+        "reason": "Large files can hurt repository clarity and delivery quality."
+      },
+      {
+        "code": "NO_TESTS_DETECTED",
+        "label": "No tests detected",
+        "points": 6.0,
+        "reason": "The absence of tests weakens reliability and engineering credibility."
+      },
+      {
+        "code": "MAIN_CODE_DIR_MISSING",
+        "label": "Main code directory missing",
+        "points": 2.5,
+        "reason": "A missing dedicated code directory reduces structural clarity."
+      }
+    ],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 3.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "No dedicated main code directory detected.",
+          "Top-level tests/ directory missing.",
+          "Layout type classified as basic.",
+          "Repository root contains 2 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 13.80/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README detected with about 155 words.",
+          "Installation/setup guidance missing.",
+          "Usage instructions detected.",
+          "Architecture/structure section detected."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 0.00/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "No tests detected.",
+          "No explicit testing framework clearly detected.",
+          "Coverage-related configuration not detected.",
+          "CI test workflow not detected."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 6.00/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language detected: HTML.",
+          "Repository description is present.",
+          "Total detected issue count: 9.",
+          "Technical structure is partially documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 14.00/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project has a visible description.",
+          "No homepage/demo URL detected.",
+          "README includes features/results/demo-style content.",
+          "Visual/documentation assets detected."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 4.60/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore missing.",
+          "No committed virtual environment detected.",
+          "No __pycache__ folders detected.",
+          "No major build/cache artifacts detected.",
+          "Oversized files detected: 1."
+        ]
+      }
+    ],
+    "confidence": 0.75
+  },
+  {
+    "repo_name": "Tetris_Game",
+    "repo_full_name": "MatALass/Tetris_Game",
+    "global_score": 0.0,
+    "breakdown": {
+      "architecture_structure": 2.0,
+      "documentation_delivery": 0.0,
+      "testing_reliability": 0.0,
+      "technical_depth": 4.5,
+      "portfolio_relevance": 3.0,
+      "maintainability_cleanliness": 4.2
+    },
+    "penalties": [
+      {
+        "code": "PYCACHE_COMMITTED",
+        "label": "__pycache__ committed",
+        "points": 3.0,
+        "reason": "Python cache folders should not be versioned."
+      },
+      {
+        "code": "README_MISSING",
+        "label": "README missing",
+        "points": 10.0,
+        "reason": "A missing README is a major blocker for portfolio and delivery quality."
+      },
+      {
+        "code": "NO_TESTS_DETECTED",
+        "label": "No tests detected",
+        "points": 6.0,
+        "reason": "The absence of tests weakens reliability and engineering credibility."
+      },
+      {
+        "code": "MAIN_CODE_DIR_MISSING",
+        "label": "Main code directory missing",
+        "points": 2.5,
+        "reason": "A missing dedicated code directory reduces structural clarity."
+      }
+    ],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 2.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "No dedicated main code directory detected.",
+          "Top-level tests/ directory missing.",
+          "Layout type classified as flat.",
+          "Repository root contains 17 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 0.00/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README missing.",
+          "Installation/setup guidance missing.",
+          "Usage instructions missing."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 0.00/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "No tests detected.",
+          "No explicit testing framework clearly detected.",
+          "Coverage-related configuration not detected.",
+          "CI test workflow not detected."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 4.50/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language detected: Python.",
+          "Repository description missing.",
+          "Total detected issue count: 9.",
+          "Technical structure is not clearly documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 3.00/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project lacks a visible description.",
+          "No homepage/demo URL detected.",
+          "README does not clearly highlight results or demo value."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 4.20/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore missing.",
+          "No committed virtual environment detected.",
+          "__pycache__ folders detected.",
+          "No major build/cache artifacts detected.",
+          "No oversized files detected."
+        ]
+      }
+    ],
+    "confidence": 0.6
+  },
+  {
+    "repo_name": "UML-Project",
+    "repo_full_name": "MatALass/UML-Project",
+    "global_score": 46.55,
+    "breakdown": {
+      "architecture_structure": 11.0,
+      "documentation_delivery": 13.8,
+      "testing_reliability": 0.0,
+      "technical_depth": 8.25,
+      "portfolio_relevance": 12.0,
+      "maintainability_cleanliness": 10.0
+    },
+    "penalties": [
+      {
+        "code": "USAGE_MISSING",
+        "label": "Usage instructions missing",
+        "points": 2.5,
+        "reason": "The project is harder to evaluate without clear run instructions."
+      },
+      {
+        "code": "NO_TESTS_DETECTED",
+        "label": "No tests detected",
+        "points": 6.0,
+        "reason": "The absence of tests weakens reliability and engineering credibility."
+      }
+    ],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 11.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "Dedicated src/ directory detected.",
+          "Top-level tests/ directory missing.",
+          "Layout type classified as partially_structured.",
+          "Repository root contains 6 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 13.80/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README detected with about 138 words.",
+          "Installation/setup guidance detected.",
+          "Usage instructions missing.",
+          "Architecture/structure section detected."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 0.00/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "No tests detected.",
+          "No explicit testing framework clearly detected.",
+          "Coverage-related configuration not detected.",
+          "CI test workflow not detected."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 8.25/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language detected: Vue.",
+          "Repository description is present.",
+          "Total detected issue count: 6.",
+          "Technical structure is partially documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 12.00/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project has a visible description.",
+          "No homepage/demo URL detected.",
+          "README includes features/results/demo-style content.",
+          "Visual/documentation assets detected."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 10.00/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore detected.",
+          "No committed virtual environment detected.",
+          "No __pycache__ folders detected.",
+          "No major build/cache artifacts detected.",
+          "No oversized files detected."
+        ]
+      }
+    ],
+    "confidence": 0.85
+  },
+  {
+    "repo_name": "vct-emea-kickoff-simulator",
+    "repo_full_name": "MatALass/vct-emea-kickoff-simulator",
+    "global_score": 53.8,
+    "breakdown": {
+      "architecture_structure": 11.0,
+      "documentation_delivery": 14.4,
+      "testing_reliability": 0.0,
+      "technical_depth": 12.0,
+      "portfolio_relevance": 12.4,
+      "maintainability_cleanliness": 10.0
+    },
+    "penalties": [
+      {
+        "code": "NO_TESTS_DETECTED",
+        "label": "No tests detected",
+        "points": 6.0,
+        "reason": "The absence of tests weakens reliability and engineering credibility."
+      }
+    ],
+    "explanations": [
+      {
+        "category": "architecture_structure",
+        "summary": "Architecture & structure scored 11.00/20 based on layout clarity and folder organization.",
+        "supporting_points": [
+          "Dedicated src/ directory detected.",
+          "Top-level tests/ directory missing.",
+          "Layout type classified as partially_structured.",
+          "Repository root contains 4 file(s)."
+        ]
+      },
+      {
+        "category": "documentation_delivery",
+        "summary": "Documentation & delivery scored 14.40/20 based on README completeness and delivery assets.",
+        "supporting_points": [
+          "README detected with about 227 words.",
+          "Installation/setup guidance detected.",
+          "Usage instructions detected.",
+          "Architecture/structure section detected."
+        ]
+      },
+      {
+        "category": "testing_reliability",
+        "summary": "Testing & reliability scored 0.00/15 based on test presence, size, and CI validation.",
+        "supporting_points": [
+          "No tests detected.",
+          "No explicit testing framework clearly detected.",
+          "Coverage-related configuration not detected.",
+          "CI test workflow not detected."
+        ]
+      },
+      {
+        "category": "technical_depth",
+        "summary": "Technical depth scored 12.00/15 using a conservative heuristic based on project signals and structure.",
+        "supporting_points": [
+          "Primary language detected: Python.",
+          "Repository description is present.",
+          "Repository exposes 7 topic(s).",
+          "Total detected issue count: 4.",
+          "Technical structure is partially documented."
+        ]
+      },
+      {
+        "category": "portfolio_relevance",
+        "summary": "Portfolio relevance scored 12.40/20 based on recruiter readability, visibility, and demonstration value.",
+        "supporting_points": [
+          "Project has a visible description.",
+          "No homepage/demo URL detected.",
+          "README does not clearly highlight results or demo value."
+        ]
+      },
+      {
+        "category": "maintainability_cleanliness",
+        "summary": "Maintainability & cleanliness scored 10.00/10 based on repository hygiene and committed artifacts.",
+        "supporting_points": [
+          ".gitignore detected.",
+          "No committed virtual environment detected.",
+          "No __pycache__ folders detected.",
+          "No major build/cache artifacts detected.",
+          "No oversized files detected."
+        ]
+      }
+    ],
+    "confidence": 0.8
+  }
+]

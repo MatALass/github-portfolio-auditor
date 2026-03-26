@@ -1,0 +1,2576 @@
+[
+  {
+    "repo_name": "3D_HOP",
+    "repo_full_name": "MatALass/3D_HOP",
+    "executive_summary": "This repository is currently too weak or too incomplete to support a strong portfolio signal. Final score: 22.05/100 (weak). Primary language: JavaScript. Detected issues: 9. Confidence: 0.80.",
+    "strengths": [
+      {
+        "text": "README is present with approximately 6 words.",
+        "priority": "high"
+      },
+      {
+        "text": ".gitignore is present.",
+        "priority": "low"
+      },
+      {
+        "text": "Documentation assets or screenshots were detected.",
+        "priority": "medium"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "README exists but remains too short for strong portfolio communication.",
+        "priority": "high"
+      },
+      {
+        "text": "README does not clearly explain installation or setup.",
+        "priority": "medium"
+      },
+      {
+        "text": "README does not clearly explain how to run or use the project.",
+        "priority": "high"
+      },
+      {
+        "text": "Repository lacks a clearly identified main code directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "No automated tests were detected.",
+        "priority": "high"
+      },
+      {
+        "text": "No CI workflow was detected.",
+        "priority": "medium"
+      },
+      {
+        "text": "Repository description is missing or empty on GitHub.",
+        "priority": "low"
+      }
+    ],
+    "blockers": [
+      {
+        "text": "Missing automated tests weakens engineering credibility significantly.",
+        "priority": "high"
+      },
+      {
+        "text": "Overall repository quality is currently too low for safe portfolio presentation.",
+        "priority": "high"
+      }
+    ],
+    "quick_wins": [
+      {
+        "text": "Add a usage section with concrete run examples.",
+        "priority": "high"
+      },
+      {
+        "text": "Add installation/setup commands to the README.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a basic GitHub Actions workflow for validation.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a concise GitHub repository description.",
+        "priority": "low"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Document exactly how to run and use the project.",
+        "priority": "high"
+      },
+      {
+        "text": "Build a core automated test suite.",
+        "priority": "high"
+      },
+      {
+        "text": "Introduce a clearer source-code structure.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a concise GitHub description.",
+        "priority": "low"
+      }
+    ],
+    "portfolio_decision": "MAKE_PRIVATE",
+    "portfolio_rationale": "The repository is currently more harmful than helpful for portfolio presentation and should generally be made private until it is substantially improved.",
+    "recruiter_signal": "Poor recruiter signal. In its current state, the repository is more likely to weaken than strengthen a portfolio."
+  },
+  {
+    "repo_name": "Analyse-des-Avis-et-Alertes-ANSSI",
+    "repo_full_name": "MatALass/Analyse-des-Avis-et-Alertes-ANSSI",
+    "executive_summary": "This repository is currently too weak or too incomplete to support a strong portfolio signal. Final score: 27.60/100 (weak). Primary language: HTML. Detected issues: 9. Confidence: 0.75.",
+    "strengths": [
+      {
+        "text": "README is present with approximately 189 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes usage instructions.",
+        "priority": "high"
+      },
+      {
+        "text": "README documents the project structure or architecture.",
+        "priority": "medium"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "README does not clearly explain installation or setup.",
+        "priority": "medium"
+      },
+      {
+        "text": "Repository lacks a clearly identified main code directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "No automated tests were detected.",
+        "priority": "high"
+      },
+      {
+        "text": "No CI workflow was detected.",
+        "priority": "medium"
+      },
+      {
+        "text": ".gitignore is missing.",
+        "priority": "medium"
+      },
+      {
+        "text": "Repository contains oversized files that reduce delivery quality.",
+        "priority": "low"
+      },
+      {
+        "text": "No homepage or demo link was detected.",
+        "priority": "low"
+      }
+    ],
+    "blockers": [
+      {
+        "text": "Missing automated tests weakens engineering credibility significantly.",
+        "priority": "high"
+      },
+      {
+        "text": "Overall repository quality is currently too low for safe portfolio presentation.",
+        "priority": "high"
+      }
+    ],
+    "quick_wins": [
+      {
+        "text": "Add installation/setup commands to the README.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a proper .gitignore file.",
+        "priority": "high"
+      },
+      {
+        "text": "Add a basic GitHub Actions workflow for validation.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a homepage or demo link if the project has a runnable output.",
+        "priority": "low"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Build a core automated test suite.",
+        "priority": "high"
+      },
+      {
+        "text": "Introduce a clearer source-code structure.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add and apply a proper .gitignore.",
+        "priority": "high"
+      },
+      {
+        "text": "Review large committed files and keep only necessary assets.",
+        "priority": "medium"
+      },
+      {
+        "text": "Expose a demo or homepage link when relevant.",
+        "priority": "low"
+      }
+    ],
+    "portfolio_decision": "MAKE_PRIVATE",
+    "portfolio_rationale": "The repository is currently more harmful than helpful for portfolio presentation and should generally be made private until it is substantially improved.",
+    "recruiter_signal": "Poor recruiter signal. In its current state, the repository is more likely to weaken than strengthen a portfolio."
+  },
+  {
+    "repo_name": "Atelier_Alassoeur_Website",
+    "repo_full_name": "MatALass/Atelier_Alassoeur_Website",
+    "executive_summary": "This repository is currently too weak or too incomplete to support a strong portfolio signal. Final score: 25.00/100 (weak). Primary language: CSS. Detected issues: 8. Confidence: 0.75.",
+    "strengths": [
+      {
+        "text": "README is present with approximately 122 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README documents the project structure or architecture.",
+        "priority": "medium"
+      },
+      {
+        "text": "Repository exposes a homepage or demo URL.",
+        "priority": "medium"
+      },
+      {
+        "text": "Documentation assets or screenshots were detected.",
+        "priority": "medium"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "README does not clearly explain installation or setup.",
+        "priority": "medium"
+      },
+      {
+        "text": "README does not clearly explain how to run or use the project.",
+        "priority": "high"
+      },
+      {
+        "text": "Repository lacks a clearly identified main code directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "No automated tests were detected.",
+        "priority": "high"
+      },
+      {
+        "text": "No CI workflow was detected.",
+        "priority": "medium"
+      },
+      {
+        "text": ".gitignore is missing.",
+        "priority": "medium"
+      }
+    ],
+    "blockers": [
+      {
+        "text": "Missing automated tests weakens engineering credibility significantly.",
+        "priority": "high"
+      },
+      {
+        "text": "Overall repository quality is currently too low for safe portfolio presentation.",
+        "priority": "high"
+      }
+    ],
+    "quick_wins": [
+      {
+        "text": "Add a usage section with concrete run examples.",
+        "priority": "high"
+      },
+      {
+        "text": "Add installation/setup commands to the README.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a proper .gitignore file.",
+        "priority": "high"
+      },
+      {
+        "text": "Add a basic GitHub Actions workflow for validation.",
+        "priority": "medium"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Document exactly how to run and use the project.",
+        "priority": "high"
+      },
+      {
+        "text": "Build a core automated test suite.",
+        "priority": "high"
+      },
+      {
+        "text": "Introduce a clearer source-code structure.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add and apply a proper .gitignore.",
+        "priority": "high"
+      }
+    ],
+    "portfolio_decision": "MAKE_PRIVATE",
+    "portfolio_rationale": "The repository is currently more harmful than helpful for portfolio presentation and should generally be made private until it is substantially improved.",
+    "recruiter_signal": "Poor recruiter signal. In its current state, the repository is more likely to weaken than strengthen a portfolio."
+  },
+  {
+    "repo_name": "automata-toolkit",
+    "repo_full_name": "MatALass/automata-toolkit",
+    "executive_summary": "This repository already shows strong portfolio quality and professional delivery potential. Final score: 91.25/100 (excellent). Primary language: Python. Detected issues: 2. Confidence: 1.00.",
+    "strengths": [
+      {
+        "text": "Repository uses a dedicated src/ directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "Repository exposes a top-level tests/ directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "README is present with approximately 229 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes usage instructions.",
+        "priority": "high"
+      },
+      {
+        "text": "README documents the project structure or architecture.",
+        "priority": "medium"
+      },
+      {
+        "text": "Automated tests detected (10 test file(s)).",
+        "priority": "high"
+      },
+      {
+        "text": "Testing framework(s) detected: pytest.",
+        "priority": "medium"
+      },
+      {
+        "text": "CI appears to run automated tests.",
+        "priority": "high"
+      },
+      {
+        "text": ".gitignore is present.",
+        "priority": "low"
+      },
+      {
+        "text": "Documentation assets or screenshots were detected.",
+        "priority": "medium"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "README does not clearly explain installation or setup.",
+        "priority": "medium"
+      },
+      {
+        "text": "No homepage or demo link was detected.",
+        "priority": "low"
+      }
+    ],
+    "blockers": [],
+    "quick_wins": [
+      {
+        "text": "Add installation/setup commands to the README.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a homepage or demo link if the project has a runnable output.",
+        "priority": "low"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Expose a demo or homepage link when relevant.",
+        "priority": "low"
+      }
+    ],
+    "portfolio_decision": "FEATURE_NOW",
+    "portfolio_rationale": "The repository is already strong enough to be featured directly: it shows credible structure, acceptable delivery quality, and a positive portfolio signal.",
+    "recruiter_signal": "Strong recruiter signal. The repository appears structured, understandable, and credible as a featured engineering project."
+  },
+  {
+    "repo_name": "between-light",
+    "repo_full_name": "MatALass/between-light",
+    "executive_summary": "This repository is currently too weak or too incomplete to support a strong portfolio signal. Final score: 32.35/100 (weak). Primary language: Game Maker Language. Detected issues: 7. Confidence: 0.85.",
+    "strengths": [
+      {
+        "text": "README is present with approximately 252 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes usage instructions.",
+        "priority": "high"
+      },
+      {
+        "text": "README documents the project structure or architecture.",
+        "priority": "medium"
+      },
+      {
+        "text": ".gitignore is present.",
+        "priority": "low"
+      },
+      {
+        "text": "Documentation assets or screenshots were detected.",
+        "priority": "medium"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "README does not clearly explain installation or setup.",
+        "priority": "medium"
+      },
+      {
+        "text": "Repository lacks a clearly identified main code directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "No automated tests were detected.",
+        "priority": "high"
+      },
+      {
+        "text": "No CI workflow was detected.",
+        "priority": "medium"
+      },
+      {
+        "text": "Repository contains oversized files that reduce delivery quality.",
+        "priority": "low"
+      },
+      {
+        "text": "No homepage or demo link was detected.",
+        "priority": "low"
+      }
+    ],
+    "blockers": [
+      {
+        "text": "Missing automated tests weakens engineering credibility significantly.",
+        "priority": "high"
+      },
+      {
+        "text": "Overall repository quality is currently too low for safe portfolio presentation.",
+        "priority": "high"
+      }
+    ],
+    "quick_wins": [
+      {
+        "text": "Add installation/setup commands to the README.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a basic GitHub Actions workflow for validation.",
+        "priority": "medium"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Build a core automated test suite.",
+        "priority": "high"
+      },
+      {
+        "text": "Introduce a clearer source-code structure.",
+        "priority": "medium"
+      },
+      {
+        "text": "Review large committed files and keep only necessary assets.",
+        "priority": "medium"
+      }
+    ],
+    "portfolio_decision": "MAKE_PRIVATE",
+    "portfolio_rationale": "The repository is currently more harmful than helpful for portfolio presentation and should generally be made private until it is substantially improved.",
+    "recruiter_signal": "Poor recruiter signal. In its current state, the repository is more likely to weaken than strengthen a portfolio."
+  },
+  {
+    "repo_name": "binwatch",
+    "repo_full_name": "MatALass/binwatch",
+    "executive_summary": "This repository is promising but still needs several improvements before it should be featured confidently. Final score: 64.60/100 (good). Primary language: HTML. Detected issues: 3. Confidence: 0.85.",
+    "strengths": [
+      {
+        "text": "Repository uses a dedicated src/ directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "README is present with approximately 443 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes installation or setup guidance.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes usage instructions.",
+        "priority": "high"
+      },
+      {
+        "text": "README documents the project structure or architecture.",
+        "priority": "medium"
+      },
+      {
+        "text": ".gitignore is present.",
+        "priority": "low"
+      },
+      {
+        "text": "Repository exposes a homepage or demo URL.",
+        "priority": "medium"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "No automated tests were detected.",
+        "priority": "high"
+      },
+      {
+        "text": "No CI workflow was detected.",
+        "priority": "medium"
+      }
+    ],
+    "blockers": [
+      {
+        "text": "Missing automated tests weakens engineering credibility significantly.",
+        "priority": "high"
+      }
+    ],
+    "quick_wins": [
+      {
+        "text": "Add a basic GitHub Actions workflow for validation.",
+        "priority": "medium"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Build a core automated test suite.",
+        "priority": "high"
+      }
+    ],
+    "portfolio_decision": "MERGE_OR_REPOSITION",
+    "portfolio_rationale": "The repository contains some useful elements, but its current delivery is not strong enough on its own. It may be better improved, repositioned, or merged with a related project.",
+    "recruiter_signal": "Mixed recruiter signal. The project may have value, but the current delivery still creates doubt."
+  },
+  {
+    "repo_name": "Boardswipe",
+    "repo_full_name": "MatALass/Boardswipe",
+    "executive_summary": "This repository is currently too weak or too incomplete to support a strong portfolio signal. Final score: 21.50/100 (weak). Primary language: JavaScript. Detected issues: 9. Confidence: 0.80.",
+    "strengths": [
+      {
+        "text": "README is present with approximately 270 words.",
+        "priority": "high"
+      },
+      {
+        "text": ".gitignore is present.",
+        "priority": "low"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "README does not clearly explain installation or setup.",
+        "priority": "medium"
+      },
+      {
+        "text": "README does not clearly explain how to run or use the project.",
+        "priority": "high"
+      },
+      {
+        "text": "Repository lacks a clearly identified main code directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "No automated tests were detected.",
+        "priority": "high"
+      },
+      {
+        "text": "No CI workflow was detected.",
+        "priority": "medium"
+      },
+      {
+        "text": "Generated build or cache artifacts appear to be committed.",
+        "priority": "medium"
+      },
+      {
+        "text": "No homepage or demo link was detected.",
+        "priority": "low"
+      }
+    ],
+    "blockers": [
+      {
+        "text": "Missing automated tests weakens engineering credibility significantly.",
+        "priority": "high"
+      },
+      {
+        "text": "Overall repository quality is currently too low for safe portfolio presentation.",
+        "priority": "high"
+      }
+    ],
+    "quick_wins": [
+      {
+        "text": "Add a usage section with concrete run examples.",
+        "priority": "high"
+      },
+      {
+        "text": "Add installation/setup commands to the README.",
+        "priority": "medium"
+      },
+      {
+        "text": "Delete generated build/package artifacts from the repository.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a basic GitHub Actions workflow for validation.",
+        "priority": "medium"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Document exactly how to run and use the project.",
+        "priority": "high"
+      },
+      {
+        "text": "Build a core automated test suite.",
+        "priority": "high"
+      },
+      {
+        "text": "Introduce a clearer source-code structure.",
+        "priority": "medium"
+      },
+      {
+        "text": "Remove generated build/cache artifacts.",
+        "priority": "medium"
+      }
+    ],
+    "portfolio_decision": "MAKE_PRIVATE",
+    "portfolio_rationale": "The repository is currently more harmful than helpful for portfolio presentation and should generally be made private until it is substantially improved.",
+    "recruiter_signal": "Poor recruiter signal. In its current state, the repository is more likely to weaken than strengthen a portfolio."
+  },
+  {
+    "repo_name": "CanAdventure",
+    "repo_full_name": "MatALass/CanAdventure",
+    "executive_summary": "This repository has some useful signals, but it is not yet strong enough for confident portfolio presentation. Final score: 50.20/100 (fair). Primary language: Vue. Detected issues: 6. Confidence: 0.85.",
+    "strengths": [
+      {
+        "text": "Repository uses a dedicated src/ directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "README is present with approximately 205 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes installation or setup guidance.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes usage instructions.",
+        "priority": "high"
+      },
+      {
+        "text": "README documents the project structure or architecture.",
+        "priority": "medium"
+      },
+      {
+        "text": ".gitignore is present.",
+        "priority": "low"
+      },
+      {
+        "text": "Documentation assets or screenshots were detected.",
+        "priority": "medium"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "No automated tests were detected.",
+        "priority": "high"
+      },
+      {
+        "text": "No CI workflow was detected.",
+        "priority": "medium"
+      },
+      {
+        "text": "Repository contains oversized files that reduce delivery quality.",
+        "priority": "low"
+      },
+      {
+        "text": "No homepage or demo link was detected.",
+        "priority": "low"
+      }
+    ],
+    "blockers": [
+      {
+        "text": "Missing automated tests weakens engineering credibility significantly.",
+        "priority": "high"
+      }
+    ],
+    "quick_wins": [
+      {
+        "text": "Add a basic GitHub Actions workflow for validation.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a homepage or demo link if the project has a runnable output.",
+        "priority": "low"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Build a core automated test suite.",
+        "priority": "high"
+      },
+      {
+        "text": "Review large committed files and keep only necessary assets.",
+        "priority": "medium"
+      },
+      {
+        "text": "Expose a demo or homepage link when relevant.",
+        "priority": "low"
+      }
+    ],
+    "portfolio_decision": "MERGE_OR_REPOSITION",
+    "portfolio_rationale": "The repository contains some useful elements, but its current delivery is not strong enough on its own. It may be better improved, repositioned, or merged with a related project.",
+    "recruiter_signal": "Weak recruiter signal. The repository may reflect effort, but the presentation and engineering quality are not yet convincing."
+  },
+  {
+    "repo_name": "contact-card",
+    "repo_full_name": "MatALass/contact-card",
+    "executive_summary": "This repository is currently too weak or too incomplete to support a strong portfolio signal. Final score: 37.55/100 (weak). Primary language: HTML. Detected issues: 7. Confidence: 0.80.",
+    "strengths": [
+      {
+        "text": "README is present with approximately 142 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes usage instructions.",
+        "priority": "high"
+      },
+      {
+        "text": ".gitignore is present.",
+        "priority": "low"
+      },
+      {
+        "text": "Documentation assets or screenshots were detected.",
+        "priority": "medium"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "README does not clearly explain installation or setup.",
+        "priority": "medium"
+      },
+      {
+        "text": "Repository lacks a clearly identified main code directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "No automated tests were detected.",
+        "priority": "high"
+      },
+      {
+        "text": "No CI workflow was detected.",
+        "priority": "medium"
+      }
+    ],
+    "blockers": [
+      {
+        "text": "Missing automated tests weakens engineering credibility significantly.",
+        "priority": "high"
+      },
+      {
+        "text": "Overall repository quality is currently too low for safe portfolio presentation.",
+        "priority": "high"
+      }
+    ],
+    "quick_wins": [
+      {
+        "text": "Add installation/setup commands to the README.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a basic GitHub Actions workflow for validation.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a homepage or demo link if the project has a runnable output.",
+        "priority": "low"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Build a core automated test suite.",
+        "priority": "high"
+      },
+      {
+        "text": "Introduce a clearer source-code structure.",
+        "priority": "medium"
+      },
+      {
+        "text": "Expose a demo or homepage link when relevant.",
+        "priority": "low"
+      }
+    ],
+    "portfolio_decision": "ARCHIVE_PUBLIC",
+    "portfolio_rationale": "The repository is currently too weak to feature, but it may still remain public as an archive or learning artifact if it does not confuse the portfolio narrative.",
+    "recruiter_signal": "Poor recruiter signal. In its current state, the repository is more likely to weaken than strengthen a portfolio."
+  },
+  {
+    "repo_name": "dataviz-dashboard",
+    "repo_full_name": "MatALass/dataviz-dashboard",
+    "executive_summary": "This repository is currently too weak or too incomplete to support a strong portfolio signal. Final score: 31.95/100 (weak). Primary language: Jupyter Notebook. Detected issues: 8. Confidence: 0.75.",
+    "strengths": [
+      {
+        "text": "README is present with approximately 373 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes installation or setup guidance.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes usage instructions.",
+        "priority": "high"
+      },
+      {
+        "text": "README documents the project structure or architecture.",
+        "priority": "medium"
+      },
+      {
+        "text": "Documentation assets or screenshots were detected.",
+        "priority": "medium"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "Repository lacks a clearly identified main code directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "No automated tests were detected.",
+        "priority": "high"
+      },
+      {
+        "text": "No CI workflow was detected.",
+        "priority": "medium"
+      },
+      {
+        "text": ".gitignore is missing.",
+        "priority": "medium"
+      },
+      {
+        "text": "Repository contains oversized files that reduce delivery quality.",
+        "priority": "low"
+      },
+      {
+        "text": "No homepage or demo link was detected.",
+        "priority": "low"
+      }
+    ],
+    "blockers": [
+      {
+        "text": "Missing automated tests weakens engineering credibility significantly.",
+        "priority": "high"
+      },
+      {
+        "text": "Committed __pycache__ folders reduce professionalism and should be cleaned immediately.",
+        "priority": "high"
+      },
+      {
+        "text": "Overall repository quality is currently too low for safe portfolio presentation.",
+        "priority": "high"
+      }
+    ],
+    "quick_wins": [
+      {
+        "text": "Add a proper .gitignore file.",
+        "priority": "high"
+      },
+      {
+        "text": "Remove Python cache artifacts from version control.",
+        "priority": "high"
+      },
+      {
+        "text": "Add a basic GitHub Actions workflow for validation.",
+        "priority": "medium"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Build a core automated test suite.",
+        "priority": "high"
+      },
+      {
+        "text": "Introduce a clearer source-code structure.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add and apply a proper .gitignore.",
+        "priority": "high"
+      },
+      {
+        "text": "Delete committed __pycache__ directories.",
+        "priority": "high"
+      },
+      {
+        "text": "Review large committed files and keep only necessary assets.",
+        "priority": "medium"
+      }
+    ],
+    "portfolio_decision": "MAKE_PRIVATE",
+    "portfolio_rationale": "The repository is currently more harmful than helpful for portfolio presentation and should generally be made private until it is substantially improved.",
+    "recruiter_signal": "Poor recruiter signal. In its current state, the repository is more likely to weaken than strengthen a portfolio."
+  },
+  {
+    "repo_name": "email-signature",
+    "repo_full_name": "MatALass/email-signature",
+    "executive_summary": "This repository is currently too weak or too incomplete to support a strong portfolio signal. Final score: 35.15/100 (weak). Primary language: HTML. Detected issues: 6. Confidence: 0.75.",
+    "strengths": [
+      {
+        "text": "README is present with approximately 345 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes usage instructions.",
+        "priority": "high"
+      },
+      {
+        "text": "README documents the project structure or architecture.",
+        "priority": "medium"
+      },
+      {
+        "text": "Documentation assets or screenshots were detected.",
+        "priority": "medium"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "README does not clearly explain installation or setup.",
+        "priority": "medium"
+      },
+      {
+        "text": "Repository lacks a clearly identified main code directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "No automated tests were detected.",
+        "priority": "high"
+      },
+      {
+        "text": "No CI workflow was detected.",
+        "priority": "medium"
+      },
+      {
+        "text": ".gitignore is missing.",
+        "priority": "medium"
+      },
+      {
+        "text": "Repository description is missing or empty on GitHub.",
+        "priority": "low"
+      }
+    ],
+    "blockers": [
+      {
+        "text": "Missing automated tests weakens engineering credibility significantly.",
+        "priority": "high"
+      },
+      {
+        "text": "Overall repository quality is currently too low for safe portfolio presentation.",
+        "priority": "high"
+      }
+    ],
+    "quick_wins": [
+      {
+        "text": "Add installation/setup commands to the README.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a proper .gitignore file.",
+        "priority": "high"
+      },
+      {
+        "text": "Add a basic GitHub Actions workflow for validation.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a concise GitHub repository description.",
+        "priority": "low"
+      },
+      {
+        "text": "Add a homepage or demo link if the project has a runnable output.",
+        "priority": "low"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Build a core automated test suite.",
+        "priority": "high"
+      },
+      {
+        "text": "Introduce a clearer source-code structure.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add and apply a proper .gitignore.",
+        "priority": "high"
+      },
+      {
+        "text": "Add a concise GitHub description.",
+        "priority": "low"
+      },
+      {
+        "text": "Expose a demo or homepage link when relevant.",
+        "priority": "low"
+      }
+    ],
+    "portfolio_decision": "ARCHIVE_PUBLIC",
+    "portfolio_rationale": "The repository is currently too weak to feature, but it may still remain public as an archive or learning artifact if it does not confuse the portfolio narrative.",
+    "recruiter_signal": "Poor recruiter signal. In its current state, the repository is more likely to weaken than strengthen a portfolio."
+  },
+  {
+    "repo_name": "final_portfolio",
+    "repo_full_name": "MatALass/final_portfolio",
+    "executive_summary": "This repository has some useful signals, but it is not yet strong enough for confident portfolio presentation. Final score: 45.40/100 (fair). Primary language: TypeScript. Detected issues: 7. Confidence: 0.80.",
+    "strengths": [
+      {
+        "text": "Repository uses a dedicated app/ directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "README is present with approximately 155 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes usage instructions.",
+        "priority": "high"
+      },
+      {
+        "text": ".gitignore is present.",
+        "priority": "low"
+      },
+      {
+        "text": "Repository exposes a homepage or demo URL.",
+        "priority": "medium"
+      },
+      {
+        "text": "Documentation assets or screenshots were detected.",
+        "priority": "medium"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "README does not clearly explain installation or setup.",
+        "priority": "medium"
+      },
+      {
+        "text": "No automated tests were detected.",
+        "priority": "high"
+      },
+      {
+        "text": "No CI workflow was detected.",
+        "priority": "medium"
+      },
+      {
+        "text": "Repository description is missing or empty on GitHub.",
+        "priority": "low"
+      }
+    ],
+    "blockers": [
+      {
+        "text": "Missing automated tests weakens engineering credibility significantly.",
+        "priority": "high"
+      }
+    ],
+    "quick_wins": [
+      {
+        "text": "Add installation/setup commands to the README.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a basic GitHub Actions workflow for validation.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a concise GitHub repository description.",
+        "priority": "low"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Build a core automated test suite.",
+        "priority": "high"
+      },
+      {
+        "text": "Add a concise GitHub description.",
+        "priority": "low"
+      }
+    ],
+    "portfolio_decision": "ARCHIVE_PUBLIC",
+    "portfolio_rationale": "The repository is currently too weak to feature, but it may still remain public as an archive or learning artifact if it does not confuse the portfolio narrative.",
+    "recruiter_signal": "Weak recruiter signal. The repository may reflect effort, but the presentation and engineering quality are not yet convincing."
+  },
+  {
+    "repo_name": "footpredict-pl",
+    "repo_full_name": "MatALass/footpredict-pl",
+    "executive_summary": "This repository is promising but still needs several improvements before it should be featured confidently. Final score: 63.95/100 (good). Primary language: Python. Detected issues: 4. Confidence: 0.80.",
+    "strengths": [
+      {
+        "text": "Repository uses a dedicated src/ directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "README is present with approximately 628 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes installation or setup guidance.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes usage instructions.",
+        "priority": "high"
+      },
+      {
+        "text": "README documents the project structure or architecture.",
+        "priority": "medium"
+      },
+      {
+        "text": ".gitignore is present.",
+        "priority": "low"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "No automated tests were detected.",
+        "priority": "high"
+      },
+      {
+        "text": "No CI workflow was detected.",
+        "priority": "medium"
+      },
+      {
+        "text": "No homepage or demo link was detected.",
+        "priority": "low"
+      }
+    ],
+    "blockers": [
+      {
+        "text": "Missing automated tests weakens engineering credibility significantly.",
+        "priority": "high"
+      }
+    ],
+    "quick_wins": [
+      {
+        "text": "Add a basic GitHub Actions workflow for validation.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a homepage or demo link if the project has a runnable output.",
+        "priority": "low"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Build a core automated test suite.",
+        "priority": "high"
+      },
+      {
+        "text": "Expose a demo or homepage link when relevant.",
+        "priority": "low"
+      }
+    ],
+    "portfolio_decision": "MERGE_OR_REPOSITION",
+    "portfolio_rationale": "The repository contains some useful elements, but its current delivery is not strong enough on its own. It may be better improved, repositioned, or merged with a related project.",
+    "recruiter_signal": "Mixed recruiter signal. The project may have value, but the current delivery still creates doubt."
+  },
+  {
+    "repo_name": "GreenEscape",
+    "repo_full_name": "MatALass/GreenEscape",
+    "executive_summary": "This repository is currently too weak or too incomplete to support a strong portfolio signal. Final score: 25.30/100 (weak). Primary language: Python. Detected issues: 9. Confidence: 0.80.",
+    "strengths": [
+      {
+        "text": "README is present with approximately 453 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes installation or setup guidance.",
+        "priority": "high"
+      },
+      {
+        "text": ".gitignore is present.",
+        "priority": "low"
+      },
+      {
+        "text": "Repository exposes a homepage or demo URL.",
+        "priority": "medium"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "README does not clearly explain how to run or use the project.",
+        "priority": "high"
+      },
+      {
+        "text": "Repository lacks a clearly identified main code directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "No automated tests were detected.",
+        "priority": "high"
+      },
+      {
+        "text": "No CI workflow was detected.",
+        "priority": "medium"
+      }
+    ],
+    "blockers": [
+      {
+        "text": "Missing automated tests weakens engineering credibility significantly.",
+        "priority": "high"
+      },
+      {
+        "text": "Committed __pycache__ folders reduce professionalism and should be cleaned immediately.",
+        "priority": "high"
+      },
+      {
+        "text": "Overall repository quality is currently too low for safe portfolio presentation.",
+        "priority": "high"
+      }
+    ],
+    "quick_wins": [
+      {
+        "text": "Add a usage section with concrete run examples.",
+        "priority": "high"
+      },
+      {
+        "text": "Remove Python cache artifacts from version control.",
+        "priority": "high"
+      },
+      {
+        "text": "Add a basic GitHub Actions workflow for validation.",
+        "priority": "medium"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Document exactly how to run and use the project.",
+        "priority": "high"
+      },
+      {
+        "text": "Build a core automated test suite.",
+        "priority": "high"
+      },
+      {
+        "text": "Introduce a clearer source-code structure.",
+        "priority": "medium"
+      },
+      {
+        "text": "Delete committed __pycache__ directories.",
+        "priority": "high"
+      }
+    ],
+    "portfolio_decision": "MAKE_PRIVATE",
+    "portfolio_rationale": "The repository is currently more harmful than helpful for portfolio presentation and should generally be made private until it is substantially improved.",
+    "recruiter_signal": "Poor recruiter signal. In its current state, the repository is more likely to weaken than strengthen a portfolio."
+  },
+  {
+    "repo_name": "MatALass",
+    "repo_full_name": "MatALass/MatALass",
+    "executive_summary": "This repository is currently too weak or too incomplete to support a strong portfolio signal. Final score: 18.15/100 (weak). Primary language: unknown. Detected issues: 8. Confidence: 0.75.",
+    "strengths": [
+      {
+        "text": "README is present with approximately 287 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README documents the project structure or architecture.",
+        "priority": "medium"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "README does not clearly explain installation or setup.",
+        "priority": "medium"
+      },
+      {
+        "text": "README does not clearly explain how to run or use the project.",
+        "priority": "high"
+      },
+      {
+        "text": "Repository lacks a clearly identified main code directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "No automated tests were detected.",
+        "priority": "high"
+      },
+      {
+        "text": "No CI workflow was detected.",
+        "priority": "medium"
+      },
+      {
+        "text": ".gitignore is missing.",
+        "priority": "medium"
+      },
+      {
+        "text": "Repository description is missing or empty on GitHub.",
+        "priority": "low"
+      },
+      {
+        "text": "No homepage or demo link was detected.",
+        "priority": "low"
+      }
+    ],
+    "blockers": [
+      {
+        "text": "Missing automated tests weakens engineering credibility significantly.",
+        "priority": "high"
+      },
+      {
+        "text": "Overall repository quality is currently too low for safe portfolio presentation.",
+        "priority": "high"
+      }
+    ],
+    "quick_wins": [
+      {
+        "text": "Add a usage section with concrete run examples.",
+        "priority": "high"
+      },
+      {
+        "text": "Add installation/setup commands to the README.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a proper .gitignore file.",
+        "priority": "high"
+      },
+      {
+        "text": "Add a basic GitHub Actions workflow for validation.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a concise GitHub repository description.",
+        "priority": "low"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Document exactly how to run and use the project.",
+        "priority": "high"
+      },
+      {
+        "text": "Build a core automated test suite.",
+        "priority": "high"
+      },
+      {
+        "text": "Introduce a clearer source-code structure.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add and apply a proper .gitignore.",
+        "priority": "high"
+      },
+      {
+        "text": "Add a concise GitHub description.",
+        "priority": "low"
+      }
+    ],
+    "portfolio_decision": "MAKE_PRIVATE",
+    "portfolio_rationale": "The repository is currently more harmful than helpful for portfolio presentation and should generally be made private until it is substantially improved.",
+    "recruiter_signal": "Poor recruiter signal. In its current state, the repository is more likely to weaken than strengthen a portfolio."
+  },
+  {
+    "repo_name": "merge-tactics-optimizer",
+    "repo_full_name": "MatALass/merge-tactics-optimizer",
+    "executive_summary": "This repository has some useful signals, but it is not yet strong enough for confident portfolio presentation. Final score: 56.95/100 (fair). Primary language: Python. Detected issues: 4. Confidence: 0.80.",
+    "strengths": [
+      {
+        "text": "Repository uses a dedicated src/ directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "README is present with approximately 775 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes installation or setup guidance.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes usage instructions.",
+        "priority": "high"
+      },
+      {
+        "text": "README documents the project structure or architecture.",
+        "priority": "medium"
+      },
+      {
+        "text": ".gitignore is present.",
+        "priority": "low"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "No automated tests were detected.",
+        "priority": "high"
+      },
+      {
+        "text": "No CI workflow was detected.",
+        "priority": "medium"
+      },
+      {
+        "text": "No homepage or demo link was detected.",
+        "priority": "low"
+      }
+    ],
+    "blockers": [
+      {
+        "text": "Missing automated tests weakens engineering credibility significantly.",
+        "priority": "high"
+      }
+    ],
+    "quick_wins": [
+      {
+        "text": "Add a basic GitHub Actions workflow for validation.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a homepage or demo link if the project has a runnable output.",
+        "priority": "low"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Build a core automated test suite.",
+        "priority": "high"
+      },
+      {
+        "text": "Expose a demo or homepage link when relevant.",
+        "priority": "low"
+      }
+    ],
+    "portfolio_decision": "MERGE_OR_REPOSITION",
+    "portfolio_rationale": "The repository contains some useful elements, but its current delivery is not strong enough on its own. It may be better improved, repositioned, or merged with a related project.",
+    "recruiter_signal": "Weak recruiter signal. The repository may reflect effort, but the presentation and engineering quality are not yet convincing."
+  },
+  {
+    "repo_name": "ML_Football",
+    "repo_full_name": "MatALass/ML_Football",
+    "executive_summary": "This repository is currently too weak or too incomplete to support a strong portfolio signal. Final score: 28.10/100 (weak). Primary language: Jupyter Notebook. Detected issues: 9. Confidence: 0.75.",
+    "strengths": [
+      {
+        "text": "README is present with approximately 119 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes installation or setup guidance.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes usage instructions.",
+        "priority": "high"
+      },
+      {
+        "text": "README documents the project structure or architecture.",
+        "priority": "medium"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "README exists but remains too short for strong portfolio communication.",
+        "priority": "high"
+      },
+      {
+        "text": "Repository lacks a clearly identified main code directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "No automated tests were detected.",
+        "priority": "high"
+      },
+      {
+        "text": "No CI workflow was detected.",
+        "priority": "medium"
+      },
+      {
+        "text": ".gitignore is missing.",
+        "priority": "medium"
+      },
+      {
+        "text": "No homepage or demo link was detected.",
+        "priority": "low"
+      }
+    ],
+    "blockers": [
+      {
+        "text": "Missing automated tests weakens engineering credibility significantly.",
+        "priority": "high"
+      },
+      {
+        "text": "Overall repository quality is currently too low for safe portfolio presentation.",
+        "priority": "high"
+      }
+    ],
+    "quick_wins": [
+      {
+        "text": "Add a proper .gitignore file.",
+        "priority": "high"
+      },
+      {
+        "text": "Add a basic GitHub Actions workflow for validation.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a homepage or demo link if the project has a runnable output.",
+        "priority": "low"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Build a core automated test suite.",
+        "priority": "high"
+      },
+      {
+        "text": "Introduce a clearer source-code structure.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add and apply a proper .gitignore.",
+        "priority": "high"
+      },
+      {
+        "text": "Expose a demo or homepage link when relevant.",
+        "priority": "low"
+      }
+    ],
+    "portfolio_decision": "MAKE_PRIVATE",
+    "portfolio_rationale": "The repository is currently more harmful than helpful for portfolio presentation and should generally be made private until it is substantially improved.",
+    "recruiter_signal": "Poor recruiter signal. In its current state, the repository is more likely to weaken than strengthen a portfolio."
+  },
+  {
+    "repo_name": "morpion-ultime",
+    "repo_full_name": "MatALass/morpion-ultime",
+    "executive_summary": "This repository is promising but still needs several improvements before it should be featured confidently. Final score: 65.75/100 (good). Primary language: JavaScript. Detected issues: 4. Confidence: 1.00.",
+    "strengths": [
+      {
+        "text": "Repository exposes a top-level tests/ directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "README is present with approximately 401 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes installation or setup guidance.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes usage instructions.",
+        "priority": "high"
+      },
+      {
+        "text": "README documents the project structure or architecture.",
+        "priority": "medium"
+      },
+      {
+        "text": "Automated tests detected (1 test file(s)).",
+        "priority": "high"
+      },
+      {
+        "text": "Testing framework(s) detected: vitest.",
+        "priority": "medium"
+      },
+      {
+        "text": "CI appears to run automated tests.",
+        "priority": "high"
+      },
+      {
+        "text": "CI includes linting or static validation checks.",
+        "priority": "medium"
+      },
+      {
+        "text": ".gitignore is present.",
+        "priority": "low"
+      },
+      {
+        "text": "Repository exposes a homepage or demo URL.",
+        "priority": "medium"
+      },
+      {
+        "text": "Documentation assets or screenshots were detected.",
+        "priority": "medium"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "Repository lacks a clearly identified main code directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "Detected test baseline is still very small.",
+        "priority": "medium"
+      }
+    ],
+    "blockers": [],
+    "quick_wins": [],
+    "priority_actions": [
+      {
+        "text": "Introduce a clearer source-code structure.",
+        "priority": "medium"
+      }
+    ],
+    "portfolio_decision": "KEEP_AND_IMPROVE",
+    "portfolio_rationale": "The repository has real value and should remain visible, but targeted improvements would make it significantly safer and stronger for portfolio use.",
+    "recruiter_signal": "Mixed recruiter signal. The project may have value, but the current delivery still creates doubt."
+  },
+  {
+    "repo_name": "network-flow-algorithms",
+    "repo_full_name": "MatALass/network-flow-algorithms",
+    "executive_summary": "This repository is promising but still needs several improvements before it should be featured confidently. Final score: 62.80/100 (good). Primary language: Python. Detected issues: 4. Confidence: 0.85.",
+    "strengths": [
+      {
+        "text": "Repository uses a dedicated src/ directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "README is present with approximately 255 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes installation or setup guidance.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes usage instructions.",
+        "priority": "high"
+      },
+      {
+        "text": ".gitignore is present.",
+        "priority": "low"
+      },
+      {
+        "text": "Documentation assets or screenshots were detected.",
+        "priority": "medium"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "No automated tests were detected.",
+        "priority": "high"
+      },
+      {
+        "text": "No CI workflow was detected.",
+        "priority": "medium"
+      },
+      {
+        "text": "No homepage or demo link was detected.",
+        "priority": "low"
+      }
+    ],
+    "blockers": [
+      {
+        "text": "Missing automated tests weakens engineering credibility significantly.",
+        "priority": "high"
+      }
+    ],
+    "quick_wins": [
+      {
+        "text": "Add a basic GitHub Actions workflow for validation.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a homepage or demo link if the project has a runnable output.",
+        "priority": "low"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Build a core automated test suite.",
+        "priority": "high"
+      },
+      {
+        "text": "Expose a demo or homepage link when relevant.",
+        "priority": "low"
+      }
+    ],
+    "portfolio_decision": "MERGE_OR_REPOSITION",
+    "portfolio_rationale": "The repository contains some useful elements, but its current delivery is not strong enough on its own. It may be better improved, repositioned, or merged with a related project.",
+    "recruiter_signal": "Mixed recruiter signal. The project may have value, but the current delivery still creates doubt."
+  },
+  {
+    "repo_name": "Puissance4",
+    "repo_full_name": "MatALass/Puissance4",
+    "executive_summary": "This repository is currently too weak or too incomplete to support a strong portfolio signal. Final score: 28.00/100 (weak). Primary language: Python. Detected issues: 8. Confidence: 0.75.",
+    "strengths": [
+      {
+        "text": "README is present with approximately 132 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes usage instructions.",
+        "priority": "high"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "README does not clearly explain installation or setup.",
+        "priority": "medium"
+      },
+      {
+        "text": "Repository lacks a clearly identified main code directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "No automated tests were detected.",
+        "priority": "high"
+      },
+      {
+        "text": "No CI workflow was detected.",
+        "priority": "medium"
+      },
+      {
+        "text": ".gitignore is missing.",
+        "priority": "medium"
+      },
+      {
+        "text": "No homepage or demo link was detected.",
+        "priority": "low"
+      }
+    ],
+    "blockers": [
+      {
+        "text": "Missing automated tests weakens engineering credibility significantly.",
+        "priority": "high"
+      },
+      {
+        "text": "Overall repository quality is currently too low for safe portfolio presentation.",
+        "priority": "high"
+      }
+    ],
+    "quick_wins": [
+      {
+        "text": "Add installation/setup commands to the README.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a proper .gitignore file.",
+        "priority": "high"
+      },
+      {
+        "text": "Add a basic GitHub Actions workflow for validation.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a homepage or demo link if the project has a runnable output.",
+        "priority": "low"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Build a core automated test suite.",
+        "priority": "high"
+      },
+      {
+        "text": "Introduce a clearer source-code structure.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add and apply a proper .gitignore.",
+        "priority": "high"
+      },
+      {
+        "text": "Expose a demo or homepage link when relevant.",
+        "priority": "low"
+      }
+    ],
+    "portfolio_decision": "MAKE_PRIVATE",
+    "portfolio_rationale": "The repository is currently more harmful than helpful for portfolio presentation and should generally be made private until it is substantially improved.",
+    "recruiter_signal": "Poor recruiter signal. In its current state, the repository is more likely to weaken than strengthen a portfolio."
+  },
+  {
+    "repo_name": "repo-audit",
+    "repo_full_name": "MatALass/repo-audit",
+    "executive_summary": "This repository is strong overall, with a good technical base and a few improvement opportunities. Final score: 75.60/100 (strong). Primary language: Python. Detected issues: 2. Confidence: 1.00.",
+    "strengths": [
+      {
+        "text": "Repository uses a dedicated src/ directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "Repository exposes a top-level tests/ directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "README is present with approximately 148 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes installation or setup guidance.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes usage instructions.",
+        "priority": "high"
+      },
+      {
+        "text": "Automated tests detected (3 test file(s)).",
+        "priority": "high"
+      },
+      {
+        "text": "Testing framework(s) detected: pytest.",
+        "priority": "medium"
+      },
+      {
+        "text": "CI appears to run automated tests.",
+        "priority": "high"
+      },
+      {
+        "text": "CI includes linting or static validation checks.",
+        "priority": "medium"
+      },
+      {
+        "text": ".gitignore is present.",
+        "priority": "low"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "No homepage or demo link was detected.",
+        "priority": "low"
+      }
+    ],
+    "blockers": [],
+    "quick_wins": [],
+    "priority_actions": [],
+    "portfolio_decision": "KEEP_AND_IMPROVE",
+    "portfolio_rationale": "The repository has real value and should remain visible, but targeted improvements would make it significantly safer and stronger for portfolio use.",
+    "recruiter_signal": "Positive recruiter signal. The repository is credible, but a few delivery improvements would make it safer to highlight prominently."
+  },
+  {
+    "repo_name": "repo_auditor",
+    "repo_full_name": "MatALass/repo_auditor",
+    "executive_summary": "This repository is promising but still needs several improvements before it should be featured confidently. Final score: 73.35/100 (good). Primary language: Python. Detected issues: 4. Confidence: 0.95.",
+    "strengths": [
+      {
+        "text": "Repository uses a dedicated src/ directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "Repository exposes a top-level tests/ directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "README is present with approximately 716 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes installation or setup guidance.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes usage instructions.",
+        "priority": "high"
+      },
+      {
+        "text": "README documents the project structure or architecture.",
+        "priority": "medium"
+      },
+      {
+        "text": "Automated tests detected (17 test file(s)).",
+        "priority": "high"
+      },
+      {
+        "text": "Testing framework(s) detected: pytest.",
+        "priority": "medium"
+      },
+      {
+        "text": ".gitignore is present.",
+        "priority": "low"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "Tests exist but do not appear to be enforced in CI.",
+        "priority": "medium"
+      },
+      {
+        "text": "No CI workflow was detected.",
+        "priority": "medium"
+      },
+      {
+        "text": "Generated build or cache artifacts appear to be committed.",
+        "priority": "medium"
+      },
+      {
+        "text": "Repository description is missing or empty on GitHub.",
+        "priority": "low"
+      },
+      {
+        "text": "No homepage or demo link was detected.",
+        "priority": "low"
+      }
+    ],
+    "blockers": [],
+    "quick_wins": [
+      {
+        "text": "Delete generated build/package artifacts from the repository.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a basic GitHub Actions workflow for validation.",
+        "priority": "medium"
+      },
+      {
+        "text": "Connect the existing tests to CI.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a concise GitHub repository description.",
+        "priority": "low"
+      },
+      {
+        "text": "Add a homepage or demo link if the project has a runnable output.",
+        "priority": "low"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Run automated tests in CI.",
+        "priority": "high"
+      },
+      {
+        "text": "Remove generated build/cache artifacts.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a concise GitHub description.",
+        "priority": "low"
+      },
+      {
+        "text": "Expose a demo or homepage link when relevant.",
+        "priority": "low"
+      }
+    ],
+    "portfolio_decision": "KEEP_AND_IMPROVE",
+    "portfolio_rationale": "The repository has real value and should remain visible, but targeted improvements would make it significantly safer and stronger for portfolio use.",
+    "recruiter_signal": "Mixed recruiter signal. The project may have value, but the current delivery still creates doubt."
+  },
+  {
+    "repo_name": "school-bus-dashboard",
+    "repo_full_name": "MatALass/school-bus-dashboard",
+    "executive_summary": "This repository is currently too weak or too incomplete to support a strong portfolio signal. Final score: 34.45/100 (weak). Primary language: Python. Detected issues: 8. Confidence: 0.75.",
+    "strengths": [
+      {
+        "text": "README is present with approximately 294 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes installation or setup guidance.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes usage instructions.",
+        "priority": "high"
+      },
+      {
+        "text": "README documents the project structure or architecture.",
+        "priority": "medium"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "Repository lacks a clearly identified main code directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "No automated tests were detected.",
+        "priority": "high"
+      },
+      {
+        "text": "No CI workflow was detected.",
+        "priority": "medium"
+      },
+      {
+        "text": ".gitignore is missing.",
+        "priority": "medium"
+      },
+      {
+        "text": "Repository contains oversized files that reduce delivery quality.",
+        "priority": "low"
+      },
+      {
+        "text": "No homepage or demo link was detected.",
+        "priority": "low"
+      }
+    ],
+    "blockers": [
+      {
+        "text": "Missing automated tests weakens engineering credibility significantly.",
+        "priority": "high"
+      },
+      {
+        "text": "Overall repository quality is currently too low for safe portfolio presentation.",
+        "priority": "high"
+      }
+    ],
+    "quick_wins": [
+      {
+        "text": "Add a proper .gitignore file.",
+        "priority": "high"
+      },
+      {
+        "text": "Add a basic GitHub Actions workflow for validation.",
+        "priority": "medium"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Build a core automated test suite.",
+        "priority": "high"
+      },
+      {
+        "text": "Introduce a clearer source-code structure.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add and apply a proper .gitignore.",
+        "priority": "high"
+      },
+      {
+        "text": "Review large committed files and keep only necessary assets.",
+        "priority": "medium"
+      }
+    ],
+    "portfolio_decision": "MAKE_PRIVATE",
+    "portfolio_rationale": "The repository is currently more harmful than helpful for portfolio presentation and should generally be made private until it is substantially improved.",
+    "recruiter_signal": "Poor recruiter signal. In its current state, the repository is more likely to weaken than strengthen a portfolio."
+  },
+  {
+    "repo_name": "Signature-carre-des-canotiers",
+    "repo_full_name": "MatALass/Signature-carre-des-canotiers",
+    "executive_summary": "This repository is currently too weak or too incomplete to support a strong portfolio signal. Final score: 33.90/100 (weak). Primary language: HTML. Detected issues: 8. Confidence: 0.85.",
+    "strengths": [
+      {
+        "text": "README is present with approximately 114 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes usage instructions.",
+        "priority": "high"
+      },
+      {
+        "text": ".gitignore is present.",
+        "priority": "low"
+      },
+      {
+        "text": "Documentation assets or screenshots were detected.",
+        "priority": "medium"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "README exists but remains too short for strong portfolio communication.",
+        "priority": "high"
+      },
+      {
+        "text": "README does not clearly explain installation or setup.",
+        "priority": "medium"
+      },
+      {
+        "text": "Repository lacks a clearly identified main code directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "No automated tests were detected.",
+        "priority": "high"
+      },
+      {
+        "text": "No CI workflow was detected.",
+        "priority": "medium"
+      },
+      {
+        "text": "Generated build or cache artifacts appear to be committed.",
+        "priority": "medium"
+      }
+    ],
+    "blockers": [
+      {
+        "text": "Missing automated tests weakens engineering credibility significantly.",
+        "priority": "high"
+      },
+      {
+        "text": "Overall repository quality is currently too low for safe portfolio presentation.",
+        "priority": "high"
+      }
+    ],
+    "quick_wins": [
+      {
+        "text": "Add installation/setup commands to the README.",
+        "priority": "medium"
+      },
+      {
+        "text": "Delete generated build/package artifacts from the repository.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a basic GitHub Actions workflow for validation.",
+        "priority": "medium"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Build a core automated test suite.",
+        "priority": "high"
+      },
+      {
+        "text": "Introduce a clearer source-code structure.",
+        "priority": "medium"
+      },
+      {
+        "text": "Remove generated build/cache artifacts.",
+        "priority": "medium"
+      }
+    ],
+    "portfolio_decision": "MAKE_PRIVATE",
+    "portfolio_rationale": "The repository is currently more harmful than helpful for portfolio presentation and should generally be made private until it is substantially improved.",
+    "recruiter_signal": "Poor recruiter signal. In its current state, the repository is more likely to weaken than strengthen a portfolio."
+  },
+  {
+    "repo_name": "Space-Jumper",
+    "repo_full_name": "MatALass/Space-Jumper",
+    "executive_summary": "This repository is currently too weak or too incomplete to support a strong portfolio signal. Final score: 26.20/100 (weak). Primary language: Python. Detected issues: 8. Confidence: 0.75.",
+    "strengths": [
+      {
+        "text": "README is present with approximately 129 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes usage instructions.",
+        "priority": "high"
+      },
+      {
+        "text": "README documents the project structure or architecture.",
+        "priority": "medium"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "README does not clearly explain installation or setup.",
+        "priority": "medium"
+      },
+      {
+        "text": "Repository lacks a clearly identified main code directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "No automated tests were detected.",
+        "priority": "high"
+      },
+      {
+        "text": "No CI workflow was detected.",
+        "priority": "medium"
+      },
+      {
+        "text": ".gitignore is missing.",
+        "priority": "medium"
+      },
+      {
+        "text": "No homepage or demo link was detected.",
+        "priority": "low"
+      }
+    ],
+    "blockers": [
+      {
+        "text": "Missing automated tests weakens engineering credibility significantly.",
+        "priority": "high"
+      },
+      {
+        "text": "Committed __pycache__ folders reduce professionalism and should be cleaned immediately.",
+        "priority": "high"
+      },
+      {
+        "text": "Overall repository quality is currently too low for safe portfolio presentation.",
+        "priority": "high"
+      }
+    ],
+    "quick_wins": [
+      {
+        "text": "Add installation/setup commands to the README.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a proper .gitignore file.",
+        "priority": "high"
+      },
+      {
+        "text": "Remove Python cache artifacts from version control.",
+        "priority": "high"
+      },
+      {
+        "text": "Add a basic GitHub Actions workflow for validation.",
+        "priority": "medium"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Build a core automated test suite.",
+        "priority": "high"
+      },
+      {
+        "text": "Introduce a clearer source-code structure.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add and apply a proper .gitignore.",
+        "priority": "high"
+      },
+      {
+        "text": "Delete committed __pycache__ directories.",
+        "priority": "high"
+      }
+    ],
+    "portfolio_decision": "MAKE_PRIVATE",
+    "portfolio_rationale": "The repository is currently more harmful than helpful for portfolio presentation and should generally be made private until it is substantially improved.",
+    "recruiter_signal": "Poor recruiter signal. In its current state, the repository is more likely to weaken than strengthen a portfolio."
+  },
+  {
+    "repo_name": "Space_Jumper_Website",
+    "repo_full_name": "MatALass/Space_Jumper_Website",
+    "executive_summary": "This repository is currently too weak or too incomplete to support a strong portfolio signal. Final score: 31.40/100 (weak). Primary language: HTML. Detected issues: 9. Confidence: 0.75.",
+    "strengths": [
+      {
+        "text": "README is present with approximately 155 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes usage instructions.",
+        "priority": "high"
+      },
+      {
+        "text": "README documents the project structure or architecture.",
+        "priority": "medium"
+      },
+      {
+        "text": "Documentation assets or screenshots were detected.",
+        "priority": "medium"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "README does not clearly explain installation or setup.",
+        "priority": "medium"
+      },
+      {
+        "text": "Repository lacks a clearly identified main code directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "No automated tests were detected.",
+        "priority": "high"
+      },
+      {
+        "text": "No CI workflow was detected.",
+        "priority": "medium"
+      },
+      {
+        "text": ".gitignore is missing.",
+        "priority": "medium"
+      },
+      {
+        "text": "Repository contains oversized files that reduce delivery quality.",
+        "priority": "low"
+      },
+      {
+        "text": "No homepage or demo link was detected.",
+        "priority": "low"
+      }
+    ],
+    "blockers": [
+      {
+        "text": "Missing automated tests weakens engineering credibility significantly.",
+        "priority": "high"
+      },
+      {
+        "text": "Overall repository quality is currently too low for safe portfolio presentation.",
+        "priority": "high"
+      }
+    ],
+    "quick_wins": [
+      {
+        "text": "Add installation/setup commands to the README.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a proper .gitignore file.",
+        "priority": "high"
+      },
+      {
+        "text": "Add a basic GitHub Actions workflow for validation.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a homepage or demo link if the project has a runnable output.",
+        "priority": "low"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Build a core automated test suite.",
+        "priority": "high"
+      },
+      {
+        "text": "Introduce a clearer source-code structure.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add and apply a proper .gitignore.",
+        "priority": "high"
+      },
+      {
+        "text": "Review large committed files and keep only necessary assets.",
+        "priority": "medium"
+      },
+      {
+        "text": "Expose a demo or homepage link when relevant.",
+        "priority": "low"
+      }
+    ],
+    "portfolio_decision": "MAKE_PRIVATE",
+    "portfolio_rationale": "The repository is currently more harmful than helpful for portfolio presentation and should generally be made private until it is substantially improved.",
+    "recruiter_signal": "Poor recruiter signal. In its current state, the repository is more likely to weaken than strengthen a portfolio."
+  },
+  {
+    "repo_name": "Tetris_Game",
+    "repo_full_name": "MatALass/Tetris_Game",
+    "executive_summary": "This repository is currently too weak or too incomplete to support a strong portfolio signal. Final score: 0.00/100 (weak). Primary language: Python. Detected issues: 9. Confidence: 0.60.",
+    "strengths": [],
+    "weaknesses": [
+      {
+        "text": "Repository does not include a README.",
+        "priority": "high"
+      },
+      {
+        "text": "Repository lacks a clearly identified main code directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "No automated tests were detected.",
+        "priority": "high"
+      },
+      {
+        "text": "No CI workflow was detected.",
+        "priority": "medium"
+      },
+      {
+        "text": ".gitignore is missing.",
+        "priority": "medium"
+      },
+      {
+        "text": "Repository description is missing or empty on GitHub.",
+        "priority": "low"
+      },
+      {
+        "text": "No homepage or demo link was detected.",
+        "priority": "low"
+      }
+    ],
+    "blockers": [
+      {
+        "text": "Missing README is a major blocker for both delivery and portfolio visibility.",
+        "priority": "high"
+      },
+      {
+        "text": "Missing automated tests weakens engineering credibility significantly.",
+        "priority": "high"
+      },
+      {
+        "text": "Committed __pycache__ folders reduce professionalism and should be cleaned immediately.",
+        "priority": "high"
+      },
+      {
+        "text": "Overall repository quality is currently too low for safe portfolio presentation.",
+        "priority": "high"
+      }
+    ],
+    "quick_wins": [
+      {
+        "text": "Write a complete README with setup, usage, and project purpose.",
+        "priority": "high"
+      },
+      {
+        "text": "Add a proper .gitignore file.",
+        "priority": "high"
+      },
+      {
+        "text": "Remove Python cache artifacts from version control.",
+        "priority": "high"
+      },
+      {
+        "text": "Add a basic GitHub Actions workflow for validation.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a concise GitHub repository description.",
+        "priority": "low"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Write a complete README.",
+        "priority": "high"
+      },
+      {
+        "text": "Build a core automated test suite.",
+        "priority": "high"
+      },
+      {
+        "text": "Introduce a clearer source-code structure.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add and apply a proper .gitignore.",
+        "priority": "high"
+      },
+      {
+        "text": "Delete committed __pycache__ directories.",
+        "priority": "high"
+      },
+      {
+        "text": "Add a concise GitHub description.",
+        "priority": "low"
+      }
+    ],
+    "portfolio_decision": "MAKE_PRIVATE",
+    "portfolio_rationale": "The repository is currently more harmful than helpful for portfolio presentation and should generally be made private until it is substantially improved.",
+    "recruiter_signal": "Poor recruiter signal. In its current state, the repository is more likely to weaken than strengthen a portfolio."
+  },
+  {
+    "repo_name": "UML-Project",
+    "repo_full_name": "MatALass/UML-Project",
+    "executive_summary": "This repository has some useful signals, but it is not yet strong enough for confident portfolio presentation. Final score: 46.55/100 (fair). Primary language: Vue. Detected issues: 6. Confidence: 0.85.",
+    "strengths": [
+      {
+        "text": "Repository uses a dedicated src/ directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "README is present with approximately 138 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes installation or setup guidance.",
+        "priority": "high"
+      },
+      {
+        "text": "README documents the project structure or architecture.",
+        "priority": "medium"
+      },
+      {
+        "text": ".gitignore is present.",
+        "priority": "low"
+      },
+      {
+        "text": "Documentation assets or screenshots were detected.",
+        "priority": "medium"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "README does not clearly explain how to run or use the project.",
+        "priority": "high"
+      },
+      {
+        "text": "No automated tests were detected.",
+        "priority": "high"
+      },
+      {
+        "text": "No CI workflow was detected.",
+        "priority": "medium"
+      },
+      {
+        "text": "No homepage or demo link was detected.",
+        "priority": "low"
+      }
+    ],
+    "blockers": [
+      {
+        "text": "Missing automated tests weakens engineering credibility significantly.",
+        "priority": "high"
+      }
+    ],
+    "quick_wins": [
+      {
+        "text": "Add a usage section with concrete run examples.",
+        "priority": "high"
+      },
+      {
+        "text": "Add a basic GitHub Actions workflow for validation.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a homepage or demo link if the project has a runnable output.",
+        "priority": "low"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Document exactly how to run and use the project.",
+        "priority": "high"
+      },
+      {
+        "text": "Build a core automated test suite.",
+        "priority": "high"
+      },
+      {
+        "text": "Expose a demo or homepage link when relevant.",
+        "priority": "low"
+      }
+    ],
+    "portfolio_decision": "ARCHIVE_PUBLIC",
+    "portfolio_rationale": "The repository is currently too weak to feature, but it may still remain public as an archive or learning artifact if it does not confuse the portfolio narrative.",
+    "recruiter_signal": "Weak recruiter signal. The repository may reflect effort, but the presentation and engineering quality are not yet convincing."
+  },
+  {
+    "repo_name": "vct-emea-kickoff-simulator",
+    "repo_full_name": "MatALass/vct-emea-kickoff-simulator",
+    "executive_summary": "This repository has some useful signals, but it is not yet strong enough for confident portfolio presentation. Final score: 53.80/100 (fair). Primary language: Python. Detected issues: 4. Confidence: 0.80.",
+    "strengths": [
+      {
+        "text": "Repository uses a dedicated src/ directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "README is present with approximately 227 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes installation or setup guidance.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes usage instructions.",
+        "priority": "high"
+      },
+      {
+        "text": "README documents the project structure or architecture.",
+        "priority": "medium"
+      },
+      {
+        "text": ".gitignore is present.",
+        "priority": "low"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "No automated tests were detected.",
+        "priority": "high"
+      },
+      {
+        "text": "No CI workflow was detected.",
+        "priority": "medium"
+      },
+      {
+        "text": "No homepage or demo link was detected.",
+        "priority": "low"
+      }
+    ],
+    "blockers": [
+      {
+        "text": "Missing automated tests weakens engineering credibility significantly.",
+        "priority": "high"
+      }
+    ],
+    "quick_wins": [
+      {
+        "text": "Add a basic GitHub Actions workflow for validation.",
+        "priority": "medium"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Build a core automated test suite.",
+        "priority": "high"
+      }
+    ],
+    "portfolio_decision": "MERGE_OR_REPOSITION",
+    "portfolio_rationale": "The repository contains some useful elements, but its current delivery is not strong enough on its own. It may be better improved, repositioned, or merged with a related project.",
+    "recruiter_signal": "Weak recruiter signal. The repository may reflect effort, but the presentation and engineering quality are not yet convincing."
+  }
+]
