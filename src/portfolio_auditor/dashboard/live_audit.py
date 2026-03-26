@@ -15,6 +15,7 @@ import streamlit as st
 
 
 ROOT_DIR = Path(__file__).resolve().parents[3]
+SRC_DIR = ROOT_DIR / "src"
 DATA_DIR = ROOT_DIR / "data"
 PROCESSED_DIR = DATA_DIR / "processed"
 PROCESSED_HISTORY_DIR = DATA_DIR / "processed_history"
@@ -31,20 +32,14 @@ class AuditRunResult:
 
 
 def resolve_github_token() -> str | None:
-    """
-    Resolve the GitHub token from Streamlit secrets first, then environment variables.
-    This makes the same code work:
-    - locally via .env / environment variables
-    - on Streamlit Community Cloud via Secrets
-    """
     try:
         secret_token = st.secrets.get("GITHUB_TOKEN")
     except Exception:
         secret_token = None
 
     env_token = os.getenv("GITHUB_TOKEN")
-
     token = secret_token or env_token
+
     if not token:
         return None
 
@@ -65,11 +60,6 @@ def _owner_history_dir(owner: str) -> Path:
 
 
 def _snapshot_existing_processed_dir(owner: str) -> Path | None:
-    """
-    If current processed artifacts exist, keep a timestamped backup before refresh.
-    This does not affect the current dashboard behavior, but it gives you a clean
-    history trail for future comparisons.
-    """
     current_dir = _owner_output_dir(owner)
     if not current_dir.exists():
         return None
@@ -83,12 +73,6 @@ def _snapshot_existing_processed_dir(owner: str) -> Path | None:
 
 
 def _build_excluded_repo_names(owner: str) -> str:
-    """
-    Default exclusions:
-    - profile README repo: owner/owner
-    - this project itself, to avoid self-bias
-    Plus optional additions from env or Streamlit secrets.
-    """
     default_names = {
         owner.lower(),
         "github-portfolio-auditor",
@@ -114,15 +98,9 @@ def _try_call_python_runner(
     token: str | None,
     refresh_local_clones: bool,
 ) -> bool:
-    """
-    Prefer reusing an internal Python orchestrator if the project exposes one.
-
-    We try a few common module/function locations. The call is made dynamically
-    so this file stays compatible even if your current project structure evolves.
-    """
     candidates: list[tuple[str, str]] = [
-        ("portfolio_auditor.cli", "run_full_audit"),
         ("portfolio_auditor.audit_runner", "run_full_audit"),
+        ("portfolio_auditor.cli", "run_full_audit"),
         ("portfolio_auditor.runner", "run_full_audit"),
         ("portfolio_auditor.main", "run_full_audit"),
     ]
@@ -142,8 +120,6 @@ def _try_call_python_runner(
             )
             return True
         except Exception:
-            # We intentionally swallow and continue to the next candidate.
-            # The subprocess fallback below will still give you a useful path.
             continue
 
     return False
@@ -155,10 +131,6 @@ def _call_runner_function(
     token: str | None,
     refresh_local_clones: bool,
 ) -> Any:
-    """
-    Call the internal runner with best-effort signature adaptation.
-    This avoids hard-coding one exact function signature.
-    """
     signature = inspect.signature(fn)
     kwargs: dict[str, Any] = {}
 
@@ -179,25 +151,31 @@ def _call_runner_function(
     return fn(**kwargs)
 
 
-def _run_cli_subprocess(
-    owner: str,
-    token: str | None,
-    refresh_local_clones: bool,
-) -> None:
-    """
-    Fallback path when there is no importable Python runner exposed cleanly.
-
-    This assumes your CLI module supports:
-      python -m portfolio_auditor.cli --github-owner <owner> --output <dir>
-
-    If your actual CLI arguments differ, adapt only this command block.
-    """
+def _build_subprocess_env(token: str | None, owner: str) -> dict[str, str]:
     env = os.environ.copy()
 
     if token:
         env["GITHUB_TOKEN"] = token
 
     env["GITHUB_EXCLUDED_REPO_NAMES"] = _build_excluded_repo_names(owner)
+
+    existing_pythonpath = env.get("PYTHONPATH", "").strip()
+    src_path = str(SRC_DIR)
+
+    if existing_pythonpath:
+        env["PYTHONPATH"] = f"{src_path}{os.pathsep}{existing_pythonpath}"
+    else:
+        env["PYTHONPATH"] = src_path
+
+    return env
+
+
+def _run_cli_subprocess(
+    owner: str,
+    token: str | None,
+    refresh_local_clones: bool,
+) -> None:
+    env = _build_subprocess_env(token=token, owner=owner)
 
     cmd = [
         sys.executable,
@@ -227,7 +205,7 @@ def _run_cli_subprocess(
         raise RuntimeError(
             "Fresh audit failed via CLI fallback.\n\n"
             f"Command: {' '.join(cmd)}\n\n"
-            f"Details:\n{message}"
+            f"Details: {message}"
         )
 
 
@@ -252,15 +230,6 @@ def run_fresh_audit(
     owner: str,
     refresh_local_clones: bool = False,
 ) -> AuditRunResult:
-    """
-    Launch a fresh GitHub audit from the Streamlit app.
-
-    Behavior:
-    - resolves the GitHub token from Streamlit secrets or environment
-    - snapshots the previous processed owner directory if present
-    - reuses an internal Python runner if available
-    - otherwise falls back to the CLI module
-    """
     normalized_owner = owner.strip()
     if not normalized_owner:
         raise ValueError("Owner cannot be empty.")
