@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from portfolio_auditor.models.repo_score import Penalty
 from portfolio_auditor.models.repo_scan import RepoScan
+from portfolio_auditor.models.repo_score import Penalty
 
 
 def compute_penalties(scan: RepoScan) -> list[Penalty]:

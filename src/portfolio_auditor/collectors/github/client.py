@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
-from functools import lru_cache
 from typing import Any
 
 import requests
@@ -49,6 +48,8 @@ class GitHubClient:
         self.timeout = settings.github_request_timeout_seconds
         self.session = requests.Session()
         self.session.headers.update(settings.github_headers)
+        self._authenticated_user_cache: dict[str, Any] | None = None
+        self._authenticated_user_loaded = False
 
     def close(self) -> None:
         self.session.close()
@@ -162,13 +163,23 @@ class GitHubClient:
     def get_org(self, org_name: str) -> dict[str, Any]:
         return self._request("GET", f"/orgs/{org_name}")
 
-    @lru_cache(maxsize=1)
     def get_authenticated_user(self) -> dict[str, Any] | None:
+        if self._authenticated_user_loaded:
+            return self._authenticated_user_cache
+
         if not self.settings.github_token:
+            self._authenticated_user_cache = None
+            self._authenticated_user_loaded = True
             return None
+
         payload = self._request("GET", "/user")
         if not isinstance(payload, dict):
+            self._authenticated_user_cache = None
+            self._authenticated_user_loaded = True
             return None
+
+        self._authenticated_user_cache = payload
+        self._authenticated_user_loaded = True
         return payload
 
     def get_authenticated_login(self) -> str | None:

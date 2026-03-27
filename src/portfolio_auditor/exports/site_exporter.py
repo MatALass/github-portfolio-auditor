@@ -4,8 +4,8 @@ import json
 from pathlib import Path
 from typing import Any
 
-from portfolio_auditor.site.api_schema import SitePayload
 from portfolio_auditor.settings import Settings, get_settings
+from portfolio_auditor.site.api_schema import SitePayload
 
 
 class SiteExporter:

@@ -1,0 +1,195 @@
+version: "v1"
+
+weights:
+  architecture: 20.0
+  documentation: 20.0
+  testing: 15.0
+  technical_depth: 15.0
+  portfolio_relevance: 20.0
+  maintainability: 10.0
+
+structure_signals:
+  base_score: 0.10
+  src_directory: 0.35
+  app_directory: 0.25
+  tests_directory: 0.15
+  docs_directory: 0.10
+  scripts_directory: 0.05
+  data_directory: 0.05
+
+  layout_bonus:
+    well_structured: 0.15
+    structured: 0.10
+    partially_structured: 0.05
+
+  root_file_count:
+    small_max: 10
+    small_bonus: 0.05
+    crowded_min: 21
+    crowded_penalty: 0.10
+
+documentation_signals:
+  readme_presence: 0.30
+  readme_word_count:
+    excellent_threshold: 500
+    excellent_bonus: 0.15
+    strong_threshold: 250
+    strong_bonus: 0.12
+    adequate_threshold: 120
+    adequate_bonus: 0.08
+    minimal_threshold: 60
+    minimal_bonus: 0.04
+  installation_section: 0.12
+  usage_section: 0.12
+  architecture_section: 0.10
+  results_section: 0.07
+  roadmap_section: 0.05
+  license_file: 0.04
+  env_example: 0.03
+  screenshots_or_assets: 0.02
+
+testing_signals:
+  base_score: 0.30
+  test_file_count:
+    excellent_threshold: 20
+    excellent_bonus: 0.30
+    strong_threshold: 10
+    strong_bonus: 0.25
+    adequate_threshold: 5
+    adequate_bonus: 0.20
+    minimal_threshold: 3
+    minimal_bonus: 0.10
+    fallback_bonus: 0.05
+  framework_detected_bonus: 0.20
+  coverage_config_bonus: 0.10
+  ci_test_workflow_bonus: 0.10
+
+technical_depth_signals:
+  base_score: 0.20
+  src_or_app_bonus: 0.10
+  tests_bonus: 0.05
+  docs_bonus: 0.05
+  ci_bonus: 0.05
+  low_issue_bonus:
+    max_issue_count: 3
+    bonus: 0.10
+  medium_issue_bonus:
+    max_issue_count: 6
+    bonus: 0.05
+  technical_keyword_description_bonus: 0.15
+  technical_keyword_topics_bonus: 0.15
+  primary_language_bonus: 0.10
+  architecture_doc_bonus: 0.05
+  recognized_languages:
+    - python
+    - typescript
+    - javascript
+    - sql
+    - go
+    - rust
+  technical_keywords:
+    - api
+    - dashboard
+    - analytics
+    - data
+    - pipeline
+    - ml
+    - machine-learning
+    - cli
+    - automation
+    - streamlit
+    - nextjs
+    - typescript
+    - python
+    - sql
+    - bi
+
+portfolio_relevance_signals:
+  base_score: 0.15
+  description_bonus: 0.10
+  readme_bonus: 0.20
+  usage_bonus: 0.10
+  results_bonus: 0.08
+  screenshots_bonus: 0.07
+  homepage_bonus: 0.08
+  pages_bonus: 0.05
+  topic_bonus_per_topic: 0.01
+  topic_bonus_cap: 0.07
+  stars_bonus: 0.03
+  forks_bonus: 0.02
+  tests_bonus: 0.05
+  ci_bonus: 0.05
+
+maintainability_signals:
+  gitignore_present_score: 0.60
+  gitignore_missing_score: 0.10
+  no_virtualenv_bonus: 0.10
+  no_pycache_bonus: 0.08
+  no_pytest_cache_bonus: 0.04
+  no_build_artifacts_bonus: 0.08
+  no_egg_info_bonus: 0.03
+  no_oversized_files_bonus: 0.04
+  no_suspicious_generated_files_bonus: 0.03
+
+penalties:
+  VIRTUALENV_COMMITTED: 8.0
+  PYCACHE_COMMITTED: 3.0
+  BUILD_ARTIFACTS_COMMITTED: 3.0
+  EGG_INFO_COMMITTED: 1.5
+  README_MISSING: 10.0
+  README_TOO_SHORT: 3.0
+  USAGE_MISSING: 2.5
+  NO_TESTS_DETECTED: 6.0
+  WEAK_TEST_BASELINE: 2.0
+  NO_TEST_CI: 2.5
+  MAIN_CODE_DIR_MISSING: 2.5
+  ROOT_TOO_CROWDED: 2.0
+
+dynamic_penalties:
+  oversized_files:
+    base_points: 1.0
+    per_file_points: 0.5
+    max_points: 4.0
+
+review_thresholds:
+  feature_now_min_score: 85.0
+  improve_then_feature_min_score: 65.0
+  archive_or_hide_below: 50.0
+
+confidence:
+  base_score: 0.20
+  local_clone_bonus: 0.15
+  layout_detected_bonus: 0.10
+  readme_bonus: 0.15
+  tests_bonus: 0.10
+  ci_bonus: 0.10
+  gitignore_bonus: 0.05
+
+  scanner_count:
+    medium_threshold: 3
+    medium_bonus: 0.10
+    high_threshold: 5
+    high_bonus: 0.15
+
+  evidence_count:
+    medium_threshold: 5
+    medium_bonus: 0.05
+    high_threshold: 10
+    high_bonus: 0.10
+
+ranking:
+  decision_bonus:
+    feature_now: 6.0
+    improve_then_feature: 2.5
+    archive_or_hide: -4.0
+  confidence_weight: 4.0
+  blocker_penalty_weight: 2.0
+  redundancy_penalty_weight: 1.0
+
+redundancy:
+  strong_overlap_penalty: 6.0
+  medium_overlap_penalty: 3.0
+  same_category_feature_limit: 2
+
+selection:
+  max_featured_repositories: 8

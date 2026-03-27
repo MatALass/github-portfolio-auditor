@@ -8,6 +8,8 @@ from typing import Any
 
 import pandas as pd
 
+from portfolio_auditor.dashboard.history import latest_snapshot_dir, load_snapshot_meta
+from portfolio_auditor.settings import get_settings
 
 PROCESSED_DIR = Path("data/processed")
 
@@ -119,6 +121,8 @@ class DashboardData:
     overview_metrics: dict[str, Any]
     next_actions: list[dict[str, Any]]
     optimizer_summary: dict[str, Any]
+    comparison_summary: dict[str, Any] | None
+    comparison_df: pd.DataFrame | None
 
 
 class DashboardDataError(RuntimeError):
@@ -397,7 +401,7 @@ def _build_next_actions(df: pd.DataFrame, review_index: dict[str, dict[str, Any]
     action_rows: dict[str, list[dict[str, Any]]] = {}
     repo_lookup = df.set_index("repo_name").to_dict(orient="index")
 
-    for repo_name, review in review_index.items():
+    for repo_name in review_index:
         repo_entry = repo_lookup.get(repo_name, {})
         opportunities = repo_entry.get("optimizer_payload", []) or []
         for opportunity in opportunities:
@@ -491,6 +495,89 @@ def _simulate_portfolio(df: pd.DataFrame, next_actions: list[dict[str, Any]], vi
     }
 
 
+def _load_optional_json(path: Path) -> Any | None:
+    if not path.exists():
+        return None
+    with path.open("r", encoding="utf-8") as handle:
+        return json.load(handle)
+
+
+def _build_comparison(current_df: pd.DataFrame, owner: str) -> tuple[dict[str, Any] | None, pd.DataFrame | None]:
+    settings = get_settings()
+    snapshot_dir = latest_snapshot_dir(owner, settings)
+    if snapshot_dir is None:
+        return None, None
+
+    previous_ranking = _load_optional_json(snapshot_dir / "ranking.json")
+    previous_selection = _load_optional_json(snapshot_dir / "portfolio_selection.json") or {}
+    if not isinstance(previous_ranking, list):
+        return None, None
+
+    previous_df = pd.DataFrame(previous_ranking)
+    if previous_df.empty:
+        return None, None
+
+    previous_df["global_score"] = pd.to_numeric(previous_df["global_score"], errors="coerce").fillna(0.0)
+    previous_df = previous_df[["repo_full_name", "repo_name", "global_score", "portfolio_decision"]].copy()
+    previous_df = previous_df.rename(
+        columns={
+            "repo_name": "repo_name_previous",
+            "global_score": "previous_score",
+            "portfolio_decision": "previous_decision",
+        }
+    )
+
+    current_comp = current_df[["repo_full_name", "repo_name", "global_score", "portfolio_decision", "decision_label"]].copy()
+    current_comp = current_comp.rename(columns={"global_score": "current_score", "portfolio_decision": "current_decision"})
+
+    merged = current_comp.merge(previous_df, on="repo_full_name", how="outer")
+    merged["repo_name"] = merged["repo_name"].fillna(merged["repo_name_previous"])
+    merged["current_score"] = pd.to_numeric(merged["current_score"], errors="coerce")
+    merged["previous_score"] = pd.to_numeric(merged["previous_score"], errors="coerce")
+    merged["score_delta"] = (merged["current_score"].fillna(0.0) - merged["previous_score"].fillna(0.0)).round(2)
+
+    status: list[str] = []
+    for row in merged.to_dict(orient="records"):
+        current_score = row.get("current_score")
+        previous_score = row.get("previous_score")
+        if pd.isna(previous_score):
+            status.append("new")
+        elif pd.isna(current_score):
+            status.append("removed")
+        elif row.get("score_delta", 0.0) > 0:
+            status.append("improved")
+        elif row.get("score_delta", 0.0) < 0:
+            status.append("declined")
+        else:
+            status.append("unchanged")
+    merged["change_status"] = status
+
+    previous_visible_names = _selection_repo_full_names(previous_selection, "featured_repos", "keep_visible_but_improve")
+    previous_visible = previous_df[previous_df["repo_full_name"].isin(previous_visible_names)]
+    current_visible = current_df[current_df["decision_group"].isin(["keep", "improve"])]
+    previous_quality = round(float(previous_visible["previous_score"].mean()), 2) if not previous_visible.empty else 0.0
+    current_quality = round(float(current_visible["global_score"].mean()), 2) if not current_visible.empty else 0.0
+
+    snapshot_meta = load_snapshot_meta(snapshot_dir)
+    summary = {
+        "snapshot_label": snapshot_dir.name,
+        "snapshot_created_at_utc": snapshot_meta.get("created_at_utc"),
+        "improved_count": int((merged["change_status"] == "improved").sum()),
+        "declined_count": int((merged["change_status"] == "declined").sum()),
+        "unchanged_count": int((merged["change_status"] == "unchanged").sum()),
+        "new_count": int((merged["change_status"] == "new").sum()),
+        "removed_count": int((merged["change_status"] == "removed").sum()),
+        "net_score_delta": round(float(merged["score_delta"].fillna(0.0).sum()), 2),
+        "current_selected_scope_avg": current_quality,
+        "previous_selected_scope_avg": previous_quality,
+        "selected_scope_delta": round(current_quality - previous_quality, 2),
+        "top_improvements": merged[merged["change_status"] == "improved"].sort_values("score_delta", ascending=False).head(8).to_dict(orient="records"),
+        "top_declines": merged[merged["change_status"] == "declined"].sort_values("score_delta", ascending=True).head(8).to_dict(orient="records"),
+    }
+    merged = merged.sort_values(["change_status", "score_delta", "repo_name"], ascending=[True, False, True]).reset_index(drop=True)
+    return summary, merged
+
+
 def load_dashboard_data(owner: str) -> DashboardData:
     base_dir = PROCESSED_DIR / owner
     if not base_dir.exists():
@@ -520,6 +607,7 @@ def load_dashboard_data(owner: str) -> DashboardData:
         next_actions,
         overview_metrics["visible_now_repo_names"],
     )
+    comparison_summary, comparison_df = _build_comparison(repo_df, owner)
 
     return DashboardData(
         owner=owner,
@@ -540,4 +628,6 @@ def load_dashboard_data(owner: str) -> DashboardData:
         overview_metrics=overview_metrics,
         next_actions=next_actions,
         optimizer_summary=optimizer_summary,
+        comparison_summary=comparison_summary,
+        comparison_df=comparison_df,
     )

@@ -1,0 +1,356 @@
+[
+  {
+    "repo_full_name": "user/portfolio-analytics-platform",
+    "executive_summary": "This repository already shows strong portfolio quality and professional delivery potential. Final score: 98.65/100 (excellent). Primary language: Python. Detected issues: 0. Confidence: 1.00.",
+    "recruiter_signal": "Strong recruiter signal. The repository appears structured, understandable, and credible as a featured engineering project.",
+    "portfolio_decision": "FEATURE_NOW",
+    "portfolio_rationale": "The repository is already strong enough to be featured directly: it shows credible structure, acceptable delivery quality, and a positive portfolio signal.",
+    "strengths": [
+      {
+        "text": "Repository uses a dedicated src/ directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "Repository exposes a top-level tests/ directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "README is present with approximately 680 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes installation or setup guidance.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes usage instructions.",
+        "priority": "high"
+      },
+      {
+        "text": "README documents the project structure or architecture.",
+        "priority": "medium"
+      },
+      {
+        "text": "Automated tests detected (18 test file(s)).",
+        "priority": "high"
+      },
+      {
+        "text": "Testing framework(s) detected: pytest.",
+        "priority": "medium"
+      },
+      {
+        "text": "CI appears to run automated tests.",
+        "priority": "high"
+      },
+      {
+        "text": "CI includes linting or static validation checks.",
+        "priority": "medium"
+      },
+      {
+        "text": ".gitignore is present.",
+        "priority": "low"
+      },
+      {
+        "text": "Repository exposes a homepage or demo URL.",
+        "priority": "medium"
+      },
+      {
+        "text": "Documentation assets or screenshots were detected.",
+        "priority": "medium"
+      }
+    ],
+    "weaknesses": [],
+    "blockers": [],
+    "quick_wins": [],
+    "priority_actions": [
+      {
+        "text": "Maintain the repository at its current quality level.",
+        "priority": "low"
+      }
+    ]
+  },
+  {
+    "repo_full_name": "user/portfolio-analytics-dashboard",
+    "executive_summary": "This repository is promising but still needs several improvements before it should be featured confidently. Final score: 74.95/100 (good). Primary language: Python. Detected issues: 0. Confidence: 1.00.",
+    "recruiter_signal": "Mixed recruiter signal. The project may have value, but the current delivery still creates doubt.",
+    "portfolio_decision": "KEEP_AND_IMPROVE",
+    "portfolio_rationale": "The repository has real value and should remain visible, but targeted improvements would make it significantly safer and stronger for portfolio use.",
+    "strengths": [
+      {
+        "text": "Repository uses a dedicated app/ directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "Repository exposes a top-level tests/ directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "README is present with approximately 210 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes installation or setup guidance.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes usage instructions.",
+        "priority": "high"
+      },
+      {
+        "text": "Automated tests detected (4 test file(s)).",
+        "priority": "high"
+      },
+      {
+        "text": "Testing framework(s) detected: pytest.",
+        "priority": "medium"
+      },
+      {
+        "text": "CI includes linting or static validation checks.",
+        "priority": "medium"
+      },
+      {
+        "text": ".gitignore is present.",
+        "priority": "low"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "Tests exist but do not appear to be enforced in CI.",
+        "priority": "medium"
+      },
+      {
+        "text": "No homepage or demo link was detected.",
+        "priority": "low"
+      }
+    ],
+    "blockers": [],
+    "quick_wins": [
+      {
+        "text": "Connect the existing tests to CI.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a homepage or demo link if the project has a runnable output.",
+        "priority": "low"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Run automated tests in CI.",
+        "priority": "high"
+      },
+      {
+        "text": "Expose a demo or homepage link when relevant.",
+        "priority": "low"
+      }
+    ]
+  },
+  {
+    "repo_full_name": "user/csv-helper-cli",
+    "executive_summary": "This repository has some useful signals, but it is not yet strong enough for confident portfolio presentation. Final score: 55.65/100 (fair). Primary language: Python. Detected issues: 0. Confidence: 0.85.",
+    "recruiter_signal": "Weak recruiter signal. The repository may reflect effort, but the presentation and engineering quality are not yet convincing.",
+    "portfolio_decision": "MERGE_OR_REPOSITION",
+    "portfolio_rationale": "The repository contains some useful elements, but its current delivery is not strong enough on its own. It may be better improved, repositioned, or merged with a related project.",
+    "strengths": [
+      {
+        "text": "Repository uses a dedicated src/ directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "README is present with approximately 95 words.",
+        "priority": "high"
+      },
+      {
+        "text": "README includes usage instructions.",
+        "priority": "high"
+      },
+      {
+        "text": "Automated tests detected (1 test file(s)).",
+        "priority": "high"
+      },
+      {
+        "text": "Testing framework(s) detected: pytest.",
+        "priority": "medium"
+      },
+      {
+        "text": ".gitignore is present.",
+        "priority": "low"
+      }
+    ],
+    "weaknesses": [
+      {
+        "text": "README exists but remains too short for strong portfolio communication.",
+        "priority": "high"
+      },
+      {
+        "text": "README does not clearly explain installation or setup.",
+        "priority": "medium"
+      },
+      {
+        "text": "Detected test baseline is still very small.",
+        "priority": "medium"
+      },
+      {
+        "text": "Tests exist but do not appear to be enforced in CI.",
+        "priority": "medium"
+      },
+      {
+        "text": "No CI workflow was detected.",
+        "priority": "medium"
+      },
+      {
+        "text": "Repository contains oversized files that reduce delivery quality.",
+        "priority": "low"
+      },
+      {
+        "text": "No homepage or demo link was detected.",
+        "priority": "low"
+      }
+    ],
+    "blockers": [],
+    "quick_wins": [
+      {
+        "text": "Add installation/setup commands to the README.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a basic GitHub Actions workflow for validation.",
+        "priority": "medium"
+      },
+      {
+        "text": "Connect the existing tests to CI.",
+        "priority": "medium"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Run automated tests in CI.",
+        "priority": "high"
+      },
+      {
+        "text": "Review large committed files and keep only necessary assets.",
+        "priority": "medium"
+      }
+    ]
+  },
+  {
+    "repo_full_name": "user/notes-dump",
+    "executive_summary": "This repository is currently too weak or too incomplete to support a strong portfolio signal. Final score: 0.00/100 (weak). Primary language: Python. Detected issues: 0. Confidence: 0.35.",
+    "recruiter_signal": "Poor recruiter signal. In its current state, the repository is more likely to weaken than strengthen a portfolio.",
+    "portfolio_decision": "MAKE_PRIVATE",
+    "portfolio_rationale": "The repository is currently more harmful than helpful for portfolio presentation and should generally be made private until it is substantially improved.",
+    "strengths": [],
+    "weaknesses": [
+      {
+        "text": "Repository does not include a README.",
+        "priority": "high"
+      },
+      {
+        "text": "Repository lacks a clearly identified main code directory.",
+        "priority": "medium"
+      },
+      {
+        "text": "No automated tests were detected.",
+        "priority": "high"
+      },
+      {
+        "text": "No CI workflow was detected.",
+        "priority": "medium"
+      },
+      {
+        "text": ".gitignore is missing.",
+        "priority": "medium"
+      },
+      {
+        "text": "Generated build or cache artifacts appear to be committed.",
+        "priority": "medium"
+      },
+      {
+        "text": "Repository contains oversized files that reduce delivery quality.",
+        "priority": "low"
+      },
+      {
+        "text": "No homepage or demo link was detected.",
+        "priority": "low"
+      }
+    ],
+    "blockers": [
+      {
+        "text": "Missing README is a major blocker for both delivery and portfolio visibility.",
+        "priority": "high"
+      },
+      {
+        "text": "Missing automated tests weakens engineering credibility significantly.",
+        "priority": "high"
+      },
+      {
+        "text": "Committed virtual environment is a strong negative signal and should be removed before showcasing the repo.",
+        "priority": "high"
+      },
+      {
+        "text": "Committed __pycache__ folders reduce professionalism and should be cleaned immediately.",
+        "priority": "high"
+      },
+      {
+        "text": "Overall repository quality is currently too low for safe portfolio presentation.",
+        "priority": "high"
+      }
+    ],
+    "quick_wins": [
+      {
+        "text": "Write a complete README with setup, usage, and project purpose.",
+        "priority": "high"
+      },
+      {
+        "text": "Add a proper .gitignore file.",
+        "priority": "high"
+      },
+      {
+        "text": "Remove Python cache artifacts from version control.",
+        "priority": "high"
+      },
+      {
+        "text": "Delete generated build/package artifacts from the repository.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add a basic GitHub Actions workflow for validation.",
+        "priority": "medium"
+      }
+    ],
+    "priority_actions": [
+      {
+        "text": "Write a complete README.",
+        "priority": "high"
+      },
+      {
+        "text": "Build a core automated test suite.",
+        "priority": "high"
+      },
+      {
+        "text": "Introduce a clearer source-code structure.",
+        "priority": "medium"
+      },
+      {
+        "text": "Add and apply a proper .gitignore.",
+        "priority": "high"
+      },
+      {
+        "text": "Remove committed virtual environment folders.",
+        "priority": "high"
+      },
+      {
+        "text": "Delete committed __pycache__ directories.",
+        "priority": "high"
+      },
+      {
+        "text": "Remove generated build/cache artifacts.",
+        "priority": "medium"
+      },
+      {
+        "text": "Review large committed files and keep only necessary assets.",
+        "priority": "medium"
+      }
+    ]
+  }
+]

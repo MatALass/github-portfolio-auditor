@@ -7,7 +7,6 @@ from typing import Any
 from portfolio_auditor.collectors.github.client import (
     GitHubApiError,
     GitHubClient,
-    GitHubNotFoundError,
     GitHubRateLimitError,
 )
 from portfolio_auditor.models.repo_metadata import (
@@ -145,41 +144,56 @@ class GitHubCollector:
             - "github_api": raw GitHub API repository payloads
             - "normalized_snapshot": cached normalized RepoMetadata payloads
         """
-        try:
-            authenticated_login = self.client.get_authenticated_login()
-            if authenticated_login and authenticated_login.lower() == owner.lower():
-                return self.client.list_authenticated_user_repos(), "github_api"
-            return self.client.list_user_repos(owner), "github_api"
-        except GitHubRateLimitError as error:
-            if self.has_raw_owner_snapshot(owner):
-                return self._load_raw_owner_snapshot_payload(owner), "normalized_snapshot"
-            raise GitHubRateLimitError(
-                self._build_rate_limit_message(owner=owner, original_error=error)
-            ) from error
-        except GitHubNotFoundError as user_error:
+        authenticated_login: str | None = None
+
+        get_authenticated_login = getattr(self.client, "get_authenticated_login", None)
+        if callable(get_authenticated_login):
             try:
-                return self.client.list_org_repos(owner), "github_api"
-            except GitHubRateLimitError as error:
-                if self.has_raw_owner_snapshot(owner):
-                    return self._load_raw_owner_snapshot_payload(owner), "normalized_snapshot"
-                raise GitHubRateLimitError(
-                    self._build_rate_limit_message(owner=owner, original_error=error)
-                ) from error
-            except GitHubNotFoundError as org_error:
-                raise GitHubApiError(
-                    f"Could not collect repositories for owner '{owner}'. "
-                    f"'{owner}' was not found as a GitHub user or organization. "
-                    f"User lookup failed: {user_error}. Org lookup failed: {org_error}."
-                ) from org_error
-            except GitHubApiError as org_error:
-                raise GitHubApiError(
-                    f"Could not collect repositories for owner '{owner}'. "
-                    f"User lookup failed: {user_error}. Org lookup failed: {org_error}."
-                ) from org_error
-        except GitHubApiError as user_error:
-            raise GitHubApiError(
-                f"Could not collect repositories for owner '{owner}'. {user_error}"
-            ) from user_error
+                authenticated_login = get_authenticated_login()
+            except Exception:
+                authenticated_login = None
+
+        include_private = bool(
+            authenticated_login and authenticated_login.lower() == owner.lower()
+        )
+
+        try:
+            list_owner_repositories = getattr(self.client, "list_owner_repositories", None)
+            if callable(list_owner_repositories):
+                payloads = list_owner_repositories(
+                    owner=owner,
+                    include_private=include_private,
+                )
+                return payloads, "github_api"
+
+            list_user_repositories = getattr(self.client, "list_user_repositories", None)
+            if callable(list_user_repositories):
+                payloads = list_user_repositories(
+                    username=owner,
+                    include_private=include_private,
+                )
+                return payloads, "github_api"
+
+            list_org_repositories = getattr(self.client, "list_org_repositories", None)
+            if callable(list_org_repositories):
+                payloads = list_org_repositories(owner)
+                return payloads, "github_api"
+
+            cached = self.load_raw_owner_snapshot(owner)
+            if cached:
+                return cached, "normalized_snapshot"
+
+            raise AttributeError(
+                "GitHub client does not expose a supported repository listing method "
+                "(expected one of: list_owner_repositories, list_user_repositories, "
+                "list_org_repositories), and no cached snapshot is available."
+            )
+
+        except GitHubRateLimitError:
+            cached = self.load_raw_owner_snapshot(owner)
+            if cached:
+                return cached, "normalized_snapshot"
+            raise
 
     def _load_raw_owner_snapshot_payload(self, owner: str) -> list[dict[str, Any]]:
         snapshot_path = self.get_raw_owner_snapshot_path(owner)

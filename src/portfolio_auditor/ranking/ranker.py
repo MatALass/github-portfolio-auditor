@@ -8,6 +8,8 @@ from portfolio_auditor.models.repo_metadata import RepoMetadata
 from portfolio_auditor.models.repo_review import RepoReview
 from portfolio_auditor.models.repo_score import RepoScore
 from portfolio_auditor.ranking.deduplication import RedundancyAnalysis, RedundancyDetector
+from portfolio_auditor.scoring.policy_loader import load_scoring_policy
+from portfolio_auditor.scoring.policy_models import ScoringPolicy
 
 
 @dataclass(slots=True, frozen=True)
@@ -113,7 +115,8 @@ class Ranker:
     near-duplicates.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, policy: ScoringPolicy | None = None, policy_version: str = "v1") -> None:
+        self.policy = policy or load_scoring_policy(policy_version)
         self.redundancy_detector = RedundancyDetector()
 
     def build_ranking(
@@ -149,9 +152,10 @@ class Ranker:
 
         ranked_rows.sort(
             key=lambda item: (
-                -item["ranking_value"],
-                -item["score"].global_score,
+                -item["decision_rank"],
+                -item["portfolio_rank_score"],
                 -item["score"].confidence,
+                item["review"].blockers.__len__(),
                 item["repo"].name.lower(),
             )
         )
@@ -203,48 +207,38 @@ class Ranker:
         review: RepoReview,
         redundancy_analysis: RedundancyAnalysis,
     ) -> dict:
-        decision_bonus = self._decision_bonus(review.portfolio_decision)
-        confidence_bonus = score.confidence * 2.0
-        blocker_penalty = min(6.0, len(review.blockers) * 1.25)
         redundancy_penalty = self._redundancy_penalty(
             redundancy_analysis.status_for(repo.full_name)
         )
-
-        ranking_value = (
-            score.global_score
-            + decision_bonus
-            + confidence_bonus
-            - blocker_penalty
-            - redundancy_penalty
-        )
+        portfolio_rank_score = score.global_score - redundancy_penalty
 
         return {
             "repo": repo,
             "score": score,
             "review": review,
-            "ranking_value": round(ranking_value, 4),
+            "decision_rank": self._decision_rank(review.portfolio_decision),
+            "portfolio_rank_score": round(portfolio_rank_score, 4),
         }
 
     @staticmethod
-    def _decision_bonus(decision: PortfolioDecision) -> float:
-        if decision == PortfolioDecision.FEATURE_NOW:
-            return 6.0
-        if decision == PortfolioDecision.KEEP_AND_IMPROVE:
-            return 2.5
-        if decision == PortfolioDecision.MERGE_OR_REPOSITION:
-            return -1.0
-        if decision == PortfolioDecision.ARCHIVE_PUBLIC:
-            return -4.0
-        if decision == PortfolioDecision.MAKE_PRIVATE:
-            return -8.0
-        return 0.0
+    def _decision_rank(decision: PortfolioDecision) -> int:
+        order = {
+            PortfolioDecision.FEATURE_NOW: 5,
+            PortfolioDecision.KEEP_AND_IMPROVE: 4,
+            PortfolioDecision.MERGE_OR_REPOSITION: 3,
+            PortfolioDecision.ARCHIVE_PUBLIC: 2,
+            PortfolioDecision.MAKE_PRIVATE: 1,
+        }
+        return order[decision]
 
-    @staticmethod
-    def _redundancy_penalty(status) -> float:
+    def _redundancy_penalty(self, status) -> float:
+        policy = self.policy.redundancy
+
         if status.redundancy_status == "OVERLAP_CANDIDATE":
             if status.strongest_overlap_score >= 0.72:
-                return 6.0
-            return 3.0
+                return policy.strong_overlap_penalty
+            return policy.medium_overlap_penalty
+
         return 0.0
 
     @staticmethod

@@ -33,18 +33,48 @@ dev = [
 portfolio-auditor = "portfolio_auditor.cli:app"
 
 [tool.setuptools]
-package-dir = {"" = "src"}
+package-dir = { "" = "src" }
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+portfolio_auditor = ["scoring/policies/*.yaml"]
+
 [tool.ruff]
 line-length = 100
 target-version = "py311"
+src = ["src", "tests"]
+extend-exclude = [
+  "data",
+  ".venv",
+  ".pytest_cache",
+  ".ruff_cache",
+  "build",
+  "dist",
+]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B"]
+ignore = ["E501"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
+addopts = "-ra --strict-config --strict-markers"
+xfail_strict = true
+
+[tool.coverage.run]
+branch = true
+source = ["portfolio_auditor"]
+
+[tool.coverage.report]
+fail_under = 45
+show_missing = true
+skip_covered = false
+precision = 2
+exclude_lines = [
+  "pragma: no cover",
+  "if __name__ == .__main__.:",
+  "raise NotImplementedError",
+]

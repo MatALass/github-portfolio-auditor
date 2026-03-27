@@ -1,6 +1,6 @@
 repo_name,repo_full_name,global_score,score_label,confidence,raw_score,total_penalties,architecture_structure,documentation_delivery,testing_reliability,technical_depth,portfolio_relevance,maintainability_cleanliness,penalty_count
 3D_HOP,MatALass/3D_HOP,22.05,weak,0.8,36.05,14.0,5.0,6.4,0.0,5.25,9.4,10.0,4
-Analyse-des-Avis-et-Alertes-ANSSI,MatALass/Analyse-des-Avis-et-Alertes-ANSSI,27.6,weak,0.75,39.6,12.0,3.0,13.4,0.0,6.0,12.6,4.6,3
+Analyse-des-Avis-et-Alertes-ANSSI,MatALass/Analyse-des-Avis-et-Alertes-ANSSI,28.6,weak,0.75,39.6,11.0,3.0,13.4,0.0,6.0,12.6,4.6,3
 Atelier_Alassoeur_Website,MatALass/Atelier_Alassoeur_Website,25.0,weak,0.75,36.0,11.0,3.0,10.0,0.0,6.0,12.0,5.0,3
 automata-toolkit,MatALass/automata-toolkit,91.25,excellent,1.0,91.25,0,20.0,14.6,14.25,15.0,17.4,10.0,0
 between-light,MatALass/between-light,32.35,weak,0.85,43.35,11.0,3.0,13.2,0.0,3.75,13.8,9.6,3
@@ -13,7 +13,6 @@ email-signature,MatALass/email-signature,35.15,weak,0.75,43.65,8.5,5.0,15.4,0.0,
 final_portfolio,MatALass/final_portfolio,45.4,fair,0.8,51.4,6.0,10.0,11.8,0.0,6.0,13.6,10.0,1
 footpredict-pl,MatALass/footpredict-pl,63.95,good,0.8,69.95,6.0,15.0,18.2,0.0,12.75,14.0,10.0,1
 GreenEscape,MatALass/GreenEscape,25.3,weak,0.8,39.3,14.0,3.0,10.8,0.0,4.5,11.8,9.2,4
-MatALass,MatALass/MatALass,18.15,weak,0.75,29.15,11.0,3.0,10.4,0.0,3.75,7.0,5.0,3
 merge-tactics-optimizer,MatALass/merge-tactics-optimizer,56.95,fair,0.8,62.95,6.0,12.0,17.2,0.0,9.75,14.0,10.0,1
 ML_Football,MatALass/ML_Football,28.1,weak,0.75,38.6,10.5,0.0,15.0,0.0,6.0,12.6,5.0,3
 morpion-ultime,MatALass/morpion-ultime,65.75,good,1.0,70.25,4.5,6.0,17.0,9.75,7.5,20.0,10.0,2

@@ -452,8 +452,6 @@
       "committed_build_artifacts": false,
       "committed_egg_info": false,
       "oversized_files": [
-        ".git\\objects\\d7\\522fe3058a9b3c2acec73254b9a27786044a37",
-        ".git\\objects\\ea\\98e3e4552b4f536694797e1cf4391f49ed88c3",
         ".git\\objects\\pack\\pack-afe98ce414ac3fc492fad84e9c3bb726b1c445c8.pack",
         "Analyse des Avis et Alertes ANSSI avec Enrichissement des CVE final.pptx",
         "Compressed Data.zip"
@@ -621,14 +619,14 @@
       {
         "scanner_name": "delivery_cleanliness",
         "passed": true,
-        "score_hint": 0.55,
+        "score_hint": 0.59,
         "findings_count": 2,
         "evidence": [
           {
             "source": "delivery_cleanliness",
-            "message": "Detected 5 file(s) larger than 5242880 bytes.",
+            "message": "Detected 3 file(s) larger than 5242880 bytes.",
             "path": null,
-            "value": 5
+            "value": 3
           }
         ],
         "issues": [
@@ -658,7 +656,7 @@
           "committed_pytest_cache": false,
           "committed_build_artifacts": false,
           "committed_egg_info": false,
-          "oversized_file_count": 5,
+          "oversized_file_count": 3,
           "suspicious_generated_file_count": 0
         }
       }
@@ -678,9 +676,9 @@
       },
       {
         "source": "delivery_cleanliness",
-        "message": "Detected 5 file(s) larger than 5242880 bytes.",
+        "message": "Detected 3 file(s) larger than 5242880 bytes.",
         "path": null,
-        "value": 5
+        "value": 3
       }
     ],
     "issues": [
@@ -4966,347 +4964,6 @@
         "scanner": "delivery_cleanliness",
         "path": null,
         "recommendation": "Delete __pycache__ directories and ignore them in .gitignore."
-      }
-    ],
-    "tags": []
-  },
-  {
-    "repo_name": "MatALass",
-    "repo_full_name": "MatALass/MatALass",
-    "local_path": "data\\raw\\clones\\MatALass__MatALass",
-    "structure": {
-      "has_src_dir": false,
-      "has_app_dir": false,
-      "has_tests_dir": false,
-      "has_docs_dir": false,
-      "has_data_dir": false,
-      "has_scripts_dir": false,
-      "root_file_count": 1,
-      "large_root_files": [],
-      "layout_type": "basic",
-      "notes": [
-        "Layout classified as basic."
-      ]
-    },
-    "documentation": {
-      "has_readme": true,
-      "readme_path": "README.md",
-      "readme_word_count": 287,
-      "has_installation_section": false,
-      "has_usage_section": false,
-      "has_architecture_section": true,
-      "has_results_section": false,
-      "has_roadmap_section": false,
-      "has_license_file": false,
-      "has_env_example": false,
-      "has_screenshots_or_assets": false,
-      "notes": [
-        "Architecture or structure guidance detected."
-      ]
-    },
-    "testing": {
-      "has_tests": false,
-      "test_file_count": 0,
-      "test_directories": [],
-      "detected_frameworks": [],
-      "has_pytest_config": false,
-      "has_jest_config": false,
-      "has_vitest_config": false,
-      "has_coverage_config": false,
-      "notes": []
-    },
-    "ci": {
-      "has_github_actions": false,
-      "workflow_count": 0,
-      "workflow_files": [],
-      "has_test_workflow": false,
-      "has_lint_workflow": false,
-      "has_build_workflow": false,
-      "notes": []
-    },
-    "cleanliness": {
-      "has_gitignore": false,
-      "committed_virtualenv": false,
-      "committed_pycache": false,
-      "committed_pytest_cache": false,
-      "committed_build_artifacts": false,
-      "committed_egg_info": false,
-      "oversized_files": [],
-      "suspicious_generated_files": [],
-      "notes": [
-        "No major Python build/cache artifacts detected."
-      ]
-    },
-    "scanner_summaries": [
-      {
-        "scanner_name": "structure",
-        "passed": true,
-        "score_hint": 0.35,
-        "findings_count": 2,
-        "evidence": [
-          {
-            "source": "structure",
-            "message": "Detected layout type: basic",
-            "path": null,
-            "value": "basic"
-          }
-        ],
-        "issues": [
-          {
-            "code": "MAIN_CODE_DIR_MISSING",
-            "title": "Dedicated main code directory missing",
-            "description": "The repository does not expose a clear main application directory such as src/ or app/.",
-            "severity": "medium",
-            "scanner": "structure",
-            "path": null,
-            "recommendation": "Introduce a dedicated source directory to improve structure clarity."
-          },
-          {
-            "code": "TESTS_DIR_MISSING",
-            "title": "Tests directory missing",
-            "description": "The repository does not include a top-level tests/ directory.",
-            "severity": "medium",
-            "scanner": "structure",
-            "path": null,
-            "recommendation": "Add a tests/ directory and start building a core test suite."
-          }
-        ],
-        "metrics": {
-          "has_src_dir": false,
-          "has_app_dir": false,
-          "has_tests_dir": false,
-          "has_docs_dir": false,
-          "has_data_dir": false,
-          "has_scripts_dir": false,
-          "root_file_count": 1,
-          "root_dir_count": 1,
-          "layout_type": "basic",
-          "large_root_file_count": 0
-        }
-      },
-      {
-        "scanner_name": "documentation",
-        "passed": true,
-        "score_hint": 0.55,
-        "findings_count": 3,
-        "evidence": [
-          {
-            "source": "documentation",
-            "message": "README detected with approximately 287 words.",
-            "path": "README.md",
-            "value": 287
-          }
-        ],
-        "issues": [
-          {
-            "code": "INSTALLATION_INSTRUCTIONS_MISSING",
-            "title": "Installation instructions missing",
-            "description": "The README does not clearly explain how to install or set up the project.",
-            "severity": "medium",
-            "scanner": "documentation",
-            "path": null,
-            "recommendation": "Add an installation or setup section with concrete commands."
-          },
-          {
-            "code": "USAGE_INSTRUCTIONS_MISSING",
-            "title": "Usage instructions missing",
-            "description": "The README does not clearly explain how to run or use the project.",
-            "severity": "medium",
-            "scanner": "documentation",
-            "path": null,
-            "recommendation": "Add a usage section with examples and expected outputs."
-          },
-          {
-            "code": "LICENSE_MISSING",
-            "title": "License file missing",
-            "description": "The repository does not include a license file.",
-            "severity": "low",
-            "scanner": "documentation",
-            "path": null,
-            "recommendation": "Add a LICENSE file if the repository is intended to be public and reusable."
-          }
-        ],
-        "metrics": {
-          "has_readme": true,
-          "readme_word_count": 287,
-          "has_installation_section": false,
-          "has_usage_section": false,
-          "has_architecture_section": true,
-          "has_results_section": false,
-          "has_roadmap_section": false,
-          "has_license_file": false,
-          "has_env_example": false,
-          "has_screenshots_or_assets": false
-        }
-      },
-      {
-        "scanner_name": "testing",
-        "passed": false,
-        "score_hint": 0.0,
-        "findings_count": 1,
-        "evidence": [],
-        "issues": [
-          {
-            "code": "NO_TESTS_DETECTED",
-            "title": "No tests detected",
-            "description": "The repository does not appear to contain an automated test suite.",
-            "severity": "high",
-            "scanner": "testing",
-            "path": null,
-            "recommendation": "Add a core automated test suite for the most important business logic."
-          }
-        ],
-        "metrics": {
-          "has_tests": false,
-          "test_directory_count": 0,
-          "test_file_count": 0,
-          "detected_framework_count": 0,
-          "has_pytest_config": false,
-          "has_jest_config": false,
-          "has_vitest_config": false,
-          "has_coverage_config": false
-        }
-      },
-      {
-        "scanner_name": "ci",
-        "passed": true,
-        "score_hint": 0.0,
-        "findings_count": 1,
-        "evidence": [],
-        "issues": [
-          {
-            "code": "CI_MISSING",
-            "title": "CI workflow missing",
-            "description": "No GitHub Actions workflows were detected.",
-            "severity": "medium",
-            "scanner": "ci",
-            "path": null,
-            "recommendation": "Add a CI workflow to run tests, linting, or build checks automatically."
-          }
-        ],
-        "metrics": {
-          "has_github_actions": false,
-          "workflow_count": 0,
-          "has_test_workflow": false,
-          "has_lint_workflow": false,
-          "has_build_workflow": false
-        }
-      },
-      {
-        "scanner_name": "delivery_cleanliness",
-        "passed": true,
-        "score_hint": 0.65,
-        "findings_count": 1,
-        "evidence": [],
-        "issues": [
-          {
-            "code": "GITIGNORE_MISSING",
-            "title": ".gitignore missing",
-            "description": "The repository does not contain a .gitignore file.",
-            "severity": "medium",
-            "scanner": "delivery_cleanliness",
-            "path": null,
-            "recommendation": "Add a proper .gitignore to avoid committing local or generated artifacts."
-          }
-        ],
-        "metrics": {
-          "has_gitignore": false,
-          "committed_virtualenv": false,
-          "committed_pycache": false,
-          "committed_pytest_cache": false,
-          "committed_build_artifacts": false,
-          "committed_egg_info": false,
-          "oversized_file_count": 0,
-          "suspicious_generated_file_count": 0
-        }
-      }
-    ],
-    "evidence": [
-      {
-        "source": "structure",
-        "message": "Detected layout type: basic",
-        "path": null,
-        "value": "basic"
-      },
-      {
-        "source": "documentation",
-        "message": "README detected with approximately 287 words.",
-        "path": "README.md",
-        "value": 287
-      }
-    ],
-    "issues": [
-      {
-        "code": "MAIN_CODE_DIR_MISSING",
-        "title": "Dedicated main code directory missing",
-        "description": "The repository does not expose a clear main application directory such as src/ or app/.",
-        "severity": "medium",
-        "scanner": "structure",
-        "path": null,
-        "recommendation": "Introduce a dedicated source directory to improve structure clarity."
-      },
-      {
-        "code": "TESTS_DIR_MISSING",
-        "title": "Tests directory missing",
-        "description": "The repository does not include a top-level tests/ directory.",
-        "severity": "medium",
-        "scanner": "structure",
-        "path": null,
-        "recommendation": "Add a tests/ directory and start building a core test suite."
-      },
-      {
-        "code": "INSTALLATION_INSTRUCTIONS_MISSING",
-        "title": "Installation instructions missing",
-        "description": "The README does not clearly explain how to install or set up the project.",
-        "severity": "medium",
-        "scanner": "documentation",
-        "path": null,
-        "recommendation": "Add an installation or setup section with concrete commands."
-      },
-      {
-        "code": "USAGE_INSTRUCTIONS_MISSING",
-        "title": "Usage instructions missing",
-        "description": "The README does not clearly explain how to run or use the project.",
-        "severity": "medium",
-        "scanner": "documentation",
-        "path": null,
-        "recommendation": "Add a usage section with examples and expected outputs."
-      },
-      {
-        "code": "LICENSE_MISSING",
-        "title": "License file missing",
-        "description": "The repository does not include a license file.",
-        "severity": "low",
-        "scanner": "documentation",
-        "path": null,
-        "recommendation": "Add a LICENSE file if the repository is intended to be public and reusable."
-      },
-      {
-        "code": "NO_TESTS_DETECTED",
-        "title": "No tests detected",
-        "description": "The repository does not appear to contain an automated test suite.",
-        "severity": "high",
-        "scanner": "testing",
-        "path": null,
-        "recommendation": "Add a core automated test suite for the most important business logic."
-      },
-      {
-        "code": "CI_MISSING",
-        "title": "CI workflow missing",
-        "description": "No GitHub Actions workflows were detected.",
-        "severity": "medium",
-        "scanner": "ci",
-        "path": null,
-        "recommendation": "Add a CI workflow to run tests, linting, or build checks automatically."
-      },
-      {
-        "code": "GITIGNORE_MISSING",
-        "title": ".gitignore missing",
-        "description": "The repository does not contain a .gitignore file.",
-        "severity": "medium",
-        "scanner": "delivery_cleanliness",
-        "path": null,
-        "recommendation": "Add a proper .gitignore to avoid committing local or generated artifacts."
       }
     ],
     "tags": []

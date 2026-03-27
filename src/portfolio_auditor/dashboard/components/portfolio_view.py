@@ -4,7 +4,6 @@ import streamlit as st
 
 from portfolio_auditor.dashboard.data_loader import DashboardData, _selection_repo_full_names
 
-
 SECTION_CONFIG = [
     ("Highlight now", ["featured_repos"], "This is the public shortlist that is ready to represent the portfolio."),
     (

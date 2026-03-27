@@ -105,7 +105,7 @@
   {
     "repo_name": "Analyse-des-Avis-et-Alertes-ANSSI",
     "repo_full_name": "MatALass/Analyse-des-Avis-et-Alertes-ANSSI",
-    "global_score": 27.6,
+    "global_score": 28.6,
     "breakdown": {
       "architecture_structure": 3.0,
       "documentation_delivery": 13.4,
@@ -118,7 +118,7 @@
       {
         "code": "OVERSIZED_FILES",
         "label": "Oversized files detected",
-        "points": 3.5,
+        "points": 2.5,
         "reason": "Large files can hurt repository clarity and delivery quality."
       },
       {
@@ -192,7 +192,7 @@
           "No committed virtual environment detected.",
           "No __pycache__ folders detected.",
           "No major build/cache artifacts detected.",
-          "Oversized files detected: 5."
+          "Oversized files detected: 3."
         ]
       }
     ],
@@ -1315,102 +1315,6 @@
       }
     ],
     "confidence": 0.8
-  },
-  {
-    "repo_name": "MatALass",
-    "repo_full_name": "MatALass/MatALass",
-    "global_score": 18.15,
-    "breakdown": {
-      "architecture_structure": 3.0,
-      "documentation_delivery": 10.4,
-      "testing_reliability": 0.0,
-      "technical_depth": 3.75,
-      "portfolio_relevance": 7.0,
-      "maintainability_cleanliness": 5.0
-    },
-    "penalties": [
-      {
-        "code": "USAGE_MISSING",
-        "label": "Usage instructions missing",
-        "points": 2.5,
-        "reason": "The project is harder to evaluate without clear run instructions."
-      },
-      {
-        "code": "NO_TESTS_DETECTED",
-        "label": "No tests detected",
-        "points": 6.0,
-        "reason": "The absence of tests weakens reliability and engineering credibility."
-      },
-      {
-        "code": "MAIN_CODE_DIR_MISSING",
-        "label": "Main code directory missing",
-        "points": 2.5,
-        "reason": "A missing dedicated code directory reduces structural clarity."
-      }
-    ],
-    "explanations": [
-      {
-        "category": "architecture_structure",
-        "summary": "Architecture & structure scored 3.00/20 based on layout clarity and folder organization.",
-        "supporting_points": [
-          "No dedicated main code directory detected.",
-          "Top-level tests/ directory missing.",
-          "Layout type classified as basic.",
-          "Repository root contains 1 file(s)."
-        ]
-      },
-      {
-        "category": "documentation_delivery",
-        "summary": "Documentation & delivery scored 10.40/20 based on README completeness and delivery assets.",
-        "supporting_points": [
-          "README detected with about 287 words.",
-          "Installation/setup guidance missing.",
-          "Usage instructions missing.",
-          "Architecture/structure section detected."
-        ]
-      },
-      {
-        "category": "testing_reliability",
-        "summary": "Testing & reliability scored 0.00/15 based on test presence, size, and CI validation.",
-        "supporting_points": [
-          "No tests detected.",
-          "No explicit testing framework clearly detected.",
-          "Coverage-related configuration not detected.",
-          "CI test workflow not detected."
-        ]
-      },
-      {
-        "category": "technical_depth",
-        "summary": "Technical depth scored 3.75/15 using a conservative heuristic based on project signals and structure.",
-        "supporting_points": [
-          "Primary language unclear.",
-          "Repository description missing.",
-          "Total detected issue count: 8.",
-          "Technical structure is partially documented."
-        ]
-      },
-      {
-        "category": "portfolio_relevance",
-        "summary": "Portfolio relevance scored 7.00/20 based on recruiter readability, visibility, and demonstration value.",
-        "supporting_points": [
-          "Project lacks a visible description.",
-          "No homepage/demo URL detected.",
-          "README does not clearly highlight results or demo value."
-        ]
-      },
-      {
-        "category": "maintainability_cleanliness",
-        "summary": "Maintainability & cleanliness scored 5.00/10 based on repository hygiene and committed artifacts.",
-        "supporting_points": [
-          ".gitignore missing.",
-          "No committed virtual environment detected.",
-          "No __pycache__ folders detected.",
-          "No major build/cache artifacts detected.",
-          "No oversized files detected."
-        ]
-      }
-    ],
-    "confidence": 0.75
   },
   {
     "repo_name": "merge-tactics-optimizer",

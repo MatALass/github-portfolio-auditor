@@ -1,0 +1,20 @@
+{
+  "featured_repos": [
+    "user/portfolio-analytics-platform"
+  ],
+  "keep_visible_but_improve": [
+    "user/portfolio-analytics-dashboard"
+  ],
+  "improvement_backlog": [
+    "user/portfolio-analytics-dashboard",
+    "user/csv-helper-cli"
+  ],
+  "archive_candidates": [],
+  "private_candidates": [
+    "user/notes-dump"
+  ],
+  "redundancy_candidates": [
+    "user/portfolio-analytics-dashboard"
+  ],
+  "manager_summary": "The portfolio contains a limited number of strong repositories and still needs targeted consolidation. Total repositories analyzed: 4. Featured now: 1. Keep visible but improve: 1. Improvement backlog: 2. Redundancy candidates: 1. Overlap clusters detected: 1. Archive candidates: 0. Private candidates: 1."
+}

@@ -4,6 +4,8 @@ from dataclasses import dataclass
 
 from portfolio_auditor.models.portfolio_decision import PortfolioDecision
 from portfolio_auditor.ranking.ranker import RankedRepo, RankingSummary
+from portfolio_auditor.scoring.policy_loader import load_scoring_policy
+from portfolio_auditor.scoring.policy_models import ScoringPolicy
 
 
 @dataclass(slots=True, frozen=True)
@@ -40,6 +42,9 @@ class PortfolioSelector:
     several repositories that tell essentially the same story.
     """
 
+    def __init__(self, policy: ScoringPolicy | None = None, policy_version: str = "v1") -> None:
+        self.policy = policy or load_scoring_policy(policy_version)
+
     def select(self, ranking: RankingSummary) -> PortfolioSelection:
         featured_repos = self._limit(
             [
@@ -48,7 +53,7 @@ class PortfolioSelector:
                 if repo.portfolio_decision == PortfolioDecision.FEATURE_NOW.value
                 and repo.redundancy_status != "OVERLAP_CANDIDATE"
             ],
-            8,
+            self.policy.selection.max_featured_repositories,
         )
 
         keep_visible_but_improve = self._limit(
@@ -57,7 +62,7 @@ class PortfolioSelector:
                 for repo in ranking.ranked_repos
                 if repo.portfolio_decision == PortfolioDecision.KEEP_AND_IMPROVE.value
             ],
-            12,
+            self.policy.selection.max_featured_repositories * 2,
         )
 
         improvement_backlog = self._build_improvement_backlog(ranking)
@@ -100,8 +105,7 @@ class PortfolioSelector:
     def _limit(items: list[RankedRepo], limit: int) -> list[RankedRepo]:
         return items[:limit]
 
-    @staticmethod
-    def _build_improvement_backlog(ranking: RankingSummary) -> list[RankedRepo]:
+    def _build_improvement_backlog(self, ranking: RankingSummary) -> list[RankedRepo]:
         candidates = [
             repo
             for repo in ranking.ranked_repos
@@ -122,10 +126,9 @@ class PortfolioSelector:
                 item.repo_name.lower(),
             )
         )
-        return candidates[:15]
+        return candidates[: self.policy.selection.max_featured_repositories * 2]
 
-    @staticmethod
-    def _build_redundancy_candidates(ranking: RankingSummary) -> list[RankedRepo]:
+    def _build_redundancy_candidates(self, ranking: RankingSummary) -> list[RankedRepo]:
         candidates = [
             repo for repo in ranking.ranked_repos if repo.redundancy_status == "OVERLAP_CANDIDATE"
         ]
@@ -136,7 +139,7 @@ class PortfolioSelector:
                 item.rank,
             )
         )
-        return candidates[:15]
+        return candidates[: self.policy.selection.max_featured_repositories * 2]
 
     @staticmethod
     def _build_manager_summary(

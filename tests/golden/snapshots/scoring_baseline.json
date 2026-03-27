@@ -1,0 +1,151 @@
+[
+  {
+    "repo_full_name": "user/portfolio-analytics-platform",
+    "global_score": 98.65,
+    "score_label": "excellent",
+    "confidence": 1.0,
+    "raw_score": 98.65,
+    "total_penalties": 0,
+    "breakdown": {
+      "architecture_structure": 20.0,
+      "documentation_delivery": 20.0,
+      "testing_reliability": 14.25,
+      "technical_depth": 15.0,
+      "portfolio_relevance": 19.4,
+      "maintainability_cleanliness": 10.0
+    },
+    "penalties": []
+  },
+  {
+    "repo_full_name": "user/portfolio-analytics-dashboard",
+    "global_score": 74.95,
+    "score_label": "good",
+    "confidence": 1.0,
+    "raw_score": 77.45,
+    "total_penalties": 2.5,
+    "breakdown": {
+      "architecture_structure": 14.0,
+      "documentation_delivery": 15.2,
+      "testing_reliability": 9.0,
+      "technical_depth": 14.25,
+      "portfolio_relevance": 15.0,
+      "maintainability_cleanliness": 10.0
+    },
+    "penalties": [
+      {
+        "code": "NO_TEST_CI",
+        "label": "No CI test workflow",
+        "points": 2.5,
+        "reason": "Tests exist but are not clearly enforced in CI."
+      }
+    ]
+  },
+  {
+    "repo_full_name": "user/csv-helper-cli",
+    "global_score": 55.65,
+    "score_label": "fair",
+    "confidence": 0.85,
+    "raw_score": 61.65,
+    "total_penalties": 6.0,
+    "breakdown": {
+      "architecture_structure": 10.0,
+      "documentation_delivery": 9.2,
+      "testing_reliability": 8.25,
+      "technical_depth": 12.0,
+      "portfolio_relevance": 12.6,
+      "maintainability_cleanliness": 9.6
+    },
+    "penalties": [
+      {
+        "code": "OVERSIZED_FILES",
+        "label": "Oversized files detected",
+        "points": 1.5,
+        "reason": "Large files can hurt repository clarity and delivery quality."
+      },
+      {
+        "code": "WEAK_TEST_BASELINE",
+        "label": "Weak test baseline",
+        "points": 2.0,
+        "reason": "A very small test suite provides limited confidence."
+      },
+      {
+        "code": "NO_TEST_CI",
+        "label": "No CI test workflow",
+        "points": 2.5,
+        "reason": "Tests exist but are not clearly enforced in CI."
+      }
+    ]
+  },
+  {
+    "repo_full_name": "user/notes-dump",
+    "global_score": 0.0,
+    "score_label": "weak",
+    "confidence": 0.35,
+    "raw_score": 12.9,
+    "total_penalties": 38.0,
+    "breakdown": {
+      "architecture_structure": 0.0,
+      "documentation_delivery": 0.0,
+      "testing_reliability": 0.0,
+      "technical_depth": 6.0,
+      "portfolio_relevance": 5.2,
+      "maintainability_cleanliness": 1.7
+    },
+    "penalties": [
+      {
+        "code": "VIRTUALENV_COMMITTED",
+        "label": "Virtual environment committed",
+        "points": 8.0,
+        "reason": "A committed local virtual environment is a strong negative delivery signal."
+      },
+      {
+        "code": "PYCACHE_COMMITTED",
+        "label": "__pycache__ committed",
+        "points": 3.0,
+        "reason": "Python cache folders should not be versioned."
+      },
+      {
+        "code": "BUILD_ARTIFACTS_COMMITTED",
+        "label": "Build artifacts committed",
+        "points": 3.0,
+        "reason": "Generated build or cache artifacts reduce repository cleanliness."
+      },
+      {
+        "code": "EGG_INFO_COMMITTED",
+        "label": ".egg-info committed",
+        "points": 1.5,
+        "reason": "Packaging metadata should usually be excluded from version control."
+      },
+      {
+        "code": "OVERSIZED_FILES",
+        "label": "Oversized files detected",
+        "points": 2.0,
+        "reason": "Large files can hurt repository clarity and delivery quality."
+      },
+      {
+        "code": "README_MISSING",
+        "label": "README missing",
+        "points": 10.0,
+        "reason": "A missing README is a major blocker for portfolio and delivery quality."
+      },
+      {
+        "code": "NO_TESTS_DETECTED",
+        "label": "No tests detected",
+        "points": 6.0,
+        "reason": "The absence of tests weakens reliability and engineering credibility."
+      },
+      {
+        "code": "MAIN_CODE_DIR_MISSING",
+        "label": "Main code directory missing",
+        "points": 2.5,
+        "reason": "A missing dedicated code directory reduces structural clarity."
+      },
+      {
+        "code": "ROOT_TOO_CROWDED",
+        "label": "Root overcrowded",
+        "points": 2.0,
+        "reason": "A crowded repository root suggests weak organization."
+      }
+    ]
+  }
+]

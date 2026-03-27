@@ -5,6 +5,8 @@ from portfolio_auditor.models.repo_metadata import RepoMetadata
 from portfolio_auditor.models.repo_review import RepoReview
 from portfolio_auditor.models.repo_scan import RepoScanResult
 from portfolio_auditor.models.repo_score import RepoScore
+from portfolio_auditor.scoring.policy_loader import load_scoring_policy
+from portfolio_auditor.scoring.policy_models import ScoringPolicy
 
 
 class DeterministicReviewer:
@@ -19,6 +21,9 @@ class DeterministicReviewer:
 
     This layer must remain explainable and evidence-based.
     """
+
+    def __init__(self, policy: ScoringPolicy | None = None, policy_version: str = "v1") -> None:
+        self.policy = policy or load_scoring_policy(policy_version)
 
     def review(
         self,
@@ -174,16 +179,28 @@ class DeterministicReviewer:
             review.add_weakness("Repository does not include a README.", priority="high")
 
         if scan.documentation.has_readme and scan.documentation.readme_word_count < 120:
-            review.add_weakness("README exists but remains too short for strong portfolio communication.", priority="high")
+            review.add_weakness(
+                "README exists but remains too short for strong portfolio communication.",
+                priority="high",
+            )
 
         if scan.documentation.has_readme and not scan.documentation.has_installation_section:
-            review.add_weakness("README does not clearly explain installation or setup.", priority="medium")
+            review.add_weakness(
+                "README does not clearly explain installation or setup.",
+                priority="medium",
+            )
 
         if scan.documentation.has_readme and not scan.documentation.has_usage_section:
-            review.add_weakness("README does not clearly explain how to run or use the project.", priority="high")
+            review.add_weakness(
+                "README does not clearly explain how to run or use the project.",
+                priority="high",
+            )
 
         if not scan.structure.has_src_dir and not scan.structure.has_app_dir:
-            review.add_weakness("Repository lacks a clearly identified main code directory.", priority="medium")
+            review.add_weakness(
+                "Repository lacks a clearly identified main code directory.",
+                priority="medium",
+            )
 
         if not scan.testing.has_tests:
             review.add_weakness("No automated tests were detected.", priority="high")
@@ -200,10 +217,16 @@ class DeterministicReviewer:
             review.add_weakness(".gitignore is missing.", priority="medium")
 
         if scan.cleanliness.committed_build_artifacts:
-            review.add_weakness("Generated build or cache artifacts appear to be committed.", priority="medium")
+            review.add_weakness(
+                "Generated build or cache artifacts appear to be committed.",
+                priority="medium",
+            )
 
         if scan.cleanliness.oversized_files:
-            review.add_weakness("Repository contains oversized files that reduce delivery quality.", priority="low")
+            review.add_weakness(
+                "Repository contains oversized files that reduce delivery quality.",
+                priority="low",
+            )
 
         if not repo.description:
             review.add_weakness("Repository description is missing or empty on GitHub.", priority="low")
@@ -242,7 +265,7 @@ class DeterministicReviewer:
                 priority="high",
             )
 
-        if score.global_score < 45:
+        if score.global_score < self.policy.review_thresholds.archive_or_hide_below:
             review.add_blocker(
                 "Overall repository quality is currently too low for safe portfolio presentation.",
                 priority="high",
@@ -256,7 +279,10 @@ class DeterministicReviewer:
         score: RepoScore,
     ) -> None:
         if not scan.documentation.has_readme:
-            review.add_quick_win("Write a complete README with setup, usage, and project purpose.", priority="high")
+            review.add_quick_win(
+                "Write a complete README with setup, usage, and project purpose.",
+                priority="high",
+            )
 
         if scan.documentation.has_readme and not scan.documentation.has_usage_section:
             review.add_quick_win("Add a usage section with concrete run examples.", priority="high")
@@ -271,7 +297,10 @@ class DeterministicReviewer:
             review.add_quick_win("Remove Python cache artifacts from version control.", priority="high")
 
         if scan.cleanliness.committed_build_artifacts or scan.cleanliness.committed_egg_info:
-            review.add_quick_win("Delete generated build/package artifacts from the repository.", priority="medium")
+            review.add_quick_win(
+                "Delete generated build/package artifacts from the repository.",
+                priority="medium",
+            )
 
         if not scan.ci.has_github_actions:
             review.add_quick_win("Add a basic GitHub Actions workflow for validation.", priority="medium")
@@ -283,7 +312,10 @@ class DeterministicReviewer:
             review.add_quick_win("Add a concise GitHub repository description.", priority="low")
 
         if not repo.links.homepage and scan.documentation.has_results_section:
-            review.add_quick_win("Add a homepage or demo link if the project has a runnable output.", priority="low")
+            review.add_quick_win(
+                "Add a homepage or demo link if the project has a runnable output.",
+                priority="low",
+            )
 
     def _populate_priority_actions(
         self,
@@ -330,7 +362,7 @@ class DeterministicReviewer:
         if not repo.links.homepage and scan.documentation.has_results_section:
             actions.append(("Expose a demo or homepage link when relevant.", "low"))
 
-        if score.global_score >= 85 and not actions:
+        if score.global_score >= self.policy.review_thresholds.feature_now_min_score and not actions:
             actions.append(("Maintain the repository at its current quality level.", "low"))
 
         seen: set[str] = set()
@@ -345,25 +377,31 @@ class DeterministicReviewer:
         scan: RepoScanResult,
         score: RepoScore,
     ) -> PortfolioDecision:
+        thresholds = self.policy.review_thresholds
+        global_score = score.global_score
+
         has_severe_delivery_problem = any(
             [
                 scan.cleanliness.committed_virtualenv,
                 not scan.documentation.has_readme,
-                score.global_score < 45,
+                global_score < thresholds.archive_or_hide_below,
             ]
         )
 
-        if score.global_score >= 85 and not review_has_major_blockers(scan):
+        if (
+            global_score >= thresholds.feature_now_min_score
+            and not review_has_major_blockers(scan)
+        ):
             return PortfolioDecision.FEATURE_NOW
 
-        if score.global_score >= 65 and not has_severe_delivery_problem:
+        if (
+            global_score >= thresholds.improve_then_feature_min_score
+            and not has_severe_delivery_problem
+        ):
             return PortfolioDecision.KEEP_AND_IMPROVE
 
-        if score.global_score >= 50:
+        if global_score >= thresholds.archive_or_hide_below:
             return PortfolioDecision.MERGE_OR_REPOSITION
-
-        if score.global_score >= 35:
-            return PortfolioDecision.ARCHIVE_PUBLIC
 
         return PortfolioDecision.MAKE_PRIVATE
 

@@ -6,7 +6,6 @@ from portfolio_auditor.models.repo_scan import RepoScanResult
 from portfolio_auditor.models.repo_score import RepoScore
 from portfolio_auditor.reviewing.deterministic_review import DeterministicReviewer
 
-
 reviewer = DeterministicReviewer()
 
 

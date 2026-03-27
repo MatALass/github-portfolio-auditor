@@ -43,26 +43,26 @@ def render_overview(data: DashboardData) -> None:
     with top[0]:
         st.markdown("## Portfolio decision overview")
         st.write(
-            "Use this page to decide what to showcase now, what to improve next, and what to remove from the public signal."
+            "Use this page to decide what to showcase now, what to improve next, and how the portfolio changed after the latest refresh."
         )
         st.info(metrics["manager_summary"])
     with top[1]:
         st.markdown("## Interpretation")
         _metric_card(
-            "Portfolio quality now",
+            "Visible portfolio quality",
             f"{metrics['portfolio_quality_score']:.2f}/100",
-            f"Visible public set average. Raw all-repository average remains {metrics['global_average_score']:.2f}/100.",
+            f"Public-facing quality. Raw all-repository average remains {metrics['global_average_score']:.2f}/100.",
         )
 
     row_one = st.columns(4, gap="medium")
     with row_one[0]:
-        _metric_card("Repositories analyzed", str(metrics["total_repositories"]), "Full inventory from ranking.json")
+        _metric_card("Repositories analyzed", str(metrics["total_repositories"]), "Current audited inventory")
     with row_one[1]:
         _metric_card("Raw portfolio median", f"{metrics['median_score']:.2f}/100", "Median across all repositories, including weak archives.")
     with row_one[2]:
         _metric_card("Highlight now", str(metrics["highlight_count"]), "Repositories already strong enough to feature directly.")
     with row_one[3]:
-        _metric_card("Redundancy clusters", str(metrics["redundancy_clusters"]), "Actual overlap clusters detected from redundancy_analysis.json")
+        _metric_card("Redundancy clusters", str(metrics["redundancy_clusters"]), "Overlap clusters detected from redundancy analysis")
 
     row_two = st.columns(4, gap="medium")
     with row_two[0]:
@@ -73,6 +73,57 @@ def render_overview(data: DashboardData) -> None:
         _metric_card("Discard candidates", str(metrics["discard_count"]), "Repos that should leave the public spotlight in current state.")
     with row_two[3]:
         _metric_card("Selected scope avg", f"{metrics['selected_scope_average']:.2f}/100", "Average across keep + improve scope.")
+
+    if data.comparison_summary and data.comparison_df is not None:
+        st.markdown("### Since previous refresh")
+        comp = data.comparison_summary
+        comparison_cols = st.columns(5, gap="medium")
+        comparison_cols[0].metric("Improved", comp["improved_count"])
+        comparison_cols[1].metric("Declined", comp["declined_count"])
+        comparison_cols[2].metric("New repos", comp["new_count"])
+        comparison_cols[3].metric("Removed repos", comp["removed_count"])
+        comparison_cols[4].metric(
+            "Selected scope delta",
+            f"{comp['current_selected_scope_avg']:.2f}/100",
+            delta=comp["selected_scope_delta"],
+        )
+        st.caption(
+            f"Comparison baseline: {comp.get('snapshot_created_at_utc') or comp['snapshot_label']}"
+        )
+
+        left, right = st.columns(2, gap="large")
+        with left:
+            st.markdown("#### Top improvements")
+            improved = pd.DataFrame(comp.get("top_improvements", []))
+            if not improved.empty:
+                st.dataframe(
+                    improved[["repo_name", "previous_score", "current_score", "score_delta", "previous_decision", "current_decision"]],
+                    use_container_width=True,
+                    hide_index=True,
+                    column_config={
+                        "previous_score": st.column_config.NumberColumn("prev", format="%.2f"),
+                        "current_score": st.column_config.NumberColumn("current", format="%.2f"),
+                        "score_delta": st.column_config.NumberColumn("delta", format="%.2f"),
+                    },
+                )
+            else:
+                st.info("No score improvements were detected against the previous refresh.")
+        with right:
+            st.markdown("#### Top declines")
+            declined = pd.DataFrame(comp.get("top_declines", []))
+            if not declined.empty:
+                st.dataframe(
+                    declined[["repo_name", "previous_score", "current_score", "score_delta", "previous_decision", "current_decision"]],
+                    use_container_width=True,
+                    hide_index=True,
+                    column_config={
+                        "previous_score": st.column_config.NumberColumn("prev", format="%.2f"),
+                        "current_score": st.column_config.NumberColumn("current", format="%.2f"),
+                        "score_delta": st.column_config.NumberColumn("delta", format="%.2f"),
+                    },
+                )
+            else:
+                st.success("No score declines were detected against the previous refresh.")
 
     st.markdown("### Score label distribution")
     left, right = st.columns([1.1, 0.9], gap="large")
@@ -90,10 +141,7 @@ def render_overview(data: DashboardData) -> None:
 
     st.markdown("### Portfolio improvement simulator")
     sim_cols = st.columns(4, gap="medium")
-    sim_cols[0].metric(
-        "Current visible quality",
-        f"{optimizer['current_quality']:.2f}/100",
-    )
+    sim_cols[0].metric("Current visible quality", f"{optimizer['current_quality']:.2f}/100")
     sim_cols[1].metric(
         "After top 1 action",
         f"{optimizer['quality_after_top_1']:.2f}/100",
@@ -114,31 +162,8 @@ def render_overview(data: DashboardData) -> None:
     )
 
     if optimizer["top_actions"]:
-        st.markdown("### Highest-impact action portfolio")
+        st.markdown("### Highest-impact actions")
         action_cols = st.columns(min(3, len(optimizer["top_actions"])), gap="medium")
-        for idx, action in enumerate(optimizer["top_actions"], start=1):
-            with action_cols[idx - 1]:
-                _action_card(idx, action)
-
-    st.markdown("### Highest priority repository moves")
-    table = df[
-        [
-            "rank",
-            "repo_name",
-            "global_score",
-            "decision_label",
-            "action_priority",
-            "estimated_recoverable_points",
-            "next_action",
-        ]
-    ].sort_values(["action_priority", "estimated_recoverable_points"], ascending=[False, False]).head(10)
-    st.dataframe(
-        table,
-        use_container_width=True,
-        hide_index=True,
-        column_config={
-            "global_score": st.column_config.NumberColumn("score", format="%.2f"),
-            "action_priority": st.column_config.NumberColumn("priority", format="%.2f"),
-            "estimated_recoverable_points": st.column_config.NumberColumn("upside", format="%.2f"),
-        },
-    )
+        for index, (column, action) in enumerate(zip(action_cols, optimizer["top_actions"], strict=False), start=1):
+            with column:
+                _action_card(index, action)

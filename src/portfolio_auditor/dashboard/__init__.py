@@ -1,1 +1,1 @@
-"""Streamlit dashboard package for the GitHub portfolio auditor."""
+"""Streamlit dashboard package for the portfolio auditor."""

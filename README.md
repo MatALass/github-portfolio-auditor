@@ -1,227 +1,205 @@
 # GitHub Portfolio Auditor
 
-A deterministic-first repository auditing system that analyzes GitHub repositories for portfolio quality, technical maturity, delivery cleanliness, and hiring relevance.
+A deterministic, policy-driven system to audit, score, and optimize a GitHub portfolio.
 
-## Objectives
+---
 
-This project helps you:
+## 1. Context
 
-- collect metadata from GitHub repositories
-- clone repositories locally for deep inspection
-- scan structure, documentation, testing, CI, packaging, and delivery hygiene
-- compute explainable portfolio scores
-- generate deterministic reviews and optional LLM-based qualitative summaries
-- rank repositories to decide which ones to feature, improve, merge, archive, or make private
-- export data to JSON / CSV
-- visualize results in a Streamlit dashboard
+When reviewing GitHub profiles, one recurring issue appears: there is no objective, structured way to evaluate the quality of a portfolio.
 
-## Product philosophy
+Most repositories:
+- vary widely in quality
+- lack clear positioning
+- overlap in purpose
+- fail to communicate technical depth
 
-The system is intentionally built around these principles:
+As a result, even strong candidates often present portfolios that underperform.
 
-1. **Deterministic first**
-   - scores should come from explicit rules, not subjective prompts
+This project was built to solve that problem with a deterministic and explainable approach.
 
-2. **Evidence based**
-   - every issue, penalty, and recommendation should be traceable to observable facts
+---
 
-3. **LLM last**
-   - language models are optional and only used after structured audit results exist
+## 2. What this project does
 
-4. **Portfolio oriented**
-   - the final output is not just “code quality”; it is “portfolio decision quality”
+GitHub Portfolio Auditor is a system that:
 
-## Current state
+1. Collects repositories from GitHub
+2. Scans each repository (structure, documentation, testing, CI, signals)
+3. Scores them using a configurable policy
+4. Generates deterministic reviews (no LLM dependency)
+5. Ranks repositories for portfolio visibility
+6. Recommends which repositories to:
+   - feature
+   - improve
+   - merge
+   - archive
+   - make private
+7. Provides a dashboard to explore and optimize decisions
 
-This repository is a **V2 production scaffold**:
-- project structure is complete
-- core domain models are implemented
-- a working CLI is provided
-- key scanners and a scoring engine are included
-- export and dashboard paths are ready
-- several modules are intentionally lightweight and designed for iterative extension
+---
 
-This is the correct base to continue implementation in a robust way.
+## 3. Example workflow
 
-## Architecture overview
+1. Run an audit on a GitHub account
+2. Get a scored and ranked list of repositories
+3. Identify weak or redundant projects
+4. Apply prioritized improvements
+5. Re-run the audit and measure impact
 
-```text
-collect -> fetch -> scan -> score -> review -> rank -> export -> dashboard
-```
+---
 
-### Main modules
+## 4. Screenshots (to add)
 
-- `collectors/github/`: GitHub API collection
-- `fetchers/`: local clone / repo cache management
-- `scanners/`: repository inspection
-- `scoring/`: explainable scoring engine
-- `reviewing/`: deterministic and optional LLM review
-- `ranking/`: prioritization and portfolio decisions
-- `exports/`: JSON / CSV / site exports
-- `dashboard/`: Streamlit visualization
+### Portfolio overview
+![Overview](assets/screenshots/overview.png)
 
-## Quick start
+### Repository ranking and filtering
+![Repository Table](assets/screenshots/repository_table.png)
 
-### 1. Create environment
+### Portfolio decision engine
+![Portfolio Selection](assets/screenshots/portfolio_selection.png)
+
+### Optimization engine (ROI-based actions)
+![Optimizer](assets/screenshots/optimizer_focus.png)
+
+---
+
+## 5. Architecture
+
+The system is structured as follows:
+
+src/
+  portfolio_auditor/
+    collectors/        GitHub API
+    scanners/          repository analysis
+    scoring/           policy-driven scoring
+    reviewing/         deterministic review
+    ranking/           ranking and selection
+    dashboard/         Streamlit UI
+    models/            domain models
+
+tests/
+  unit/
+  integration/
+  golden/             snapshot tests
+  smoke/
+
+docs/
+  scoring_methodology.md
+  portfolio_decision_rules.md
+
+---
+
+## 6. Key design principles
+
+Deterministic first  
+All outputs are reproducible and explainable.
+
+Policy-driven  
+Scoring rules are externalized in YAML.
+
+Separation of concerns  
+Scanning, scoring, reviewing and ranking are distinct layers.
+
+Portfolio-oriented  
+This is not a generic repo scorer, but a portfolio optimization tool.
+
+---
+
+## 7. Installation
 
 ```bash
+git clone https://github.com/<your-username>/github-portfolio-auditor.git
+cd github-portfolio-auditor
+
 python -m venv .venv
+.venv\Scripts\activate
+
+pip install -e .[dev]
 ```
 
-Windows PowerShell:
+---
 
-```powershell
-.\.venv\Scripts\Activate.ps1
+## 8. Configuration
+
+Create a .env file:
+
+```
+GITHUB_TOKEN=your_token_here
 ```
 
-macOS / Linux:
+---
+
+## 9. Usage
+
+Run audit:
 
 ```bash
-source .venv/bin/activate
+portfolio-auditor --owner <username>
 ```
 
-### 2. Install the project
+Run dashboard:
 
 ```bash
-python -m pip install --upgrade pip
-python -m pip install -e .[dev]
+set PYTHONPATH=src;.
+streamlit run src/portfolio_auditor/dashboard/app.py
 ```
 
-### 3. Configure environment
+---
 
-Copy `.env.example` to `.env` and set:
-
-```env
-GITHUB_TOKEN=your_github_token
-GITHUB_OWNER=MatALass
-OPENAI_API_KEY=
-```
-
-`OPENAI_API_KEY` is optional. The project works without it.
-
-### 4. Run a metadata collection
+## 10. Tests
 
 ```bash
-portfolio-auditor collect --owner MatALass
+pytest -q
+pytest tests/golden -q
+pytest tests/smoke -q
 ```
 
-### 5. Clone repositories locally
+---
+
+## 11. Code quality
 
 ```bash
-portfolio-auditor fetch --owner MatALass
+ruff check .
 ```
 
-### 6. Scan local repositories
+---
 
-```bash
-portfolio-auditor scan --owner MatALass
-```
+## 12. Impact
 
-### 7. Score repositories
+This project enables:
 
-```bash
-portfolio-auditor score
-```
+- objective evaluation of a GitHub portfolio
+- structured prioritization of improvements
+- reduction of redundancy between projects
+- stronger technical signaling
+- measurable portfolio progression
 
-### 8. Generate deterministic reviews
+It transforms a portfolio from a collection of repositories into a curated, intentional system.
 
-```bash
-portfolio-auditor review
-```
+---
 
-### 9. Rank repositories
+## 13. Limitations
 
-```bash
-portfolio-auditor rank
-```
+- heuristic-based scoring
+- no empirical calibration yet
+- redundancy detection is approximate
+- dashboard depends on generated artifacts
 
-### 10. Export outputs
+---
 
-```bash
-portfolio-auditor export --format json --format csv
-```
+## 14. Roadmap
 
-### 11. Run dashboard
+- improve test coverage
+- refactor large modules
+- strengthen dashboard architecture
+- introduce empirical calibration
+- improve redundancy detection
 
-```bash
-streamlit run dashboard/app.py
-```
+---
 
-## Expected outputs
+## 15. Author
 
-```text
-data/
-├── raw/
-│   ├── github/
-│   │   └── repos_raw.json
-│   └── clones/
-├── interim/
-│   ├── scans/
-│   ├── scores/
-│   └── reviews/
-└── processed/
-    ├── repos_master_table.csv
-    ├── repos_site_data.json
-    ├── portfolio_shortlist.json
-    └── ranking.json
-```
-
-## Scoring model
-
-The default score is out of 100:
-
-- Architecture & Structure: 20
-- Documentation & Delivery: 20
-- Testing & Reliability: 15
-- Technical Depth: 15
-- Portfolio Relevance & Storytelling: 20
-- Maintainability & Cleanliness: 10
-
-## Portfolio decisions
-
-The engine classifies repositories into:
-
-- `FEATURE_NOW`
-- `KEEP_AND_IMPROVE`
-- `MERGE_OR_REPOSITION`
-- `ARCHIVE_PUBLIC`
-- `MAKE_PRIVATE`
-
-## Example workflow
-
-```bash
-portfolio-auditor full-run --owner MatALass --skip-llm
-```
-
-## Roadmap
-
-### High priority
-- extend scanner coverage for frontend / data / notebook / security signals
-- enrich GitHub collector with README and workflow metadata
-- add duplicate-detection heuristics based on repo purpose and structure
-- add SQLite export for richer querying
-- add optional OpenAI review summarization
-
-### Medium priority
-- add historical snapshots
-- compare score evolution over time
-- add “top actions per repo” planning mode
-- support organizations in addition to user scope
-- add site API layer for Next.js front-end
-
-### Longer term
-- deploy a public dashboard
-- add recruiter-view and engineering-view modes
-- add portfolio curation workflows
-
-## Recommended delivery standards
-
-This project is intended to be maintained as a serious software/data engineering repository:
-- keep generated artifacts out of version control
-- keep scoring rules explicit and documented
-- prefer typed, modular, testable code
-- version outputs and methodology separately
-
-## License
-
-MIT
+Mathieu  
+Data / BI / Analytics Engineering
