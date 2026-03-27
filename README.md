@@ -49,7 +49,7 @@ GitHub Portfolio Auditor is a system that:
 
 ---
 
-## 4. Screenshots (to add)
+## 4. Screenshots
 
 ### Portfolio overview
 ![Overview](assets/screenshots/overview.png)
