@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 from datetime import datetime, timezone
 
-import requests
+
 import streamlit as st
 
 from portfolio_auditor.dashboard.components.optimizer_view import render_optimizer_view
@@ -18,6 +18,11 @@ from portfolio_auditor.dashboard.data_loader import (
     load_dashboard_data,
 )
 from portfolio_auditor.dashboard.live_audit import ensure_streamlit_secrets_in_env, run_live_audit
+from portfolio_auditor.dashboard.repo_sync import (
+    RepoSyncResult,
+    fetch_live_repo_sync_result,
+    should_refresh_audit,
+)
 from portfolio_auditor.settings import get_settings, reset_settings_cache
 
 
@@ -145,39 +150,63 @@ def _render_staleness_indicator(base_dir_mtime: float | None) -> None:
         st.warning("Artifacts are more than 24 h old. Run a fresh audit to pick up new repositories.", icon="⚠️")
 
 
-def _fetch_github_repo_names(owner: str) -> set[str]:
-    """
-    Lightweight GitHub fetch: only repository names.
-    """
-    token = os.getenv("GITHUB_TOKEN")
-    headers = {"Accept": "application/vnd.github+json"}
 
-    if token:
-        headers["Authorization"] = f"Bearer {token}"
-        url = "https://api.github.com/user/repos"
-        params = {"per_page": 100, "visibility": "all"}
+
+def _format_relative_timestamp(moment: datetime | None) -> str:
+    if moment is None:
+        return "unknown"
+
+    now = datetime.now(timezone.utc)
+    delta_seconds = max(0, int((now - moment).total_seconds()))
+    if delta_seconds < 60:
+        return "< 1 minute ago"
+    if delta_seconds < 3600:
+        return f"{delta_seconds // 60}m ago"
+    if delta_seconds < 86400:
+        return f"{delta_seconds // 3600}h ago"
+    return f"{delta_seconds // 86400}d ago"
+
+
+def _render_repo_sync_status(sync_result: RepoSyncResult) -> None:
+    decision = should_refresh_audit(sync_result)
+    delta = sync_result.delta
+
+    st.markdown("### GitHub sync status")
+    st.caption(
+        f"Checked {_format_relative_timestamp(delta.checked_at)} · Source: {sync_result.source.replace('_', ' ')}"
+    )
+
+    col1, col2 = st.columns(2)
+    col1.metric("Live repos", delta.live_repo_count)
+    col2.metric("Cached repos", delta.cached_repo_count)
+
+    if sync_result.warning:
+        st.info(sync_result.warning)
+
+    if decision.should_refresh:
+        st.warning(decision.reason, icon="⚠️")
     else:
-        url = f"https://api.github.com/users/{owner}/repos"
-        params = {"per_page": 100}
+        st.success(decision.reason)
 
-    repo_names = set()
-    page = 1
+    if delta.latest_live_push_at or delta.latest_cached_push_at:
+        st.caption(
+            "Latest live push: "
+            f"{_format_relative_timestamp(delta.latest_live_push_at)} · "
+            "Latest cached push: "
+            f"{_format_relative_timestamp(delta.latest_cached_push_at)}"
+        )
 
-    while True:
-        params["page"] = page
-        resp = requests.get(url, headers=headers, params=params)
-
-        if resp.status_code != 200:
-            break
-
-        data = resp.json()
-        if not data:
-            break
-
-        repo_names.update(repo["name"] for repo in data)
-        page += 1
-
-    return repo_names
+    sections = [
+        ("New repositories", delta.new_repos),
+        ("Removed repositories", delta.removed_repos),
+        ("Changed repositories", delta.changed_repos),
+    ]
+    for title, repo_names in sections:
+        if not repo_names:
+            continue
+        with st.expander(f"{title} ({len(repo_names)})"):
+            for repo_name in repo_names:
+                st.write(f"- {repo_name}")
 
 
 def main() -> None:
@@ -236,15 +265,6 @@ def main() -> None:
 
     try:
         data = load_dashboard_data(owner)
-        # --- Detect new repositories (lightweight GitHub sync)
-        try:
-            live_repo_names = _fetch_github_repo_names(owner)
-            cached_repo_names = set(data.repo_df["repo_name"].tolist())
-
-            new_repos = live_repo_names - cached_repo_names
-
-        except Exception:
-            new_repos = set()
     except DashboardDataError as exc:
         st.error(str(exc))
         st.info(
@@ -253,29 +273,38 @@ def main() -> None:
         )
         st.stop()
 
+    try:
+        sync_result = fetch_live_repo_sync_result(owner, get_settings())
+    except Exception as exc:
+        sync_result = None
+        sync_error = str(exc)
+    else:
+        sync_error = None
+
     # Staleness indicator — use mtime of ranking.json as the audit timestamp proxy.
     ranking_path = data.base_dir / "ranking.json"
     mtime = ranking_path.stat().st_mtime if ranking_path.exists() else None
     with st.sidebar:
         _render_staleness_indicator(mtime)
-        if new_repos:
-            st.markdown("---")
-            st.warning(
-                f"{len(new_repos)} new repositories detected on GitHub.",
-                icon="🆕",
-            )
-
-            with st.expander("Show new repositories"):
-                for repo in sorted(new_repos):
-                    st.write(f"- {repo}")
-
-            if st.button("Refresh audit to include new repositories"):
-                with st.spinner("Running audit for new repositories..."):
+        st.markdown("---")
+        if sync_result is not None:
+            _render_repo_sync_status(sync_result)
+            if should_refresh_audit(sync_result).should_refresh and st.button(
+                "Refresh audit to sync GitHub changes",
+                use_container_width=True,
+            ):
+                with st.spinner(
+                    "Refreshing portfolio artifacts to include the latest GitHub changes."
+                ):
                     result = run_live_audit(owner, refresh_clones=refresh_clones)
                 st.success(
-                    f"Audit updated. {result.analyzed_repo_count} repositories analyzed."
+                    f"Audit finished. {result.analyzed_repo_count} repositories analyzed "
+                    f"for {result.owner}."
                 )
                 st.rerun()
+        elif sync_error:
+            st.info(f"GitHub sync check unavailable: {sync_error}")
+
     repo_options = data.repo_df["repo_name"].tolist()
     with st.sidebar:
         selected_repo = st.selectbox("Repository detail", options=repo_options)
