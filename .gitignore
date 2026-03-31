@@ -32,10 +32,13 @@ htmlcov/
 # Environment files
 .env
 
-# Data outputs
-# Keep processed artifacts tracked because the dashboard depends on them.
-data/raw/clones/
+# Data outputs — none of these should be committed.
+# Processed artifacts are generated at runtime by `portfolio-auditor run`.
+# On Streamlit Cloud they are regenerated on every fresh audit.
+# Committing them causes stale data and hides the new-repo detection bug.
+data/raw/
 data/interim/
+data/processed/
 data/processed_history/
 
 # OS

@@ -137,6 +137,15 @@ class GitHubCollector:
 
     def _list_owner_repos(self, owner: str) -> tuple[list[dict[str, Any]], str]:
         """
+        Fetch the repository list for an owner from the GitHub API.
+
+        Strategy:
+        - If a GitHub token is present and matches the owner login, use the
+          authenticated /user/repos endpoint so private repos are included.
+        - Otherwise, probe for an organisation first; fall back to a public
+          user listing on 404.
+        - On rate-limit, fall back to the on-disk normalized snapshot.
+
         Returns:
             (payloads, payload_kind)
 
@@ -145,54 +154,35 @@ class GitHubCollector:
             - "normalized_snapshot": cached normalized RepoMetadata payloads
         """
         authenticated_login: str | None = None
-
-        get_authenticated_login = getattr(self.client, "get_authenticated_login", None)
-        if callable(get_authenticated_login):
-            try:
-                authenticated_login = get_authenticated_login()
-            except Exception:
-                authenticated_login = None
+        try:
+            authenticated_login = self.client.get_authenticated_login()
+        except Exception:
+            pass
 
         include_private = bool(
             authenticated_login and authenticated_login.lower() == owner.lower()
         )
 
         try:
-            list_owner_repositories = getattr(self.client, "list_owner_repositories", None)
-            if callable(list_owner_repositories):
-                payloads = list_owner_repositories(
-                    owner=owner,
-                    include_private=include_private,
-                )
-                return payloads, "github_api"
+            if include_private:
+                # Authenticated owner — /user/repos returns private repos too.
+                payloads = self.client.list_authenticated_user_repos()
+            else:
+                # Unknown owner: try org first, fall back to public user listing.
+                try:
+                    self.client.get_org(owner)
+                    payloads = self.client.list_org_repos(owner)
+                except GitHubApiError:
+                    payloads = self.client.list_user_repos(owner)
 
-            list_user_repositories = getattr(self.client, "list_user_repositories", None)
-            if callable(list_user_repositories):
-                payloads = list_user_repositories(
-                    username=owner,
-                    include_private=include_private,
-                )
-                return payloads, "github_api"
-
-            list_org_repositories = getattr(self.client, "list_org_repositories", None)
-            if callable(list_org_repositories):
-                payloads = list_org_repositories(owner)
-                return payloads, "github_api"
-
-            cached = self.load_raw_owner_snapshot(owner)
-            if cached:
-                return cached, "normalized_snapshot"
-
-            raise AttributeError(
-                "GitHub client does not expose a supported repository listing method "
-                "(expected one of: list_owner_repositories, list_user_repositories, "
-                "list_org_repositories), and no cached snapshot is available."
-            )
+            return payloads, "github_api"
 
         except GitHubRateLimitError:
-            cached = self.load_raw_owner_snapshot(owner)
-            if cached:
-                return cached, "normalized_snapshot"
+            snapshot_path = self.get_raw_owner_snapshot_path(owner)
+            if snapshot_path.exists():
+                cached_payload = json.loads(snapshot_path.read_text(encoding="utf-8"))
+                if isinstance(cached_payload, list):
+                    return cached_payload, "normalized_snapshot"
             raise
 
     def _load_raw_owner_snapshot_payload(self, owner: str) -> list[dict[str, Any]]:

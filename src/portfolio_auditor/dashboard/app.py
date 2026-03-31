@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+from datetime import datetime, timezone
 
 import streamlit as st
 
@@ -90,6 +91,59 @@ def _configure_runtime_environment() -> None:
     get_settings()
 
 
+def _resolve_default_owner() -> str | None:
+    """
+    Return the default owner from (in priority order):
+    1. GITHUB_OWNER secret in Streamlit secrets
+    2. GITHUB_OWNER environment variable
+    3. settings.github_owner
+    """
+    try:
+        secret_owner = st.secrets.get("GITHUB_OWNER")  # type: ignore[arg-type]
+        if secret_owner and str(secret_owner).strip():
+            return str(secret_owner).strip()
+    except Exception:
+        pass
+
+    env_owner = os.getenv("GITHUB_OWNER", "").strip()
+    if env_owner:
+        return env_owner
+
+    settings = get_settings()
+    if settings.github_owner and settings.github_owner.strip():
+        return settings.github_owner.strip()
+
+    return None
+
+
+def _render_staleness_indicator(base_dir_mtime: float | None) -> None:
+    """
+    Show a warning in the sidebar when cached artifacts are older than 24 h.
+    """
+    if base_dir_mtime is None:
+        return
+
+    age_seconds = (datetime.now(timezone.utc).timestamp() - base_dir_mtime)
+    age_hours = age_seconds / 3600
+
+    if age_hours < 1:
+        age_label = "< 1 hour ago"
+        color = "green"
+    elif age_hours < 24:
+        age_label = f"{int(age_hours)}h ago"
+        color = "orange"
+    else:
+        age_label = f"{int(age_hours // 24)}d {int(age_hours % 24)}h ago"
+        color = "red"
+
+    st.markdown(
+        f"<small>Last audit: <span style='color:{color};font-weight:600'>{age_label}</span></small>",
+        unsafe_allow_html=True,
+    )
+    if age_hours >= 24:
+        st.warning("Artifacts are more than 24 h old. Run a fresh audit to pick up new repositories.", icon="⚠️")
+
+
 def main() -> None:
     st.set_page_config(
         page_title="GitHub Portfolio Auditor Dashboard",
@@ -107,11 +161,25 @@ def main() -> None:
     )
 
     owners = discover_owners()
-    owner_options = owners if owners else ["MatALass"]
+    default_owner = _resolve_default_owner()
+
+    # Build owner options: always include the resolved default so the sidebar
+    # is not empty on a fresh Streamlit Cloud deploy (no processed/ on disk yet).
+    if owners:
+        owner_options = owners
+        if default_owner and default_owner not in owner_options:
+            owner_options = [default_owner] + owner_options
+    else:
+        owner_options = [default_owner] if default_owner else ["MatALass"]
+
+    # Pre-select the default owner when possible.
+    default_index = 0
+    if default_owner and default_owner in owner_options:
+        default_index = owner_options.index(default_owner)
 
     with st.sidebar:
         st.header("Configuration")
-        owner = st.selectbox("Owner", options=owner_options)
+        owner = st.selectbox("Owner", options=owner_options, index=default_index)
         refresh_clones = st.toggle("Refresh local clones during audit", value=True)
         st.caption(
             "Use refresh when repositories changed recently or when you want the latest "
@@ -139,6 +207,12 @@ def main() -> None:
             "required by the dashboard."
         )
         st.stop()
+
+    # Staleness indicator — use mtime of ranking.json as the audit timestamp proxy.
+    ranking_path = data.base_dir / "ranking.json"
+    mtime = ranking_path.stat().st_mtime if ranking_path.exists() else None
+    with st.sidebar:
+        _render_staleness_indicator(mtime)
 
     repo_options = data.repo_df["repo_name"].tolist()
     with st.sidebar:
