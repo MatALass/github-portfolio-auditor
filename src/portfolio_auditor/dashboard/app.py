@@ -3,7 +3,6 @@ from __future__ import annotations
 import os
 from datetime import datetime, timezone
 
-
 import streamlit as st
 
 from portfolio_auditor.dashboard.components.optimizer_view import render_optimizer_view
@@ -129,7 +128,7 @@ def _render_staleness_indicator(base_dir_mtime: float | None) -> None:
     if base_dir_mtime is None:
         return
 
-    age_seconds = (datetime.now(timezone.utc).timestamp() - base_dir_mtime)
+    age_seconds = datetime.now(timezone.utc).timestamp() - base_dir_mtime
     age_hours = age_seconds / 3600
 
     if age_hours < 1:
@@ -147,9 +146,10 @@ def _render_staleness_indicator(base_dir_mtime: float | None) -> None:
         unsafe_allow_html=True,
     )
     if age_hours >= 24:
-        st.warning("Artifacts are more than 24 h old. Run a fresh audit to pick up new repositories.", icon="⚠️")
-
-
+        st.warning(
+            "Artifacts are more than 24 h old. Run a fresh audit to pick up new repositories.",
+            icon="⚠️",
+        )
 
 
 def _format_relative_timestamp(moment: datetime | None) -> str:
@@ -172,6 +172,11 @@ def _render_repo_sync_status(sync_result: RepoSyncResult) -> None:
     delta = sync_result.delta
 
     st.markdown("### GitHub sync status")
+    if sync_result.verified_live:
+        st.success("Live verification: GitHub API reachable", icon="✅")
+    else:
+        st.warning("Live verification: unavailable, fallback-only view", icon="⚠️")
+
     st.caption(
         f"Checked {_format_relative_timestamp(delta.checked_at)} · Source: {sync_result.source.replace('_', ' ')}"
     )
@@ -183,11 +188,6 @@ def _render_repo_sync_status(sync_result: RepoSyncResult) -> None:
     if sync_result.warning:
         st.info(sync_result.warning)
 
-    if decision.should_refresh:
-        st.warning(decision.reason, icon="⚠️")
-    else:
-        st.success(decision.reason)
-
     if delta.latest_live_push_at or delta.latest_cached_push_at:
         st.caption(
             "Latest live push: "
@@ -195,11 +195,23 @@ def _render_repo_sync_status(sync_result: RepoSyncResult) -> None:
             "Latest cached push: "
             f"{_format_relative_timestamp(delta.latest_cached_push_at)}"
         )
+    if delta.latest_processed_audit_at:
+        st.caption(
+            f"Latest processed audit: {_format_relative_timestamp(delta.latest_processed_audit_at)}"
+        )
+
+    if decision.should_refresh:
+        st.warning(decision.reason, icon="⚠️")
+    elif sync_result.verified_live:
+        st.success(decision.reason)
+    else:
+        st.info(decision.reason)
 
     sections = [
         ("New repositories", delta.new_repos),
         ("Removed repositories", delta.removed_repos),
-        ("Changed repositories", delta.changed_repos),
+        ("Modified after processed audit", delta.modified_since_processed),
+        ("Changed since cached raw snapshot", delta.changed_repos),
     ]
     for title, repo_names in sections:
         if not repo_names:
@@ -228,8 +240,6 @@ def main() -> None:
     owners = discover_owners()
     default_owner = _resolve_default_owner()
 
-    # Build owner options: always include the resolved default so the sidebar
-    # is not empty on a fresh Streamlit Cloud deploy (no processed/ on disk yet).
     if owners:
         owner_options = owners
         if default_owner and default_owner not in owner_options:
@@ -237,7 +247,6 @@ def main() -> None:
     else:
         owner_options = [default_owner] if default_owner else ["MatALass"]
 
-    # Pre-select the default owner when possible.
     default_index = 0
     if default_owner and default_owner in owner_options:
         default_index = owner_options.index(default_owner)
@@ -250,7 +259,7 @@ def main() -> None:
             "Use refresh when repositories changed recently or when you want the latest "
             "local scan evidence."
         )
-        if st.button("Run fresh audit now", type="primary", use_container_width=True):
+        if st.button("Run fresh audit now", type="primary", width='stretch'):
             with st.spinner(
                 "Refreshing portfolio artifacts from GitHub. This can take a while for "
                 "larger portfolios."
@@ -281,7 +290,6 @@ def main() -> None:
     else:
         sync_error = None
 
-    # Staleness indicator — use mtime of ranking.json as the audit timestamp proxy.
     ranking_path = data.base_dir / "ranking.json"
     mtime = ranking_path.stat().st_mtime if ranking_path.exists() else None
     with st.sidebar:
@@ -289,9 +297,10 @@ def main() -> None:
         st.markdown("---")
         if sync_result is not None:
             _render_repo_sync_status(sync_result)
-            if should_refresh_audit(sync_result).should_refresh and st.button(
+            refresh_decision = should_refresh_audit(sync_result)
+            if refresh_decision.should_refresh and st.button(
                 "Refresh audit to sync GitHub changes",
-                use_container_width=True,
+                width='stretch',
             ):
                 with st.spinner(
                     "Refreshing portfolio artifacts to include the latest GitHub changes."

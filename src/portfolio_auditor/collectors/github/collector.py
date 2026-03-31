@@ -168,11 +168,15 @@ class GitHubCollector:
                 # Authenticated owner — /user/repos returns private repos too.
                 payloads = self.client.list_authenticated_user_repos()
             else:
-                # Unknown owner: try org first, fall back to public user listing.
-                try:
-                    self.client.get_org(owner)
-                    payloads = self.client.list_org_repos(owner)
-                except GitHubApiError:
+                # Unknown owner: try org first when the client supports org probing,
+                # otherwise fall back directly to the public user listing.
+                if hasattr(self.client, "get_org") and hasattr(self.client, "list_org_repos"):
+                    try:
+                        self.client.get_org(owner)
+                        payloads = self.client.list_org_repos(owner)
+                    except GitHubApiError:
+                        payloads = self.client.list_user_repos(owner)
+                else:
                     payloads = self.client.list_user_repos(owner)
 
             return payloads, "github_api"
