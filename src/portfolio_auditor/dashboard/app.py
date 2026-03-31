@@ -3,6 +3,7 @@ from __future__ import annotations
 import os
 from datetime import datetime, timezone
 
+import requests
 import streamlit as st
 
 from portfolio_auditor.dashboard.components.optimizer_view import render_optimizer_view
@@ -144,6 +145,41 @@ def _render_staleness_indicator(base_dir_mtime: float | None) -> None:
         st.warning("Artifacts are more than 24 h old. Run a fresh audit to pick up new repositories.", icon="⚠️")
 
 
+def _fetch_github_repo_names(owner: str) -> set[str]:
+    """
+    Lightweight GitHub fetch: only repository names.
+    """
+    token = os.getenv("GITHUB_TOKEN")
+    headers = {"Accept": "application/vnd.github+json"}
+
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+        url = "https://api.github.com/user/repos"
+        params = {"per_page": 100, "visibility": "all"}
+    else:
+        url = f"https://api.github.com/users/{owner}/repos"
+        params = {"per_page": 100}
+
+    repo_names = set()
+    page = 1
+
+    while True:
+        params["page"] = page
+        resp = requests.get(url, headers=headers, params=params)
+
+        if resp.status_code != 200:
+            break
+
+        data = resp.json()
+        if not data:
+            break
+
+        repo_names.update(repo["name"] for repo in data)
+        page += 1
+
+    return repo_names
+
+
 def main() -> None:
     st.set_page_config(
         page_title="GitHub Portfolio Auditor Dashboard",
@@ -200,6 +236,15 @@ def main() -> None:
 
     try:
         data = load_dashboard_data(owner)
+        # --- Detect new repositories (lightweight GitHub sync)
+        try:
+            live_repo_names = _fetch_github_repo_names(owner)
+            cached_repo_names = set(data.repo_df["repo_name"].tolist())
+
+            new_repos = live_repo_names - cached_repo_names
+
+        except Exception:
+            new_repos = set()
     except DashboardDataError as exc:
         st.error(str(exc))
         st.info(
@@ -213,7 +258,24 @@ def main() -> None:
     mtime = ranking_path.stat().st_mtime if ranking_path.exists() else None
     with st.sidebar:
         _render_staleness_indicator(mtime)
+        if new_repos:
+            st.markdown("---")
+            st.warning(
+                f"{len(new_repos)} new repositories detected on GitHub.",
+                icon="🆕",
+            )
 
+            with st.expander("Show new repositories"):
+                for repo in sorted(new_repos):
+                    st.write(f"- {repo}")
+
+            if st.button("Refresh audit to include new repositories"):
+                with st.spinner("Running audit for new repositories..."):
+                    result = run_live_audit(owner, refresh_clones=refresh_clones)
+                st.success(
+                    f"Audit updated. {result.analyzed_repo_count} repositories analyzed."
+                )
+                st.rerun()
     repo_options = data.repo_df["repo_name"].tolist()
     with st.sidebar:
         selected_repo = st.selectbox("Repository detail", options=repo_options)
