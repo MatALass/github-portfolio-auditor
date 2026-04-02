@@ -63,13 +63,21 @@ pythonpath = ["src"]
 testpaths = ["tests"]
 addopts = "-ra --strict-config --strict-markers"
 xfail_strict = true
+markers = [
+  "unit: fast isolated unit tests (no I/O, no network)",
+  "integration: tests that touch the filesystem or external services",
+  "smoke: high-level smoke tests for dashboard artifacts",
+  "golden: snapshot/regression tests",
+]
 
 [tool.coverage.run]
 branch = true
 source = ["portfolio_auditor"]
 
 [tool.coverage.report]
-fail_under = 45
+# Raised from 45 → 65 now that scanners, reviewer, parser and deduplication
+# are covered. Target 80 once the LLM layer and CLI are exercised.
+fail_under = 65
 show_missing = true
 skip_covered = false
 precision = 2
