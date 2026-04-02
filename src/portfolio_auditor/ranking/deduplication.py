@@ -220,7 +220,9 @@ class _DescriptionSimilarityIndex:
         self._full_names: list[str] = [r.full_name for r in repos]
         descriptions = [r.description or "" for r in repos]
         vectors = _tfidf_vectors(descriptions)
-        self._vectors: dict[str, dict[str, float]] = dict(zip(self._full_names, vectors))
+        self._vectors: dict[str, dict[str, float]] = dict(
+            zip(self._full_names, vectors, strict=False)
+        )
 
     def cosine(self, full_name_a: str, full_name_b: str) -> float:
         return _cosine_similarity(

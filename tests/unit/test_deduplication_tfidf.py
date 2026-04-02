@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 tests/unit/test_deduplication_tfidf.py
 
@@ -10,6 +8,10 @@ We specifically validate that semantically similar but differently-worded
 descriptions are caught by the cosine signal (the v1 SequenceMatcher would
 miss them), and that truly distinct repos are not falsely flagged.
 """
+
+from __future__ import annotations
+
+import pytest
 
 from portfolio_auditor.models.portfolio_decision import PortfolioDecision
 from portfolio_auditor.models.repo_metadata import (
@@ -30,7 +32,6 @@ from portfolio_auditor.ranking.deduplication import (
     _tfidf_vectors,
     _tokenise_text,
 )
-
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -139,9 +140,6 @@ class TestTfIdfHelpers:
         pipeline_weight_0 = vectors[0].get("pipeline", 0.0)
         # After L2 normalisation we compare relative magnitudes in the same doc
         assert pipeline_weight_0 >= data_weight_0
-
-
-import pytest
 
 
 # ---------------------------------------------------------------------------

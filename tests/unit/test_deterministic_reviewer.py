@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 tests/unit/test_deterministic_reviewer.py
 
@@ -8,6 +6,8 @@ Unit tests for DeterministicReviewer.
 Covers: portfolio decision thresholds, blocker generation, quick wins,
 priority actions, executive summary generation, and the recruiter signal.
 """
+
+from __future__ import annotations
 
 import pytest
 
@@ -25,7 +25,6 @@ from portfolio_auditor.models.repo_metadata import (
 from portfolio_auditor.models.repo_scan import RepoScanResult
 from portfolio_auditor.models.repo_score import RepoScore, ScoreBreakdown
 from portfolio_auditor.reviewing.deterministic_review import DeterministicReviewer
-
 
 # ---------------------------------------------------------------------------
 # Shared fixtures
@@ -243,7 +242,6 @@ class TestQuickWins:
         assert "gitignore" in texts
 
     def test_no_description_triggers_quick_win(self) -> None:
-        repo = _repo(description="")
         # Pydantic may coerce empty string to None
         repo2 = RepoMetadata(
             id=1,

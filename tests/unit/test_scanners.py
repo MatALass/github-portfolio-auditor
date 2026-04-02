@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 tests/unit/test_scanners.py
 
@@ -9,6 +7,8 @@ Each test builds a temporary directory that simulates a repository layout,
 then runs the scanner and asserts on the resulting ScannerSummary and
 RepoScanResult fields.
 """
+
+from __future__ import annotations
 
 import textwrap
 from pathlib import Path
@@ -29,7 +29,6 @@ from portfolio_auditor.models.repo_scan import RepoScanResult
 from portfolio_auditor.scanners.documentation_scanner import DocumentationScanner
 from portfolio_auditor.scanners.testing_scanner import TestingScanner
 
-
 # ---------------------------------------------------------------------------
 # Shared helpers
 # ---------------------------------------------------------------------------
@@ -44,7 +43,11 @@ def _make_repo(name: str = "test-repo") -> RepoMetadata:
         description=None,
         owner=RepoOwner(login="user", type="User"),
         links=RepoLinks(html_url=f"https://github.com/user/{name}"),
-        timestamps=RepoTimestamps(),
+        timestamps=RepoTimestamps(
+            created_at="2025-01-01T00:00:00Z",
+            updated_at="2025-01-02T00:00:00Z",
+            pushed_at="2025-01-03T00:00:00Z",
+        ),
         engagement=RepoEngagement(),
         flags=RepoFlags(),
         language_stats=RepoLanguageStats(),
@@ -183,7 +186,6 @@ class TestDocumentationScanner:
 
     def test_score_hint_increases_with_quality(self, tmp_path: Path) -> None:
         """A well-documented repo should yield a higher score_hint than a minimal one."""
-        # Minimal: short README only
         minimal_dir = tmp_path / "minimal"
         minimal_dir.mkdir()
         (minimal_dir / "README.md").write_text("# x\n\nHi.", encoding="utf-8")
@@ -191,7 +193,6 @@ class TestDocumentationScanner:
         scan_min = _make_scan(repo, minimal_dir)
         summary_min = self.scanner.scan(repo, minimal_dir, scan_min)
 
-        # Full: long README with multiple sections + licence + assets
         full_dir = tmp_path / "full"
         full_dir.mkdir()
         (full_dir / "README.md").write_text(
@@ -225,10 +226,10 @@ class TestDocumentationScanner:
 
     def test_nonexistent_repo_raises(self, tmp_path: Path) -> None:
         repo = _make_repo()
-        scan = _make_scan(repo, tmp_path / "does_not_exist")
+        scan = _make_scan(repo, tmp_path / "missing")
 
-        with pytest.raises((FileNotFoundError, NotADirectoryError)):
-            self.scanner.scan(repo, tmp_path / "does_not_exist", scan)
+        with pytest.raises(FileNotFoundError):
+            self.scanner.scan(repo, tmp_path / "missing", scan)
 
 
 # ---------------------------------------------------------------------------
@@ -263,12 +264,14 @@ class TestTestingScanner:
         issue_codes = {issue.code for issue in summary.issues}
         assert "NO_TESTS_DETECTED" not in issue_codes
 
+
     def test_pytest_framework_detected_via_pyproject(self, tmp_path: Path) -> None:
         tests_dir = tmp_path / "tests"
         tests_dir.mkdir()
         (tests_dir / "test_x.py").write_text("def test_x(): pass", encoding="utf-8")
         (tmp_path / "pyproject.toml").write_text(
-            "[tool.pytest.ini_options]\ntestpaths = ['tests']\n", encoding="utf-8"
+            "[tool.pytest.ini_options]\ntestpaths = ['tests']\n",
+            encoding="utf-8",
         )
         repo = _make_repo()
         scan = _make_scan(repo, tmp_path)
@@ -302,7 +305,6 @@ class TestTestingScanner:
         assert scan.testing.has_coverage_config is True
 
     def test_score_hint_increases_with_more_tests(self, tmp_path: Path) -> None:
-        # Few tests
         few_dir = tmp_path / "few"
         few_dir.mkdir()
         (few_dir / "tests").mkdir()
@@ -311,18 +313,15 @@ class TestTestingScanner:
         scan_few = _make_scan(repo_few, few_dir)
         summary_few = self.scanner.scan(repo_few, few_dir, scan_few)
 
-        # Many tests
         many_dir = tmp_path / "many"
         many_dir.mkdir()
         (many_dir / "tests").mkdir()
-        for i in range(15):
+        for i in range(8):
             (many_dir / "tests" / f"test_{i}.py").write_text(
-                f"def test_{i}(): assert True", encoding="utf-8"
+                "def test_pass(): assert True",
+                encoding="utf-8",
             )
-        (many_dir / "pyproject.toml").write_text(
-            "[tool.pytest.ini_options]\ntestpaths=['tests']\n[tool.coverage.run]\nbranch=true\n",
-            encoding="utf-8",
-        )
+        (many_dir / ".coveragerc").write_text("[run]\nbranch = true\n", encoding="utf-8")
         repo_many = _make_repo("many")
         scan_many = _make_scan(repo_many, many_dir)
         summary_many = self.scanner.scan(repo_many, many_dir, scan_many)
@@ -331,7 +330,7 @@ class TestTestingScanner:
 
     def test_nonexistent_repo_raises(self, tmp_path: Path) -> None:
         repo = _make_repo()
-        scan = _make_scan(repo, tmp_path / "ghost")
+        scan = _make_scan(repo, tmp_path / "missing")
 
-        with pytest.raises((FileNotFoundError, NotADirectoryError)):
-            self.scanner.scan(repo, tmp_path / "ghost", scan)
+        with pytest.raises(FileNotFoundError):
+            self.scanner.scan(repo, tmp_path / "missing", scan)

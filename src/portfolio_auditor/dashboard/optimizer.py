@@ -1,10 +1,10 @@
-from __future__ import annotations
-
 """
 dashboard/optimizer.py
 
 ROI-based action scoring and portfolio simulation, extracted from data_loader.
 """
+
+from __future__ import annotations
 
 from collections import Counter
 from typing import Any

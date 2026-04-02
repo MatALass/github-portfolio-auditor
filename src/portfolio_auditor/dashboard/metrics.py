@@ -1,10 +1,10 @@
-from __future__ import annotations
-
 """
 dashboard/metrics.py
 
 Overview metric computation extracted from data_loader.
 """
+
+from __future__ import annotations
 
 from typing import Any
 

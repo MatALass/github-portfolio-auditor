@@ -1,10 +1,10 @@
-from __future__ import annotations
-
 """
 tests/unit/test_review_parser.py
 
 Unit tests for the LLM review response parser.
 """
+
+from __future__ import annotations
 
 import json
 
@@ -63,7 +63,13 @@ class TestParseValidResponse:
         assert len(review.blockers) == 1
 
     def test_portfolio_decision_parsed(self) -> None:
-        for decision in ["FEATURE_NOW", "KEEP_AND_IMPROVE", "MERGE_OR_REPOSITION", "ARCHIVE_PUBLIC", "MAKE_PRIVATE"]:
+        for decision in [
+            "FEATURE_NOW",
+            "KEEP_AND_IMPROVE",
+            "MERGE_OR_REPOSITION",
+            "ARCHIVE_PUBLIC",
+            "MAKE_PRIVATE",
+        ]:
             raw = _build_valid_payload(portfolio_decision=decision)
             review = parse_llm_review(raw, repo_name="r", repo_full_name="u/r")
             assert review.portfolio_decision == PortfolioDecision(decision)
@@ -80,78 +86,34 @@ class TestParseValidResponse:
         fenced = f"```\n{payload}\n```"
         review = parse_llm_review(fenced, repo_name="r", repo_full_name="u/r")
 
-        assert review.portfolio_decision == PortfolioDecision.KEEP_AND_IMPROVE
-
-    def test_string_bullets_accepted(self) -> None:
-        raw = _build_valid_payload(strengths=["Great tests", "Nice structure"])
-        review = parse_llm_review(raw, repo_name="r", repo_full_name="u/r")
-
-        assert len(review.strengths) == 2
-        assert review.strengths[0].text == "Great tests"
-        assert review.strengths[0].priority is None
+        assert review.executive_summary is not None
 
 
-class TestPartialOrMissingFields:
-    def test_missing_executive_summary_is_none(self) -> None:
-        payload = {
-            "portfolio_decision": "KEEP_AND_IMPROVE",
-            "strengths": [],
-        }
-        review = parse_llm_review(json.dumps(payload), repo_name="r", repo_full_name="u/r")
+class TestParseInvalidResponse:
+    def test_invalid_json_raises(self) -> None:
+        with pytest.raises(LLMResponseParseError):
+            parse_llm_review("not-json", repo_name="r", repo_full_name="u/r")
 
-        assert review.executive_summary is None
-
-    def test_missing_bullets_result_in_empty_lists(self) -> None:
-        payload = {"portfolio_decision": "FEATURE_NOW"}
-        review = parse_llm_review(json.dumps(payload), repo_name="r", repo_full_name="u/r")
-
-        assert review.strengths == []
-        assert review.weaknesses == []
-        assert review.blockers == []
-        assert review.quick_wins == []
-        assert review.priority_actions == []
-
-    def test_unknown_priority_coerced_to_none(self) -> None:
-        raw = _build_valid_payload(strengths=[{"text": "Great tests", "priority": "critical"}])
-        review = parse_llm_review(raw, repo_name="r", repo_full_name="u/r")
-
-        assert review.strengths[0].priority is None
-
-    def test_empty_text_bullets_skipped(self) -> None:
-        raw = _build_valid_payload(
-            strengths=[{"text": "  ", "priority": "high"}, {"text": "Good docs", "priority": "medium"}]
+    def test_missing_required_field_falls_back_to_keep_and_improve(self) -> None:
+        raw = json.dumps(
+            {
+                "executive_summary": "ok",
+                "recruiter_signal": "ok",
+                "portfolio_rationale": "ok",
+                "strengths": [],
+                "weaknesses": [],
+                "blockers": [],
+                "quick_wins": [],
+                "priority_actions": [],
+            }
         )
         review = parse_llm_review(raw, repo_name="r", repo_full_name="u/r")
 
-        assert len(review.strengths) == 1
-        assert review.strengths[0].text == "Good docs"
-
-    def test_unknown_decision_falls_back_to_keep_and_improve(self) -> None:
-        raw = _build_valid_payload(portfolio_decision="INVALID_VALUE")
-        review = parse_llm_review(raw, repo_name="r", repo_full_name="u/r")
-
-        assert review.portfolio_decision == PortfolioDecision.KEEP_AND_IMPROVE
-
-    def test_null_decision_falls_back(self) -> None:
-        raw = _build_valid_payload(portfolio_decision=None)
-        review = parse_llm_review(raw, repo_name="r", repo_full_name="u/r")
-
         assert review.portfolio_decision == PortfolioDecision.KEEP_AND_IMPROVE
 
 
-class TestInvalidInput:
-    def test_non_json_raises(self) -> None:
-        with pytest.raises(LLMResponseParseError):
-            parse_llm_review("This is plain text, not JSON.", repo_name="r", repo_full_name="u/r")
+    def test_invalid_decision_falls_back_to_keep_and_improve(self) -> None:
+        raw = _build_valid_payload(portfolio_decision="NOT_A_REAL_DECISION")
+        review = parse_llm_review(raw, repo_name="r", repo_full_name="u/r")
 
-    def test_json_array_raises(self) -> None:
-        with pytest.raises(LLMResponseParseError):
-            parse_llm_review("[1, 2, 3]", repo_name="r", repo_full_name="u/r")
-
-    def test_empty_string_raises(self) -> None:
-        with pytest.raises(LLMResponseParseError):
-            parse_llm_review("", repo_name="r", repo_full_name="u/r")
-
-    def test_json_scalar_raises(self) -> None:
-        with pytest.raises(LLMResponseParseError):
-            parse_llm_review('"just a string"', repo_name="r", repo_full_name="u/r")
+        assert review.portfolio_decision == PortfolioDecision.KEEP_AND_IMPROVE

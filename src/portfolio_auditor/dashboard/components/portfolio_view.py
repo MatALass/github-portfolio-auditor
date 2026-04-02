@@ -2,10 +2,15 @@ from __future__ import annotations
 
 import streamlit as st
 
-from portfolio_auditor.dashboard.data_loader import DashboardData, _selection_repo_full_names
+from portfolio_auditor.dashboard.data_loader import DashboardData
+from portfolio_auditor.dashboard.metrics import selection_repo_full_names
 
 SECTION_CONFIG = [
-    ("Highlight now", ["featured_repos"], "This is the public shortlist that is ready to represent the portfolio."),
+    (
+        "Highlight now",
+        ["featured_repos"],
+        "This is the public shortlist that is ready to represent the portfolio.",
+    ),
     (
         "Keep visible but improve",
         ["keep_visible_but_improve"],
@@ -26,7 +31,15 @@ SECTION_CONFIG = [
 
 def _render_repo_card(data: DashboardData, repo_full_name: str) -> None:
     repo_name = repo_full_name.split("/")[-1]
-    row = data.repo_df[data.repo_df["repo_name"] == repo_name].iloc[0]
+    matches = data.repo_df[data.repo_df["repo_name"] == repo_name]
+
+    if matches.empty:
+        st.warning(
+            f"Repository metadata not found in ranking artifacts for: {repo_full_name}"
+        )
+        return
+
+    row = matches.iloc[0]
     review = data.review_index.get(repo_name, {})
 
     rationale = review.get("portfolio_rationale") or "No rationale available in artifacts."
@@ -39,7 +52,7 @@ def _render_repo_card(data: DashboardData, repo_full_name: str) -> None:
 <div class="repo-card">
     <div class="repo-card-header">
         <span class="repo-card-title">#{int(row['rank'])} · {repo_full_name}</span>
-        <span class="repo-card-badge">{row['global_score']:.2f}/100 · {row['score_label'].upper()}</span>
+        <span class="repo-card-badge">{row['global_score']:.2f}/100 · {str(row['score_label']).upper()}</span>
     </div>
     <div class="repo-card-subtitle">{row['decision_label']} · {row['primary_language']} · Recoverable upside {row['estimated_recoverable_points']:.2f}</div>
     <div class="repo-card-body">{rationale}</div>
@@ -49,14 +62,18 @@ def _render_repo_card(data: DashboardData, repo_full_name: str) -> None:
     )
 
     fact_cols = st.columns(3, gap="medium")
-    fact_cols[0].metric("Next action", top_action)
-    fact_cols[1].metric("Estimated upside", f"{row['estimated_recoverable_points']:.2f}")
-    fact_cols[2].metric("Score ceiling", f"{row['score_ceiling']:.2f}/100")
+    fact_cols[0].metric("Next action", str(top_action))
+    fact_cols[1].metric(
+        "Estimated upside",
+        f"{float(row['estimated_recoverable_points']):.2f}",
+    )
+    fact_cols[2].metric("Score ceiling", f"{float(row['score_ceiling']):.2f}/100")
 
     if actions:
         st.markdown("**Priority actions**")
         for action in actions[:3]:
             st.write(f"- {action.get('text', '')}")
+
     if quick_wins:
         st.markdown("**Quick wins**")
         for quick_win in quick_wins[:2]:
@@ -65,13 +82,15 @@ def _render_repo_card(data: DashboardData, repo_full_name: str) -> None:
 
 def render_portfolio_view(data: DashboardData) -> None:
     st.markdown("## Portfolio selection")
-    st.caption("The dashboard keeps the existing portfolio decision artifacts and reorganizes them into a clearer action view.")
+    st.caption(
+        "The dashboard keeps the existing portfolio decision artifacts and reorganizes them into a clearer action view."
+    )
     st.info(data.overview_metrics["manager_summary"])
 
     selection = data.portfolio_selection
 
     for title, keys, description in SECTION_CONFIG:
-        repos = _selection_repo_full_names(selection, *keys)
+        repos = selection_repo_full_names(selection, *keys)
 
         st.markdown(f"### {title} ({len(repos)})")
         st.caption(description)

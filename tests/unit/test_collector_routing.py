@@ -1,24 +1,13 @@
 from __future__ import annotations
 
 from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
 import pytest
 
 from portfolio_auditor.collectors.github.client import GitHubApiError, GitHubRateLimitError
 from portfolio_auditor.collectors.github.collector import GitHubCollector
-from portfolio_auditor.models.repo_metadata import (
-    RepoEngagement,
-    RepoFlags,
-    RepoLanguageStats,
-    RepoLinks,
-    RepoMetadata,
-    RepoOwner,
-    RepoTimestamps,
-    RepoTopics,
-)
 from portfolio_auditor.settings import Settings
-
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -192,7 +181,6 @@ class TestCollectorRouting:
         collector = GitHubCollector(client, settings)
 
         # Seed an outdated cache that only knows about old-repo.
-        from portfolio_auditor.models.repo_metadata import RepoMetadata
         old_meta = collector._parse_repo_payload(old_repo)
         collector.persist_raw_owner_snapshot("alice", [old_meta])
 
@@ -222,7 +210,6 @@ class TestRateLimitFallback:
         collector = GitHubCollector(client, settings)
 
         # Write a cached snapshot manually.
-        from portfolio_auditor.models.repo_metadata import RepoMetadata
         cached_repo = collector._parse_repo_payload(_make_raw_payload("cached-repo", "alice"))
         collector.persist_raw_owner_snapshot("alice", [cached_repo])
 

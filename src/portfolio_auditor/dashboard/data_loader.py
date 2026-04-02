@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 dashboard/data_loader.py
 
@@ -12,6 +10,8 @@ metrics.py    — overview KPI computation
 optimizer.py  — ROI-based action scoring, next-actions ranking, simulation
 history.py    — snapshot persistence helpers (unchanged)
 """
+
+from __future__ import annotations
 
 import json
 from dataclasses import dataclass

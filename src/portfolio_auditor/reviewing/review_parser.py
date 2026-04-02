@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 reviewing/review_parser.py
 
@@ -23,6 +21,8 @@ Expected JSON shape
 All keys are optional — missing or null values are silently skipped.
 Unknown portfolio_decision values fall back to KEEP_AND_IMPROVE with a warning.
 """
+
+from __future__ import annotations
 
 import json
 import logging
