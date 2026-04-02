@@ -1,5 +1,11 @@
 from __future__ import annotations
 
+"""
+dashboard/optimizer.py
+
+ROI-based action scoring and portfolio simulation, extracted from data_loader.
+"""
+
 from collections import Counter
 from typing import Any
 
@@ -7,7 +13,7 @@ import pandas as pd
 
 SEVERITY_ORDER = {"high": 3, "medium": 2, "low": 1}
 
-ACTION_IMPACT_RULES = {
+ACTION_IMPACT_RULES: dict[str, dict[str, Any]] = {
     "Build a core automated test suite.": {
         "penalty_codes": {"NO_TESTS_DETECTED", "WEAK_TEST_BASELINE"},
         "fallback_points": 0.0,
@@ -148,14 +154,13 @@ def derive_repo_optimizer_fields(
         action_text = str(action.get("text", "")).strip()
         if not action_text:
             continue
-        opportunities.append(
-            estimate_action_impact(
-                action_text=action_text,
-                review=action,
-                score_entry=score_entry,
-                repo_row=repo_row,
-            )
+        enriched = estimate_action_impact(
+            action_text=action_text,
+            review=action,
+            score_entry=score_entry,
+            repo_row=repo_row,
         )
+        opportunities.append(enriched)
 
     opportunities = sorted(
         opportunities,
@@ -168,7 +173,9 @@ def derive_repo_optimizer_fields(
     )
 
     total_recoverable = round(sum(item["estimated_score_lift"] for item in opportunities), 2)
-    score_ceiling = round(min(100.0, float(repo_row.get("global_score", 0.0)) + total_recoverable), 2)
+    score_ceiling = round(
+        min(100.0, float(repo_row.get("global_score", 0.0)) + total_recoverable), 2
+    )
     top_opportunity = opportunities[0] if opportunities else None
 
     return {
@@ -179,12 +186,14 @@ def derive_repo_optimizer_fields(
     }
 
 
-def build_next_actions(df: pd.DataFrame, review_index: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
+def build_next_actions(
+    df: pd.DataFrame, review_index: dict[str, dict[str, Any]]
+) -> list[dict[str, Any]]:
     counter: Counter[str] = Counter()
     action_rows: dict[str, list[dict[str, Any]]] = {}
     repo_lookup = df.set_index("repo_name").to_dict(orient="index")
 
-    for repo_name, _review in review_index.items():
+    for repo_name in review_index:
         repo_entry = repo_lookup.get(repo_name, {})
         opportunities = repo_entry.get("optimizer_payload", []) or []
         for opportunity in opportunities:
@@ -210,7 +219,10 @@ def build_next_actions(df: pd.DataFrame, review_index: dict[str, dict[str, Any]]
         repos = sorted(
             action_rows[action_text],
             key=lambda item: (
-                0 if item["decision_label"] in {"Highlight now", "Keep and improve", "Improve / reposition"} else 1,
+                0
+                if item["decision_label"]
+                in {"Highlight now", "Keep and improve", "Improve / reposition"}
+                else 1,
                 -item["estimated_score_lift"],
                 -item["roi"],
                 item["global_score"],
@@ -238,7 +250,9 @@ def simulate_portfolio(
     visible_repo_names: list[str],
 ) -> dict[str, Any]:
     visible_df = df[df["repo_name"].isin(visible_repo_names)].copy()
-    current_quality = round(float(visible_df["global_score"].mean()), 2) if not visible_df.empty else 0.0
+    current_quality = (
+        round(float(visible_df["global_score"].mean()), 2) if not visible_df.empty else 0.0
+    )
     selected_df = df[df["decision_group"].isin(["keep", "improve"])].copy()
 
     prioritized_actions = sorted(
@@ -246,7 +260,7 @@ def simulate_portfolio(
         key=lambda item: (-item["roi"], -item["estimated_total_score_lift"], item["action"]),
     )
 
-    def project_for_scope(scope_df: pd.DataFrame, top_n: int) -> float:
+    def _project_for_scope(scope_df: pd.DataFrame, top_n: int) -> float:
         if scope_df.empty:
             return 0.0
         repo_lifts: dict[str, float] = {row["repo_name"]: 0.0 for _, row in scope_df.iterrows()}
@@ -255,8 +269,12 @@ def simulate_portfolio(
                 repo_name = str(repo.get("repo_name"))
                 if repo_name not in repo_lifts:
                     continue
-                current_score = float(scope_df.loc[scope_df["repo_name"] == repo_name, "global_score"].iloc[0])
-                ceiling = float(scope_df.loc[scope_df["repo_name"] == repo_name, "score_ceiling"].iloc[0])
+                current_score = float(
+                    scope_df.loc[scope_df["repo_name"] == repo_name, "global_score"].iloc[0]
+                )
+                ceiling = float(
+                    scope_df.loc[scope_df["repo_name"] == repo_name, "score_ceiling"].iloc[0]
+                )
                 remaining = max(0.0, ceiling - current_score - repo_lifts[repo_name])
                 lift = min(float(repo.get("estimated_score_lift", 0.0)), remaining)
                 repo_lifts[repo_name] += lift
@@ -266,10 +284,12 @@ def simulate_portfolio(
         ]
         return round(sum(projected_scores) / len(projected_scores), 2)
 
-    top_one_quality = project_for_scope(visible_df, 1)
-    top_three_quality = project_for_scope(visible_df, 3)
-    selected_scope_quality = round(float(selected_df["global_score"].mean()), 2) if not selected_df.empty else 0.0
-    selected_scope_after_top_three = project_for_scope(selected_df, 3)
+    top_one_quality = _project_for_scope(visible_df, 1)
+    top_three_quality = _project_for_scope(visible_df, 3)
+    selected_scope_quality = (
+        round(float(selected_df["global_score"].mean()), 2) if not selected_df.empty else 0.0
+    )
+    selected_scope_after_top_three = _project_for_scope(selected_df, 3)
 
     return {
         "current_quality": current_quality,

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import logging
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -26,6 +28,12 @@ from portfolio_auditor.scoring.engine import ScoringEngine
 from portfolio_auditor.settings import Settings
 from portfolio_auditor.site.transformers import build_site_payload
 
+logger = logging.getLogger(__name__)
+
+# Maximum number of repos processed concurrently.
+# Kept intentionally modest to respect GitHub clone rate limits and local I/O.
+_DEFAULT_MAX_WORKERS = 4
+
 
 @dataclass(slots=True)
 class AuditArtifacts:
@@ -38,6 +46,16 @@ class AuditArtifacts:
     selection: PortfolioSelection | None = None
 
 
+@dataclass(slots=True)
+class _RepoPipelineResult:
+    """Intermediate result for one repo — used to merge parallel work."""
+
+    repo: RepoMetadata
+    scan: RepoScanResult
+    score: RepoScore
+    review: RepoReview
+
+
 class AuditRunner:
     """
     Main orchestration layer for the deterministic audit pipeline.
@@ -46,15 +64,26 @@ class AuditRunner:
     - collect GitHub metadata
     - enrich metadata
     - clone repositories locally
-    - run scanners
+    - run scanners (parallelised with ThreadPoolExecutor)
     - compute scores
     - generate reviews
     - rank repositories for portfolio decisions
     - export JSON/CSV/site artifacts
+
+    Parallelism note
+    ----------------
+    Scanning, scoring and reviewing are CPU/IO-bound but GIL-friendly for our
+    workload (mostly file reads + pure-Python computation).  A ThreadPoolExecutor
+    with a small pool avoids the overhead of multiprocessing while still giving
+    meaningful wall-clock improvement on portfolios of 20+ repos.
+
+    The ranking and export phases are kept sequential because they operate on the
+    full aggregated result set and are not the bottleneck.
     """
 
-    def __init__(self, settings: Settings) -> None:
+    def __init__(self, settings: Settings, max_workers: int = _DEFAULT_MAX_WORKERS) -> None:
         self.settings = settings
+        self.max_workers = max_workers
         self.client = GitHubClient(settings)
         self.collector = GitHubCollector(self.client, settings)
         self.clone_manager = CloneManager(settings)
@@ -92,27 +121,30 @@ class AuditRunner:
             shallow=True,
         )
 
-        scans: list[RepoScanResult] = []
-        scores: list[RepoScore] = []
-        reviews: list[RepoReview] = []
+        # -------------------------------------------------------------------
+        # Parallel scan / score / review
+        # -------------------------------------------------------------------
+        pipeline_results = self._run_pipeline_parallel(repos)
 
-        for repo in repos:
-            local_path = self.settings.get_repo_clone_path(repo.full_name)
-            scan = self.scan_repo(repo, local_path)
-            score = self.scoring_engine.score(repo, scan)
-            review = self.reviewer.review(repo, scan, score)
+        # Re-order results to match the original repo list order (parallelism
+        # may return them in arbitrary completion order).
+        result_index: dict[str, _RepoPipelineResult] = {
+            r.repo.full_name: r for r in pipeline_results
+        }
+        ordered_results = [result_index[repo.full_name] for repo in repos if repo.full_name in result_index]
 
-            scans.append(scan)
-            scores.append(score)
-            reviews.append(review)
+        scans = [r.scan for r in ordered_results]
+        scores = [r.score for r in ordered_results]
+        reviews = [r.review for r in ordered_results]
 
-            if export:
+        if export:
+            for result in ordered_results:
                 self._export_repo_bundle(
                     owner=owner,
-                    repo=repo,
-                    scan=scan,
-                    score=score,
-                    review=review,
+                    repo=result.repo,
+                    scan=result.scan,
+                    score=result.score,
+                    review=result.review,
                 )
 
         ranking = self.ranker.build_ranking(repos=repos, scores=scores, reviews=reviews)
@@ -132,6 +164,42 @@ class AuditRunner:
             self.export_aggregate_artifacts(owner=owner, artifacts=artifacts)
 
         return artifacts
+
+    def _run_pipeline_parallel(
+        self, repos: list[RepoMetadata]
+    ) -> list[_RepoPipelineResult]:
+        """
+        Process each repo (scan → score → review) in a thread pool.
+
+        Failures on individual repos are logged and skipped so that a single
+        broken clone does not abort the entire audit.
+        """
+        results: list[_RepoPipelineResult] = []
+
+        with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
+            future_to_repo = {
+                executor.submit(self._process_single_repo, repo): repo
+                for repo in repos
+            }
+            for future in as_completed(future_to_repo):
+                repo = future_to_repo[future]
+                try:
+                    result = future.result()
+                    results.append(result)
+                    logger.debug("Processed %s", repo.full_name)
+                except Exception:
+                    logger.exception(
+                        "Pipeline failed for %s — repo will be skipped", repo.full_name
+                    )
+
+        return results
+
+    def _process_single_repo(self, repo: RepoMetadata) -> _RepoPipelineResult:
+        local_path = self.settings.get_repo_clone_path(repo.full_name)
+        scan = self.scan_repo(repo, local_path)
+        score = self.scoring_engine.score(repo, scan)
+        review = self.reviewer.review(repo, scan, score)
+        return _RepoPipelineResult(repo=repo, scan=scan, score=score, review=review)
 
     def scan_repo(self, repo: RepoMetadata, local_path: Path) -> RepoScanResult:
         scan_result = RepoScanResult(

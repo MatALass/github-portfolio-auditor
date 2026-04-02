@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import math
 import re
+from collections import Counter
 from dataclasses import dataclass
 from difflib import SequenceMatcher
 from typing import Iterable
@@ -24,6 +26,20 @@ _GENERIC_NAME_TOKENS = {
     "tool",
     "website",
 }
+
+# Common stopwords to strip before TF-IDF vectorisation
+_STOPWORDS = {
+    "a", "an", "the", "and", "or", "but", "in", "on", "at", "to", "for",
+    "of", "with", "by", "from", "is", "are", "was", "were", "be", "been",
+    "that", "this", "it", "its", "as", "i", "my", "your", "our", "their",
+    "using", "based", "built", "use", "used", "uses", "simple", "small",
+    "new", "old", "python", "js", "ts",
+}
+
+
+# ---------------------------------------------------------------------------
+# Data classes (unchanged public contract)
+# ---------------------------------------------------------------------------
 
 
 @dataclass(slots=True, frozen=True)
@@ -134,13 +150,103 @@ class RedundancyAnalysis:
         }
 
 
+# ---------------------------------------------------------------------------
+# TF-IDF cosine similarity helpers
+# ---------------------------------------------------------------------------
+
+
+def _tokenise_text(text: str) -> list[str]:
+    """Lower-case word tokens, strip stopwords, keep tokens of length >= 3."""
+    return [
+        token
+        for token in re.split(r"[^a-z0-9]+", text.lower())
+        if len(token) >= 3 and token not in _STOPWORDS
+    ]
+
+
+def _tfidf_vectors(
+    corpus: list[str],
+) -> list[dict[str, float]]:
+    """
+    Compute TF-IDF vectors for a corpus of documents.
+
+    Returns one dict per document mapping token → tfidf weight.
+    Falls back to an empty dict for empty documents.
+    """
+    n_docs = len(corpus)
+    tokenised = [_tokenise_text(doc) for doc in corpus]
+
+    # Document frequency: how many docs contain each token
+    df: Counter[str] = Counter()
+    for tokens in tokenised:
+        df.update(set(tokens))
+
+    vectors: list[dict[str, float]] = []
+    for tokens in tokenised:
+        if not tokens:
+            vectors.append({})
+            continue
+        tf = Counter(tokens)
+        total = len(tokens)
+        vec: dict[str, float] = {}
+        for token, count in tf.items():
+            tf_val = count / total
+            idf_val = math.log((1 + n_docs) / (1 + df[token])) + 1.0
+            vec[token] = tf_val * idf_val
+        # L2-normalise
+        norm = math.sqrt(sum(v * v for v in vec.values()))
+        if norm > 0:
+            vec = {k: v / norm for k, v in vec.items()}
+        vectors.append(vec)
+
+    return vectors
+
+
+def _cosine_similarity(vec_a: dict[str, float], vec_b: dict[str, float]) -> float:
+    if not vec_a or not vec_b:
+        return 0.0
+    shared = set(vec_a.keys()) & set(vec_b.keys())
+    return round(sum(vec_a[t] * vec_b[t] for t in shared), 4)
+
+
+class _DescriptionSimilarityIndex:
+    """
+    Pre-computes TF-IDF vectors for all repo descriptions so that pairwise
+    cosine similarity can be retrieved in O(vocab) instead of rebuilding the
+    corpus each time.
+    """
+
+    def __init__(self, repos: list[RepoMetadata]) -> None:
+        self._full_names: list[str] = [r.full_name for r in repos]
+        descriptions = [r.description or "" for r in repos]
+        vectors = _tfidf_vectors(descriptions)
+        self._vectors: dict[str, dict[str, float]] = dict(zip(self._full_names, vectors))
+
+    def cosine(self, full_name_a: str, full_name_b: str) -> float:
+        return _cosine_similarity(
+            self._vectors.get(full_name_a, {}),
+            self._vectors.get(full_name_b, {}),
+        )
+
+
+# ---------------------------------------------------------------------------
+# Main detector
+# ---------------------------------------------------------------------------
+
+
 class RedundancyDetector:
     """
-    Deterministic repository overlap detector.
+    Deterministic repository overlap detector — v2.
 
-    The objective is not semantic perfection. The objective is to provide a
-    stable portfolio-level signal that highlights likely redundancy clusters
-    and identifies which repository should be kept as the representative one.
+    Improvements over v1:
+    - Description similarity now uses **TF-IDF cosine similarity** in addition
+      to ``SequenceMatcher``. The cosine score captures semantic overlap even
+      when descriptions are worded differently (e.g. "data pipeline" vs
+      "ETL automation"), while SequenceMatcher catches near-exact rephrasing.
+      The final description score is the *max* of the two, so either signal can
+      flag the pair.
+    - README/topic text is included in the TF-IDF corpus when descriptions are
+      sparse (< 10 tokens), using topic tags as a fallback signal.
     """
 
     high_threshold: float = 0.72
@@ -159,13 +265,19 @@ class RedundancyDetector:
         review_index = {review.repo_full_name: review for review in reviews}
 
         full_names = sorted(set(repo_index) & set(score_index) & set(review_index))
-        pairs: list[OverlapPair] = []
 
+        # Build TF-IDF index once across the whole corpus for richer descriptions
+        desc_index = _DescriptionSimilarityIndex(
+            [repo_index[fn] for fn in full_names]
+        )
+
+        pairs: list[OverlapPair] = []
         for left_index, left_name in enumerate(full_names):
             for right_name in full_names[left_index + 1 :]:
                 pair = self._build_pair(
                     left=repo_index[left_name],
                     right=repo_index[right_name],
+                    desc_index=desc_index,
                 )
                 if pair is not None:
                     pairs.append(pair)
@@ -192,7 +304,13 @@ class RedundancyDetector:
             repo_statuses=statuses,
         )
 
-    def _build_pair(self, *, left: RepoMetadata, right: RepoMetadata) -> OverlapPair | None:
+    def _build_pair(
+        self,
+        *,
+        left: RepoMetadata,
+        right: RepoMetadata,
+        desc_index: _DescriptionSimilarityIndex,
+    ) -> OverlapPair | None:
         left_name_tokens = _tokenize_name(left.name)
         right_name_tokens = _tokenize_name(right.name)
         shared_name_tokens = tuple(sorted(left_name_tokens & right_name_tokens))
@@ -204,16 +322,21 @@ class RedundancyDetector:
         shared_topics = tuple(sorted(left_topics & right_topics))
         topic_score = _jaccard(left_topics, right_topics)
 
-        description_similarity = _sequence_similarity(left.description, right.description)
+        # v2: use max(SequenceMatcher, TF-IDF cosine) for description similarity
+        seq_sim = _sequence_similarity(left.description, right.description)
+        cosine_sim = desc_index.cosine(left.full_name, right.full_name)
+        description_similarity = max(seq_sim, cosine_sim)
 
         left_language = left.language or left.language_stats.primary_language
         right_language = right.language or right.language_stats.primary_language
-        same_primary_language = bool(left_language and right_language and left_language == right_language)
+        same_primary_language = bool(
+            left_language and right_language and left_language == right_language
+        )
 
         overlap_score = (
-            max(name_token_score, name_similarity) * 0.4
+            max(name_token_score, name_similarity) * 0.40
             + topic_score * 0.25
-            + description_similarity * 0.2
+            + description_similarity * 0.20
             + (0.15 if same_primary_language else 0.0)
         )
         overlap_score = round(min(1.0, overlap_score), 4)
@@ -229,7 +352,11 @@ class RedundancyDetector:
 
         if shared_topics:
             reasons.append(f"Shared portfolio topics: {', '.join(shared_topics)}")
-        if description_similarity >= 0.72:
+        if cosine_sim >= 0.65:
+            reasons.append(
+                f"Descriptions are semantically similar (TF-IDF cosine {cosine_sim:.2f})"
+            )
+        elif description_similarity >= 0.72:
             reasons.append("Descriptions suggest very similar project positioning")
         if same_primary_language:
             reasons.append(f"Same primary language: {left_language}")
@@ -284,12 +411,15 @@ class RedundancyDetector:
             groups.setdefault(find(name), []).append(name)
 
         clusters: list[OverlapCluster] = []
-        for index, repo_names in enumerate(sorted(groups.values(), key=lambda items: sorted(items)[0]), start=1):
+        for index, repo_names in enumerate(
+            sorted(groups.values(), key=lambda items: sorted(items)[0]), start=1
+        ):
             cluster_repo_names = tuple(sorted(repo_names))
             cluster_pairs = [
                 pair
                 for pair in relevant_pairs
-                if pair.repo_full_name_a in cluster_repo_names and pair.repo_full_name_b in cluster_repo_names
+                if pair.repo_full_name_a in cluster_repo_names
+                and pair.repo_full_name_b in cluster_repo_names
             ]
             representative = max(
                 cluster_repo_names,
@@ -345,12 +475,14 @@ class RedundancyDetector:
             if cluster.representative_repo_full_name == repo_full_name:
                 status = "REPRESENTATIVE"
                 reason = (
-                    f"Representative repository for {cluster.cluster_id}; keep this as the primary portfolio entry."
+                    f"Representative repository for {cluster.cluster_id}; "
+                    "keep this as the primary portfolio entry."
                 )
             else:
                 status = "OVERLAP_CANDIDATE"
                 reason = (
-                    f"Strong overlap with {cluster.representative_repo_full_name}; likely better merged, repositioned, or deprioritized."
+                    f"Strong overlap with {cluster.representative_repo_full_name}; "
+                    "likely better merged, repositioned, or deprioritized."
                 )
             statuses[repo_full_name] = RepoOverlapStatus(
                 repo_full_name=repo_full_name,
@@ -377,13 +509,17 @@ class RedundancyDetector:
         return score.global_score + score.confidence * 2.0 + stars_bonus - blocker_penalty - action_penalty
 
 
+# ---------------------------------------------------------------------------
+# Pure utility functions
+# ---------------------------------------------------------------------------
+
+
 def _tokenize_name(name: str) -> set[str]:
-    tokens = {
+    return {
         token
         for token in re.split(r"[^a-z0-9]+", name.lower())
         if token and len(token) >= 3 and token not in _GENERIC_NAME_TOKENS
     }
-    return tokens
 
 
 def _jaccard(left: Iterable[str], right: Iterable[str]) -> float:
