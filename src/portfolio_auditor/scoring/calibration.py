@@ -282,7 +282,10 @@ class WeightCalibrator:
             fitted = {cat: equal_w for cat in BREAKDOWN_CATEGORIES}
         else:
             # Raw coefficients represent the contribution per unit ratio — treat as weights
-            raw = {cat: max(0.0, coeff) for cat, coeff in zip(BREAKDOWN_CATEGORIES, coefficients, strict=True)}
+            raw = {
+                cat: max(0.0, coeff)
+                for cat, coeff in zip(BREAKDOWN_CATEGORIES, coefficients, strict=True)
+            }
             fitted = self._normalize_and_clamp(raw)
 
         # Compute R² and RMSE on the fitted weights
@@ -309,20 +312,78 @@ class WeightCalibrator:
         )
 
     def _normalize_and_clamp(self, raw: dict[str, float]) -> dict[str, float]:
-        """Clamp each weight then renormalize to sum to total_weight."""
-        clamped = {k: max(self.min_weight, min(self.max_weight, v)) for k, v in raw.items()}
-        total = sum(clamped.values())
-        if total <= 0:
-            equal = self.total_weight / len(clamped)
-            return {k: round(equal, 2) for k in clamped}
-        scale = self.total_weight / total
-        normalized = {k: round(v * scale, 2) for k, v in clamped.items()}
-        # Fix rounding drift
+        """Normalize raw weights to ``total_weight`` while respecting hard bounds."""
+        if not raw:
+            return {}
+
+        keys = list(raw.keys())
+        n = len(keys)
+        min_total = self.min_weight * n
+        max_total = self.max_weight * n
+        if self.total_weight < min_total - 1e-9 or self.total_weight > max_total + 1e-9:
+            raise ValueError(
+                "total_weight is incompatible with the configured min/max bounds "
+                f"for {n} categories: {self.total_weight=} not in [{min_total}, {max_total}]"
+            )
+
+        positive_raw = {k: max(0.0, float(v)) for k, v in raw.items()}
+        base = {k: self.min_weight for k in keys}
+        remaining_budget = self.total_weight - self.min_weight * n
+
+        if remaining_budget <= 1e-12:
+            return {k: round(v, 2) for k, v in base.items()}
+
+        capacities = {k: self.max_weight - self.min_weight for k in keys}
+        active = set(keys)
+        extra = {k: 0.0 for k in keys}
+
+        while active and remaining_budget > 1e-12:
+            active_total = sum(positive_raw[k] for k in active)
+            if active_total <= 1e-12:
+                equal_share = remaining_budget / len(active)
+                for k in list(active):
+                    give = min(capacities[k] - extra[k], equal_share)
+                    extra[k] += give
+                break
+
+            saturated: set[str] = set()
+            allocated = 0.0
+            for k in list(active):
+                target = remaining_budget * (positive_raw[k] / active_total)
+                give = min(capacities[k] - extra[k], target)
+                extra[k] += give
+                allocated += give
+                if capacities[k] - extra[k] <= 1e-12:
+                    saturated.add(k)
+
+            if allocated <= 1e-12:
+                remaining_capacity = [k for k in active if capacities[k] - extra[k] > 1e-12]
+                if not remaining_capacity:
+                    break
+                equal_share = remaining_budget / len(remaining_capacity)
+                for k in remaining_capacity:
+                    give = min(capacities[k] - extra[k], equal_share)
+                    extra[k] += give
+                break
+
+            remaining_budget -= allocated
+            active -= saturated
+            if not saturated and remaining_budget > 1e-12:
+                break
+
+        normalized = {k: base[k] + extra[k] for k in keys}
+
         diff = round(self.total_weight - sum(normalized.values()), 2)
         if diff != 0:
-            last_key = list(normalized.keys())[-1]
-            normalized[last_key] = round(normalized[last_key] + diff, 2)
-        return normalized
+            adjustable = [
+                k
+                for k in reversed(keys)
+                if self.min_weight - 1e-9 <= normalized[k] + diff <= self.max_weight + 1e-9
+            ]
+            if adjustable:
+                normalized[adjustable[0]] += diff
+
+        return {k: round(v, 2) for k, v in normalized.items()}
 
     @staticmethod
     def _predict(

@@ -3,41 +3,15 @@ exports/markdown_exporter.py
 
 Generates a self-contained Markdown or HTML portfolio report from the
 processed audit artifacts.
-
-Design goals
-------------
-- Zero extra dependencies: uses only stdlib + the project's existing models.
-- The HTML variant is a single file with inline CSS — no external assets.
-- The report is human-readable and recruiter-shareable.
-- Sections: executive summary, featured repos, improvement backlog,
-  top actions, redundancy clusters, score distribution table.
-
-Usage
------
-    from portfolio_auditor.exports.markdown_exporter import MarkdownExporter
-
-    # From processed artifacts directory:
-    report_md = MarkdownExporter.from_artifacts_dir("data/processed/MatALass")
-    Path("portfolio_report.md").write_text(report_md, encoding="utf-8")
-
-    # Or the HTML variant:
-    report_html = MarkdownExporter.from_artifacts_dir(
-        "data/processed/MatALass", output_format="html"
-    )
-    Path("portfolio_report.html").write_text(report_html, encoding="utf-8")
 """
 
 from __future__ import annotations
 
+import argparse
 import json
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
-
-
-# ---------------------------------------------------------------------------
-# Internal helpers
-# ---------------------------------------------------------------------------
 
 
 def _load(path: Path) -> Any:
@@ -55,7 +29,6 @@ def _load_optional(path: Path) -> Any:
 
 
 def _score_bar(score: float, width: int = 20) -> str:
-    """ASCII progress bar for Markdown."""
     filled = round(score / 100 * width)
     return "█" * filled + "░" * (width - filled)
 
@@ -78,11 +51,6 @@ def _decision_label(decision: str) -> str:
         "ARCHIVE_PUBLIC": "Archive public",
         "MAKE_PRIVATE": "Make private",
     }.get(decision, decision)
-
-
-# ---------------------------------------------------------------------------
-# Markdown builder
-# ---------------------------------------------------------------------------
 
 
 class _MarkdownBuilder:
@@ -127,21 +95,18 @@ class _MarkdownBuilder:
         return "\n".join(self._lines)
 
 
-# ---------------------------------------------------------------------------
-# Report sections
-# ---------------------------------------------------------------------------
-
-
 def _section_header(md: _MarkdownBuilder, owner: str, site_payload: dict[str, Any]) -> None:
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     overview = site_payload.get("overview", {})
     md.h1(f"GitHub Portfolio Report · {owner}")
     md.p(f"*Generated {now}*")
     md.hr()
+
     summary = overview.get("manager_summary", "")
     if summary:
         md.h2("Executive summary")
         md.p(f"> {summary}")
+
     md.h2("Portfolio snapshot")
     md.table(
         ["Metric", "Value"],
@@ -160,76 +125,99 @@ def _section_featured(md: _MarkdownBuilder, ranking: list[dict[str, Any]]) -> No
     featured = [r for r in ranking if r.get("portfolio_decision") == "FEATURE_NOW"]
     if not featured:
         return
+
     md.h2("🟢 Feature now")
     md.p("Repositories strong enough to showcase directly in your portfolio.")
+
     for repo in featured:
-        score = repo.get("global_score", 0.0)
+        score = float(repo.get("global_score", 0.0) or 0.0)
         bar = _score_bar(score)
         md.h3(f"{repo.get('repo_name')} · {score:.1f}/100")
         md.p(f"`{bar}` {score:.1f}%")
+
         desc = repo.get("description") or ""
         if desc:
             md.p(f"*{desc}*")
+
         lang = repo.get("primary_language") or "Unknown"
         stars = repo.get("stars", 0)
         url = repo.get("html_url", "")
         homepage = repo.get("homepage") or ""
+
         meta_parts = [f"**Language:** {lang}", f"**Stars:** {stars}"]
         if url:
             meta_parts.append(f"[GitHub]({url})")
         if homepage:
             meta_parts.append(f"[Demo]({homepage})")
+
         md.p("  ·  ".join(meta_parts))
 
 
-def _section_backlog(md: _MarkdownBuilder, ranking: list[dict[str, Any]], review_index: dict[str, dict[str, Any]]) -> None:
+def _section_backlog(
+    md: _MarkdownBuilder,
+    ranking: list[dict[str, Any]],
+    review_index: dict[str, dict[str, Any]],
+) -> None:
     backlog = [
-        r for r in ranking
+        r
+        for r in ranking
         if r.get("portfolio_decision") in {"KEEP_AND_IMPROVE", "MERGE_OR_REPOSITION"}
     ]
     if not backlog:
         return
+
     md.h2("🟡 Improvement backlog")
-    rows = []
+    rows: list[list[str]] = []
+
     for repo in backlog:
-        name = repo.get("repo_name", "")
-        score = repo.get("global_score", 0.0)
-        decision = repo.get("portfolio_decision", "")
+        name = str(repo.get("repo_name", ""))
+        score = float(repo.get("global_score", 0.0) or 0.0)
+        decision = str(repo.get("portfolio_decision", ""))
         review = review_index.get(name, {})
         top_action = ""
+
         actions = review.get("priority_actions") or []
         if actions:
             top_action = str(actions[0].get("text", ""))[:60]
-        rows.append([
-            f"{_decision_emoji(decision)} {name}",
-            f"{score:.1f}",
-            _decision_label(decision),
-            top_action,
-        ])
+
+        rows.append(
+            [
+                f"{_decision_emoji(decision)} {name}",
+                f"{score:.1f}",
+                _decision_label(decision),
+                top_action,
+            ]
+        )
+
     md.table(["Repository", "Score", "Decision", "Top priority action"], rows)
 
 
 def _section_all_repos(md: _MarkdownBuilder, ranking: list[dict[str, Any]]) -> None:
     md.h2("📊 Full ranking")
-    rows = []
+    rows: list[list[str]] = []
+
     for repo in ranking:
         name = repo.get("repo_name", "")
-        score = repo.get("global_score", 0.0)
-        decision = repo.get("portfolio_decision", "")
+        score = float(repo.get("global_score", 0.0) or 0.0)
+        decision = str(repo.get("portfolio_decision", ""))
         lang = repo.get("primary_language") or "—"
         stars = repo.get("stars", 0)
-        confidence = repo.get("confidence", 0.0)
+        confidence = float(repo.get("confidence", 0.0) or 0.0)
         redundancy = repo.get("redundancy_status", "UNIQUE")
         red_marker = "⚠" if redundancy == "OVERLAP_CANDIDATE" else ""
-        rows.append([
-            str(repo.get("rank", "")),
-            f"{_decision_emoji(decision)} {name} {red_marker}",
-            f"{score:.1f}",
-            f"{confidence:.0%}",
-            lang,
-            str(stars),
-            _decision_label(decision),
-        ])
+
+        rows.append(
+            [
+                str(repo.get("rank", "")),
+                f"{_decision_emoji(decision)} {name} {red_marker}".strip(),
+                f"{score:.1f}",
+                f"{confidence:.0%}",
+                str(lang),
+                str(stars),
+                _decision_label(decision),
+            ]
+        )
+
     md.table(
         ["#", "Repository", "Score", "Confidence", "Language", "⭐", "Decision"],
         rows,
@@ -240,12 +228,14 @@ def _section_top_actions(md: _MarkdownBuilder, ranking_summary: dict[str, Any]) 
     priority_repos = ranking_summary.get("highest_priority_improvements", [])
     if not priority_repos:
         return
+
     md.h2("🚀 Highest-priority improvements")
     md.p("Top repositories where targeted effort yields the best portfolio ROI.")
+
     for repo in priority_repos[:6]:
         name = repo.get("repo_name", "")
-        score = repo.get("global_score", 0.0)
-        actions_count = repo.get("priority_actions_count", 0)
+        score = float(repo.get("global_score", 0.0) or 0.0)
+        actions_count = int(repo.get("priority_actions_count", 0) or 0)
         md.bullet(f"**{name}** — {score:.1f}/100 · {actions_count} priority action(s)")
 
 
@@ -254,31 +244,36 @@ def _section_redundancy(md: _MarkdownBuilder, redundancy: dict[str, Any]) -> Non
     pairs = redundancy.get("overlap_pairs", [])
     if not clusters and not pairs:
         return
+
     md.h2("🔄 Redundancy analysis")
+
     if clusters:
-        md.p(f"**{len(clusters)} overlap cluster(s) detected.** Consider merging or repositioning duplicate projects.")
+        md.p(
+            f"**{len(clusters)} overlap cluster(s) detected.** "
+            "Consider merging or repositioning duplicate projects."
+        )
         for cluster in clusters:
             cid = cluster.get("cluster_id", "")
             rep = cluster.get("representative_repo_full_name", "")
             members = cluster.get("repo_full_names", [])
-            avg = cluster.get("average_overlap_score", 0.0)
+            avg = float(cluster.get("average_overlap_score", 0.0) or 0.0)
+
             md.h3(f"{cid} · avg overlap {avg:.0%}")
             md.bullet(f"Representative: **{rep}**")
             for member in members:
                 if member != rep:
                     md.bullet(f"Candidate: {member}", indent=1)
+
     if pairs:
         md.p(f"**{len(pairs)} overlap pair(s)** identified (threshold ≥ 0.58).")
 
 
 def _section_footer(md: _MarkdownBuilder) -> None:
     md.hr()
-    md.p("*Report generated by [GitHub Portfolio Auditor](https://github.com) — deterministic, policy-driven.*")
+    md.p(
+        "*Report generated by GitHub Portfolio Auditor — deterministic, policy-driven.*"
+    )
 
-
-# ---------------------------------------------------------------------------
-# HTML wrapper
-# ---------------------------------------------------------------------------
 
 _HTML_CSS = """
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -299,14 +294,22 @@ code { background: #f1f5f9; padding: 2px 5px; border-radius: 3px;
 hr { border: none; border-top: 1px solid #e2e8f0; margin: 2rem 0; }
 em { color: #475569; }
 li { margin: 4px 0; }
+a { color: #2563eb; text-decoration: none; }
+a:hover { text-decoration: underline; }
 """
 
 
+def _inline_md(text: str) -> str:
+    import re
+
+    text = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", text)
+    text = re.sub(r"\*(.+?)\*", r"<em>\1</em>", text)
+    text = re.sub(r"`(.+?)`", r"<code>\1</code>", text)
+    text = re.sub(r"\[(.+?)\]\((.+?)\)", r'<a href="\2">\1</a>', text)
+    return text
+
+
 def _markdown_to_simple_html(md_text: str) -> str:
-    """
-    Minimal Markdown → HTML converter covering the subset we generate.
-    Not a general-purpose converter — handles exactly what _MarkdownBuilder produces.
-    """
     import re
 
     lines = md_text.split("\n")
@@ -315,38 +318,39 @@ def _markdown_to_simple_html(md_text: str) -> str:
     in_ul = False
 
     for line in lines:
-        # Table row
         if line.startswith("|"):
             if not in_table:
                 html_lines.append("<table>")
                 in_table = True
-                # first line is header
                 cells = [c.strip() for c in line.strip("|").split("|")]
-                html_lines.append("<thead><tr>" + "".join(f"<th>{c}</th>" for c in cells) + "</tr></thead><tbody>")
+                html_lines.append(
+                    "<thead><tr>"
+                    + "".join(f"<th>{c}</th>" for c in cells)
+                    + "</tr></thead><tbody>"
+                )
             elif re.match(r"^\|\s*-", line):
-                continue  # separator row
+                continue
             else:
                 cells = [c.strip() for c in line.strip("|").split("|")]
-                html_lines.append("<tr>" + "".join(f"<td>{_inline_md(c)}</td>" for c in cells) + "</tr>")
+                html_lines.append(
+                    "<tr>" + "".join(f"<td>{_inline_md(c)}</td>" for c in cells) + "</tr>"
+                )
             continue
         elif in_table:
             html_lines.append("</tbody></table>")
             in_table = False
 
-        # List item
         if re.match(r"^(\s*)- ", line):
             if not in_ul:
                 html_lines.append("<ul>")
                 in_ul = True
-            indent = len(line) - len(line.lstrip())
-            content = line.lstrip("- ").strip()
-            html_lines.append(f"<li style='margin-left:{indent * 8}px'>{_inline_md(content)}</li>")
+            content = line.lstrip().removeprefix("-").strip()
+            html_lines.append(f"<li>{_inline_md(content)}</li>")
             continue
         elif in_ul:
             html_lines.append("</ul>")
             in_ul = False
 
-        # Headings
         if line.startswith("# "):
             html_lines.append(f"<h1>{_inline_md(line[2:])}</h1>")
         elif line.startswith("## "):
@@ -370,51 +374,13 @@ def _markdown_to_simple_html(md_text: str) -> str:
     return "\n".join(html_lines)
 
 
-def _inline_md(text: str) -> str:
-    """Convert inline Markdown (bold, italic, code, links) to HTML."""
-    import re
-
-    text = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", text)
-    text = re.sub(r"\*(.+?)\*", r"<em>\1</em>", text)
-    text = re.sub(r"`(.+?)`", r"<code>\1</code>", text)
-    text = re.sub(r"\[(.+?)\]\((.+?)\)", r'<a href="\2">\1</a>', text)
-    return text
-
-
-# ---------------------------------------------------------------------------
-# Public API
-# ---------------------------------------------------------------------------
-
-
 class MarkdownExporter:
-    """
-    Builds a portfolio audit report in Markdown or HTML format from processed
-    artifacts.
-
-    All methods are static — no instantiation needed.
-    """
-
     @staticmethod
     def from_artifacts_dir(
         owner_dir: str | Path,
         *,
         output_format: str = "markdown",
     ) -> str:
-        """
-        Generate a report from the processed artifacts of an owner.
-
-        Parameters
-        ----------
-        owner_dir:
-            Path to ``data/processed/<owner>/``.
-        output_format:
-            ``"markdown"`` (default) or ``"html"``.
-
-        Returns
-        -------
-        str
-            The report as a Markdown or HTML string.
-        """
         owner_dir = Path(owner_dir)
         owner = owner_dir.name
 
@@ -447,11 +413,12 @@ class MarkdownExporter:
 
         if output_format == "html":
             return MarkdownExporter.to_html(report_md, owner=owner)
+        if output_format != "markdown":
+            raise ValueError("output_format must be 'markdown' or 'html'")
         return report_md
 
     @staticmethod
     def to_html(markdown_text: str, *, owner: str = "Portfolio") -> str:
-        """Wrap a Markdown report in a minimal HTML page."""
         body = _markdown_to_simple_html(markdown_text)
         now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         return f"""<!DOCTYPE html>
@@ -465,7 +432,8 @@ class MarkdownExporter:
 <body>
 {body}
 </body>
-</html>"""
+</html>
+"""
 
     @staticmethod
     def export_to_file(
@@ -474,12 +442,49 @@ class MarkdownExporter:
         *,
         output_format: str = "markdown",
     ) -> Path:
-        """
-        Generate a report and write it to a file.
-
-        Returns the path of the written file.
-        """
-        report = MarkdownExporter.from_artifacts_dir(owner_dir, output_format=output_format)
+        content = MarkdownExporter.from_artifacts_dir(
+            owner_dir,
+            output_format=output_format,
+        )
         output_path = Path(output_path)
-        output_path.write_text(report, encoding="utf-8")
+        output_path.write_text(content, encoding="utf-8")
         return output_path
+
+
+def _parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Generate a Markdown or HTML portfolio report from processed artifacts."
+    )
+    parser.add_argument("--owner", required=True, help="Owner name under data/processed/<owner>")
+    parser.add_argument(
+        "--format",
+        dest="output_format",
+        choices=["markdown", "html"],
+        default="markdown",
+        help="Output format.",
+    )
+    parser.add_argument(
+        "--output",
+        required=True,
+        help="Output file path.",
+    )
+    parser.add_argument(
+        "--base-dir",
+        default="data/processed",
+        help="Base processed artifacts directory.",
+    )
+    return parser.parse_args()
+
+
+def main() -> None:
+    args = _parse_args()
+    owner_dir = Path(args.base_dir) / args.owner
+    MarkdownExporter.export_to_file(
+        owner_dir,
+        args.output,
+        output_format=args.output_format,
+    )
+
+
+if __name__ == "__main__":
+    main()

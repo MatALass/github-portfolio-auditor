@@ -40,45 +40,39 @@ ACTION_IMPACT_RULES: dict[str, dict[str, Any]] = {
     },
     "Write a complete README.": {
         "penalty_codes": {"README_MISSING", "README_TOO_SHORT", "USAGE_MISSING"},
-        "fallback_points": 0.0,
+        "fallback_points": 6.0,
         "effort_units": 2.0,
         "category": "documentation",
     },
-    "Add and apply a proper .gitignore.": {
-        "penalty_codes": {"PYCACHE_COMMITTED", "BUILD_ARTIFACTS_COMMITTED"},
-        "fallback_points": 0.0,
-        "effort_units": 1.0,
-        "category": "hygiene",
-    },
-    "Delete committed __pycache__ directories.": {
-        "penalty_codes": {"PYCACHE_COMMITTED"},
-        "fallback_points": 0.0,
-        "effort_units": 0.5,
-        "category": "hygiene",
-    },
-    "Remove generated build/cache artifacts.": {
-        "penalty_codes": {"BUILD_ARTIFACTS_COMMITTED"},
-        "fallback_points": 0.0,
-        "effort_units": 0.75,
-        "category": "hygiene",
-    },
-    "Review large committed files and keep only necessary assets.": {
-        "penalty_codes": {"OVERSIZED_FILES"},
-        "fallback_points": 0.0,
-        "effort_units": 1.5,
-        "category": "hygiene",
-    },
-    "Expose a demo or homepage link when relevant.": {
-        "penalty_codes": set(),
-        "fallback_points": 1.5,
-        "effort_units": 1.0,
-        "category": "portfolio_signal",
-    },
     "Add a concise GitHub description.": {
-        "penalty_codes": set(),
+        "penalty_codes": {"DESCRIPTION_MISSING"},
         "fallback_points": 1.0,
         "effort_units": 0.5,
-        "category": "portfolio_signal",
+        "category": "documentation",
+    },
+    "Expose a demo or homepage link when relevant.": {
+        "penalty_codes": {"HOMEPAGE_MISSING", "DEMO_MISSING"},
+        "fallback_points": 2.0,
+        "effort_units": 0.5,
+        "category": "portfolio_relevance",
+    },
+    "Clarify the portfolio positioning and business value.": {
+        "penalty_codes": {"PORTFOLIO_VALUE_UNCLEAR"},
+        "fallback_points": 3.0,
+        "effort_units": 1.5,
+        "category": "portfolio_relevance",
+    },
+    "Strengthen the technical depth of the implementation.": {
+        "penalty_codes": {"TECHNICAL_DEPTH_LIMITED"},
+        "fallback_points": 4.0,
+        "effort_units": 3.0,
+        "category": "technical_depth",
+    },
+    "Improve maintainability and code cleanliness.": {
+        "penalty_codes": {"MAINTAINABILITY_WEAK"},
+        "fallback_points": 3.0,
+        "effort_units": 2.0,
+        "category": "maintainability",
     },
 }
 
@@ -103,24 +97,42 @@ def estimate_action_impact(
         action_text,
         {
             "penalty_codes": set(),
-            "fallback_points": 0.75,
-            "effort_units": 1.5,
+            "fallback_points": 2.0,
+            "effort_units": 2.0,
             "category": "general",
         },
     )
 
-    penalty_points = repo_penalty_points(score_entry)
-    matched_codes = sorted(code for code in rule["penalty_codes"] if penalty_points.get(code, 0.0) > 0)
-    estimated_points = sum(penalty_points.get(code, 0.0) for code in matched_codes)
+    penalty_index = repo_penalty_points(score_entry)
 
-    if estimated_points <= 0 and action_text == "Expose a demo or homepage link when relevant.":
-        homepage = str(repo_row.get("homepage") or "").strip()
-        if not homepage:
+    review_matched_codes = [
+        str(code).strip()
+        for code in (review.get("matched_penalty_codes", []) or [])
+        if str(code).strip()
+    ]
+
+    if review_matched_codes:
+        matched_codes = [code for code in review_matched_codes if code in rule["penalty_codes"]]
+    else:
+        matched_codes = [code for code in penalty_index if code in rule["penalty_codes"]]
+
+    estimated_points = round(sum(penalty_index.get(code, 0.0) for code in matched_codes), 2)
+
+    if estimated_points <= 0 and action_text == "Write a complete README.":
+        readme_length = int(repo_row.get("readme_length", 0) or 0)
+        if readme_length == 0:
             estimated_points = float(rule["fallback_points"])
+
     elif estimated_points <= 0 and action_text == "Add a concise GitHub description.":
         description = str(repo_row.get("description") or "").strip()
         if not description:
             estimated_points = float(rule["fallback_points"])
+
+    elif estimated_points <= 0 and action_text == "Expose a demo or homepage link when relevant.":
+        homepage = str(repo_row.get("homepage") or "").strip()
+        if not homepage:
+            estimated_points = float(rule["fallback_points"])
+
     elif estimated_points <= 0 and action_text not in ACTION_IMPACT_RULES:
         estimated_points = float(rule["fallback_points"])
 
@@ -187,7 +199,8 @@ def derive_repo_optimizer_fields(
 
 
 def build_next_actions(
-    df: pd.DataFrame, review_index: dict[str, dict[str, Any]]
+    df: pd.DataFrame,
+    review_index: dict[str, dict[str, Any]],
 ) -> list[dict[str, Any]]:
     counter: Counter[str] = Counter()
     action_rows: dict[str, list[dict[str, Any]]] = {}
@@ -210,12 +223,14 @@ def build_next_actions(
                     "estimated_score_lift": float(opportunity.get("estimated_score_lift", 0.0)),
                     "effort_units": float(opportunity.get("effort_units", 0.0)),
                     "roi": float(opportunity.get("roi", 0.0)),
-                    "matched_penalty_codes": list(opportunity.get("matched_penalty_codes", [])),
+                    "matched_penalty_codes": list(
+                        opportunity.get("matched_penalty_codes", [])
+                    ),
                 }
             )
 
     ranked_actions: list[dict[str, Any]] = []
-    for action_text, _count in counter.most_common(12):
+    for action_text in counter:
         repos = sorted(
             action_rows[action_text],
             key=lambda item: (
@@ -241,7 +256,16 @@ def build_next_actions(
                 "repos": repos[:6],
             }
         )
-    return ranked_actions
+
+    return sorted(
+        ranked_actions,
+        key=lambda item: (
+            -item["roi"],
+            -item["estimated_total_score_lift"],
+            -item["affected_repo_count"],
+            item["action"],
+        ),
+    )[:12]
 
 
 def simulate_portfolio(
@@ -263,12 +287,15 @@ def simulate_portfolio(
     def _project_for_scope(scope_df: pd.DataFrame, top_n: int) -> float:
         if scope_df.empty:
             return 0.0
+
         repo_lifts: dict[str, float] = {row["repo_name"]: 0.0 for _, row in scope_df.iterrows()}
+
         for action in prioritized_actions[:top_n]:
             for repo in action["repos"]:
                 repo_name = str(repo.get("repo_name"))
                 if repo_name not in repo_lifts:
                     continue
+
                 current_score = float(
                     scope_df.loc[scope_df["repo_name"] == repo_name, "global_score"].iloc[0]
                 )
@@ -278,6 +305,7 @@ def simulate_portfolio(
                 remaining = max(0.0, ceiling - current_score - repo_lifts[repo_name])
                 lift = min(float(repo.get("estimated_score_lift", 0.0)), remaining)
                 repo_lifts[repo_name] += lift
+
         projected_scores = [
             min(100.0, float(row["global_score"]) + repo_lifts.get(str(row["repo_name"]), 0.0))
             for _, row in scope_df.iterrows()

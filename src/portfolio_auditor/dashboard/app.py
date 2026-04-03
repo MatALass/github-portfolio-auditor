@@ -22,6 +22,7 @@ from portfolio_auditor.dashboard.repo_sync import (
     fetch_live_repo_sync_result,
     should_refresh_audit,
 )
+from portfolio_auditor.exports import MarkdownExporter
 from portfolio_auditor.settings import get_settings, reset_settings_cache
 
 
@@ -259,7 +260,7 @@ def main() -> None:
             "Use refresh when repositories changed recently or when you want the latest "
             "local scan evidence."
         )
-        if st.button("Run fresh audit now", type="primary", width='stretch'):
+        if st.button("Run fresh audit now", type="primary", use_container_width=True):
             with st.spinner(
                 "Refreshing portfolio artifacts from GitHub. This can take a while for "
                 "larger portfolios."
@@ -274,6 +275,14 @@ def main() -> None:
 
     try:
         data = load_dashboard_data(owner)
+        report_md = MarkdownExporter.from_artifacts_dir(
+            data.base_dir,
+            output_format="markdown",
+        )
+        report_html = MarkdownExporter.from_artifacts_dir(
+            data.base_dir,
+            output_format="html",
+        )
     except DashboardDataError as exc:
         st.error(str(exc))
         st.info(
@@ -292,6 +301,7 @@ def main() -> None:
 
     ranking_path = data.base_dir / "ranking.json"
     mtime = ranking_path.stat().st_mtime if ranking_path.exists() else None
+
     with st.sidebar:
         _render_staleness_indicator(mtime)
         st.markdown("---")
@@ -300,7 +310,7 @@ def main() -> None:
             refresh_decision = should_refresh_audit(sync_result)
             if refresh_decision.should_refresh and st.button(
                 "Refresh audit to sync GitHub changes",
-                width='stretch',
+                use_container_width=True,
             ):
                 with st.spinner(
                     "Refreshing portfolio artifacts to include the latest GitHub changes."
@@ -315,6 +325,7 @@ def main() -> None:
             st.info(f"GitHub sync check unavailable: {sync_error}")
 
     repo_options = data.repo_df["repo_name"].tolist()
+
     with st.sidebar:
         selected_repo = st.selectbox("Repository detail", options=repo_options)
         st.markdown("---")
@@ -347,7 +358,7 @@ def main() -> None:
             )
             if data.comparison_summary.get("snapshot_created_at_utc"):
                 st.caption(
-                    f"Compared with snapshot: "
+                    "Compared with snapshot: "
                     f"{data.comparison_summary['snapshot_created_at_utc']}"
                 )
 
@@ -361,6 +372,23 @@ def main() -> None:
                 f"{best_action['estimated_total_score_lift']:.2f} · "
                 f"ROI {best_action['roi']:.2f}"
             )
+
+        st.markdown("---")
+        st.markdown("### Export report")
+        st.download_button(
+            label="Download Markdown report",
+            data=report_md,
+            file_name=f"{owner}-portfolio-report.md",
+            mime="text/markdown",
+            use_container_width=True,
+        )
+        st.download_button(
+            label="Download HTML report",
+            data=report_html,
+            file_name=f"{owner}-portfolio-report.html",
+            mime="text/html",
+            use_container_width=True,
+        )
 
     tabs = st.tabs(
         [
