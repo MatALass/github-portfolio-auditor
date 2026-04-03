@@ -22,7 +22,7 @@ from portfolio_auditor.dashboard.repo_sync import (
     fetch_live_repo_sync_result,
     should_refresh_audit,
 )
-from portfolio_auditor.exports import MarkdownExporter
+from portfolio_auditor.exports.markdown_exporter import MarkdownExporter
 from portfolio_auditor.settings import get_settings, reset_settings_cache
 
 
