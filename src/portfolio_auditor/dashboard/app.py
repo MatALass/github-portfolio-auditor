@@ -232,7 +232,7 @@ def main() -> None:
     _inject_styles()
     _configure_runtime_environment()
 
-    st.title("GitHub Portfolio Auditor · Dashboard V2.5")
+    st.title("GitHub Portfolio Auditor · Dashboard")
     st.caption(
         "Portfolio decision dashboard with live refresh. It can load existing processed "
         "artifacts or re-run the deterministic GitHub audit directly from Streamlit."
