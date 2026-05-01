@@ -4,7 +4,7 @@ import os
 from functools import lru_cache
 from pathlib import Path
 
-from pydantic import Field
+from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -13,6 +13,11 @@ class Settings(BaseSettings):
     Central application settings.
 
     Environment variables should be defined in a local .env file or in the shell.
+
+    Sub-directory paths (raw_dir, interim_dir, etc.) are derived automatically
+    from workspace_dir via a model_validator, so changing WORKSPACE_DIR in .env
+    is sufficient to relocate the entire data tree.  Individual paths can still
+    be overridden explicitly if needed.
     """
 
     model_config = SettingsConfigDict(
@@ -36,7 +41,11 @@ class Settings(BaseSettings):
     openai_api_key: str | None = Field(default=None, alias="OPENAI_API_KEY")
     llm_enabled: bool = False
 
+    # Root of the data tree.  All sub-paths below are derived from this value
+    # unless explicitly overridden via environment variables.
     workspace_dir: Path = Path("data")
+
+    # Sub-paths — populated by _resolve_subdirs if not set explicitly.
     raw_dir: Path = Path("data/raw")
     interim_dir: Path = Path("data/interim")
     processed_dir: Path = Path("data/processed")
@@ -52,6 +61,48 @@ class Settings(BaseSettings):
     include_forks: bool = True
     include_archived: bool = True
     max_repos: int | None = None
+
+    @model_validator(mode="after")
+    def _resolve_subdirs(self) -> "Settings":
+        """
+        Derive sub-directory paths from workspace_dir.
+
+        A sub-path is only recomputed when it still equals its declared default,
+        which means it was not explicitly set via an environment variable.  This
+        preserves the ability to override individual paths without touching the
+        others.
+        """
+        base = self.workspace_dir
+
+        _defaults: dict[str, Path] = {
+            "raw_dir": Path("data/raw"),
+            "interim_dir": Path("data/interim"),
+            "processed_dir": Path("data/processed"),
+            "processed_history_dir": Path("data/processed_history"),
+            "github_raw_dir": Path("data/raw/github"),
+            "clones_dir": Path("data/raw/clones"),
+            "scans_dir": Path("data/interim/scans"),
+            "scores_dir": Path("data/interim/scores"),
+            "reviews_dir": Path("data/interim/reviews"),
+        }
+
+        _derived: dict[str, Path] = {
+            "raw_dir": base / "raw",
+            "interim_dir": base / "interim",
+            "processed_dir": base / "processed",
+            "processed_history_dir": base / "processed_history",
+            "github_raw_dir": base / "raw" / "github",
+            "clones_dir": base / "raw" / "clones",
+            "scans_dir": base / "interim" / "scans",
+            "scores_dir": base / "interim" / "scores",
+            "reviews_dir": base / "interim" / "reviews",
+        }
+
+        for attr, default in _defaults.items():
+            if getattr(self, attr) == default:
+                object.__setattr__(self, attr, _derived[attr])
+
+        return self
 
     @property
     def github_headers(self) -> dict[str, str]:

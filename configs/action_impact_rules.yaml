@@ -1,0 +1,93 @@
+# configs/action_impact_rules.yaml
+#
+# ROI-based action scoring rules used by the portfolio optimizer.
+#
+# Each entry maps an action label (must match the text emitted by the
+# DeterministicReviewer) to its scoring parameters:
+#
+#   penalty_codes   — set of score penalty codes this action resolves.
+#                     Used to estimate how many points the action would recover.
+#   fallback_points — points awarded when no matching penalty is found in the
+#                     score entry but the underlying signal is still present
+#                     (e.g. empty description, missing README).
+#   effort_units    — relative effort cost (dimensionless, used for ROI = lift / effort).
+#                     Adjust based on empirical calibration.
+#   category        — grouping label used in the dashboard optimizer view.
+
+actions:
+  - text: "Build a core automated test suite."
+    penalty_codes:
+      - NO_TESTS_DETECTED
+      - WEAK_TEST_BASELINE
+    fallback_points: 0.0
+    effort_units: 3.0
+    category: testing
+
+  - text: "Run automated tests in CI."
+    penalty_codes:
+      - NO_TEST_CI
+    fallback_points: 0.0
+    effort_units: 2.0
+    category: testing
+
+  - text: "Introduce a clearer source-code structure."
+    penalty_codes:
+      - MAIN_CODE_DIR_MISSING
+      - ROOT_TOO_CROWDED
+    fallback_points: 0.0
+    effort_units: 2.5
+    category: architecture
+
+  - text: "Document exactly how to run and use the project."
+    penalty_codes:
+      - USAGE_MISSING
+      - README_MISSING
+      - README_TOO_SHORT
+    fallback_points: 0.0
+    effort_units: 1.5
+    category: documentation
+
+  - text: "Write a complete README."
+    penalty_codes:
+      - README_MISSING
+      - README_TOO_SHORT
+      - USAGE_MISSING
+    fallback_points: 6.0
+    effort_units: 2.0
+    category: documentation
+
+  - text: "Add a concise GitHub description."
+    penalty_codes:
+      - DESCRIPTION_MISSING
+    fallback_points: 1.0
+    effort_units: 0.5
+    category: documentation
+
+  - text: "Expose a demo or homepage link when relevant."
+    penalty_codes:
+      - HOMEPAGE_MISSING
+      - DEMO_MISSING
+    fallback_points: 2.0
+    effort_units: 0.5
+    category: portfolio_relevance
+
+  - text: "Clarify the portfolio positioning and business value."
+    penalty_codes:
+      - PORTFOLIO_VALUE_UNCLEAR
+    fallback_points: 3.0
+    effort_units: 1.5
+    category: portfolio_relevance
+
+  - text: "Strengthen the technical depth of the implementation."
+    penalty_codes:
+      - TECHNICAL_DEPTH_LIMITED
+    fallback_points: 4.0
+    effort_units: 3.0
+    category: technical_depth
+
+  - text: "Improve maintainability and code cleanliness."
+    penalty_codes:
+      - MAINTAINABILITY_WEAK
+    fallback_points: 3.0
+    effort_units: 2.0
+    category: maintainability

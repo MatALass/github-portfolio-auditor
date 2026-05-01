@@ -2,79 +2,66 @@
 dashboard/optimizer.py
 
 ROI-based action scoring and portfolio simulation, extracted from data_loader.
+
+ACTION_IMPACT_RULES is loaded at import time from configs/action_impact_rules.yaml.
+Edit that file to adjust effort estimates or add new action types without touching
+this module.
 """
 
 from __future__ import annotations
 
 from collections import Counter
+from pathlib import Path
 from typing import Any
 
 import pandas as pd
+import yaml
 
 SEVERITY_ORDER = {"high": 3, "medium": 2, "low": 1}
 
-ACTION_IMPACT_RULES: dict[str, dict[str, Any]] = {
-    "Build a core automated test suite.": {
-        "penalty_codes": {"NO_TESTS_DETECTED", "WEAK_TEST_BASELINE"},
-        "fallback_points": 0.0,
-        "effort_units": 3.0,
-        "category": "testing",
-    },
-    "Run automated tests in CI.": {
-        "penalty_codes": {"NO_TEST_CI"},
-        "fallback_points": 0.0,
-        "effort_units": 2.0,
-        "category": "testing",
-    },
-    "Introduce a clearer source-code structure.": {
-        "penalty_codes": {"MAIN_CODE_DIR_MISSING", "ROOT_TOO_CROWDED"},
-        "fallback_points": 0.0,
-        "effort_units": 2.5,
-        "category": "architecture",
-    },
-    "Document exactly how to run and use the project.": {
-        "penalty_codes": {"USAGE_MISSING", "README_MISSING", "README_TOO_SHORT"},
-        "fallback_points": 0.0,
-        "effort_units": 1.5,
-        "category": "documentation",
-    },
-    "Write a complete README.": {
-        "penalty_codes": {"README_MISSING", "README_TOO_SHORT", "USAGE_MISSING"},
-        "fallback_points": 6.0,
-        "effort_units": 2.0,
-        "category": "documentation",
-    },
-    "Add a concise GitHub description.": {
-        "penalty_codes": {"DESCRIPTION_MISSING"},
-        "fallback_points": 1.0,
-        "effort_units": 0.5,
-        "category": "documentation",
-    },
-    "Expose a demo or homepage link when relevant.": {
-        "penalty_codes": {"HOMEPAGE_MISSING", "DEMO_MISSING"},
-        "fallback_points": 2.0,
-        "effort_units": 0.5,
-        "category": "portfolio_relevance",
-    },
-    "Clarify the portfolio positioning and business value.": {
-        "penalty_codes": {"PORTFOLIO_VALUE_UNCLEAR"},
-        "fallback_points": 3.0,
-        "effort_units": 1.5,
-        "category": "portfolio_relevance",
-    },
-    "Strengthen the technical depth of the implementation.": {
-        "penalty_codes": {"TECHNICAL_DEPTH_LIMITED"},
-        "fallback_points": 4.0,
-        "effort_units": 3.0,
-        "category": "technical_depth",
-    },
-    "Improve maintainability and code cleanliness.": {
-        "penalty_codes": {"MAINTAINABILITY_WEAK"},
-        "fallback_points": 3.0,
-        "effort_units": 2.0,
-        "category": "maintainability",
-    },
-}
+# ---------------------------------------------------------------------------
+# Load action impact rules from YAML config
+# ---------------------------------------------------------------------------
+
+_RULES_PATH = Path(__file__).parents[3] / "configs" / "action_impact_rules.yaml"
+
+
+def _load_action_impact_rules(path: Path = _RULES_PATH) -> dict[str, dict[str, Any]]:
+    """
+    Load ACTION_IMPACT_RULES from a YAML file.
+
+    The YAML schema is a list under the 'actions' key; each entry has:
+      text, penalty_codes, fallback_points, effort_units, category.
+
+    Returns a dict keyed by action text, matching the previous in-code format
+    so all downstream callers remain unchanged.
+    """
+    if not path.exists():
+        # Graceful fallback: return an empty ruleset rather than crashing.
+        # The optimizer will still work but all actions will use fallback defaults.
+        return {}
+
+    with path.open("r", encoding="utf-8") as fh:
+        raw = yaml.safe_load(fh)
+
+    rules: dict[str, dict[str, Any]] = {}
+    for entry in raw.get("actions", []):
+        text = str(entry["text"])
+        rules[text] = {
+            "penalty_codes": set(entry.get("penalty_codes", [])),
+            "fallback_points": float(entry.get("fallback_points", 0.0)),
+            "effort_units": float(entry.get("effort_units", 2.0)),
+            "category": str(entry.get("category", "general")),
+        }
+    return rules
+
+
+ACTION_IMPACT_RULES: dict[str, dict[str, Any]] = _load_action_impact_rules()
+
+
+# ---------------------------------------------------------------------------
+# Core scoring helpers
+# ---------------------------------------------------------------------------
 
 
 def repo_penalty_points(score_entry: dict[str, Any]) -> dict[str, float]:

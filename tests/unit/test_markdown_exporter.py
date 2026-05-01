@@ -23,14 +23,13 @@ import pytest
 
 from portfolio_auditor.exports.markdown_exporter import (
     MarkdownExporter,
-    _MarkdownBuilder,
     _decision_emoji,
     _decision_label,
     _inline_md,
     _markdown_to_simple_html,
+    _MarkdownBuilder,
     _score_bar,
 )
-
 
 # ---------------------------------------------------------------------------
 # Pure helpers

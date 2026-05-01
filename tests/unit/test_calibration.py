@@ -14,8 +14,6 @@ Tests cover:
 
 from __future__ import annotations
 
-import math
-
 import pytest
 
 from portfolio_auditor.scoring.calibration import (

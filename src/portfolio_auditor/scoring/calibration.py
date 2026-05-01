@@ -266,7 +266,6 @@ class WeightCalibrator:
             row = []
             for cat in BREAKDOWN_CATEGORIES:
                 weighted_score = sample.breakdown.get(cat, 0.0)
-                max_pts = max_per_category.get(cat, 20.0)
                 current_w = current_weights.get(POLICY_WEIGHT_NAMES[cat], 20.0)
                 # Recover the ratio: weighted_score / current_weight = ratio
                 ratio = weighted_score / current_w if current_w > 0 else 0.0

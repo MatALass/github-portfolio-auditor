@@ -69,6 +69,7 @@ GitHub Portfolio Auditor is a system that:
 
 The system is structured as follows:
 
+```
 src/
   portfolio_auditor/
     collectors/        GitHub API
@@ -79,79 +80,122 @@ src/
     dashboard/         Streamlit UI
     models/            domain models
 
+configs/
+  scoring.yaml               score dimension weights
+  action_impact_rules.yaml   optimizer ROI rules (effort, category per action)
+  portfolio_rules.yaml       portfolio decision thresholds
+
 tests/
   unit/
   integration/
-  golden/             snapshot tests
+  golden/                    snapshot tests
   smoke/
 
 docs/
   scoring_methodology.md
   portfolio_decision_rules.md
+```
 
 ---
 
 ## 6. Key design principles
 
-Deterministic first  
+**Deterministic first**
 All outputs are reproducible and explainable.
 
-Policy-driven  
-Scoring rules are externalized in YAML.
+**Policy-driven**
+Scoring rules and optimizer effort estimates are externalized in YAML — no code change required to tune them.
 
-Separation of concerns  
+**Separation of concerns**
 Scanning, scoring, reviewing and ranking are distinct layers.
 
-Portfolio-oriented  
+**Portfolio-oriented**
 This is not a generic repo scorer, but a portfolio optimization tool.
 
 ---
 
-## 7. Installation
+## 7. Local setup
+
+### Prerequisites
+
+- Python 3.11 or 3.12
+- Git
+
+### Steps
 
 ```bash
+# 1. Clone the repository
 git clone https://github.com/<your-username>/github-portfolio-auditor.git
 cd github-portfolio-auditor
 
+# 2. Create and activate a virtual environment
 python -m venv .venv
-.venv\Scripts\activate
 
+# Linux / macOS
+source .venv/bin/activate
+
+# Windows (PowerShell)
+.venv\Scripts\Activate.ps1
+
+# 3. Install the package and dev dependencies
 pip install -e .[dev]
+
+# 4. Create a .env file with your GitHub token
+cp .env.example .env
+# Then edit .env and set GITHUB_TOKEN=your_token_here
 ```
 
 ---
 
 ## 8. Configuration
 
-Create a .env file:
+The `.env` file supports the following variables:
 
+```env
+GITHUB_TOKEN=your_token_here          # required for private repos and higher rate limits
+GITHUB_OWNER=your_github_username     # optional — sets a default owner for CLI and dashboard
+GITHUB_EXCLUDED_REPO_NAMES=repo1,repo2  # optional — comma-separated repos to exclude
+WORKSPACE_DIR=data                    # optional — root of the data directory tree
 ```
-GITHUB_TOKEN=your_token_here
-```
+
+Scoring weights are in `configs/scoring.yaml`.
+Optimizer action rules (effort estimates, categories) are in `configs/action_impact_rules.yaml`.
 
 ---
 
 ## 9. Usage
 
-Run audit:
+### Run a full audit
 
 ```bash
-portfolio-auditor --owner <username>
+portfolio-auditor full-run --owner <github-username>
 ```
 
-Run dashboard:
+Use `--refresh-clones` to force re-cloning even if local clones already exist.
+
+### Launch the dashboard
 
 ```bash
-set PYTHONPATH=src;.
+# Linux / macOS
+PYTHONPATH=src streamlit run src/portfolio_auditor/dashboard/app.py
+
+# Windows (PowerShell)
+$env:PYTHONPATH = "src"
 streamlit run src/portfolio_auditor/dashboard/app.py
 ```
+
+The dashboard reads from `data/processed/<owner>/` — run the audit first.
 
 ---
 
 ## 10. Tests
 
 ```bash
-pytest -q
+# Full test suite with coverage
+pytest --cov=portfolio_auditor --cov-report=term-missing --cov-fail-under=72
+
+# By category
+pytest tests/unit -q
 pytest tests/golden -q
 pytest tests/smoke -q
 ```
@@ -161,7 +205,14 @@ pytest tests/smoke -q
 ## 11. Code quality
 
 ```bash
+# Formatting check
+ruff format --check .
+
+# Lint
 ruff check .
+
+# Auto-fix lint issues
+ruff check --fix .
 ```
 
 ---
@@ -191,15 +242,11 @@ It transforms a portfolio from a collection of repositories into a curated, inte
 
 ## 14. Roadmap
 
-- improve test coverage
-- refactor large modules
-- strengthen dashboard architecture
-- introduce empirical calibration
-- improve redundancy detection
+See [docs/roadmap.md](docs/roadmap.md).
 
 ---
 
 ## 15. Author
 
-Mathieu  
+Mathieu
 Data / BI / Analytics Engineering

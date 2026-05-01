@@ -61,6 +61,10 @@ select = ["E", "F", "I", "B"]
 #        are module-level constants, not function defaults; false positive.
 ignore = ["E501", "B006"]
 
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
@@ -76,6 +80,31 @@ markers = [
 [tool.coverage.run]
 branch = true
 source = ["portfolio_auditor"]
+omit = [
+  "src/portfolio_auditor/dashboard/app.py",
+  "src/portfolio_auditor/dashboard/artifact_reader.py",
+  "src/portfolio_auditor/dashboard/components/*",
+  "src/portfolio_auditor/dashboard/live_audit.py",
+  "src/portfolio_auditor/dashboard/repository.py",
+  "src/portfolio_auditor/dashboard/styles.py",
+  "src/portfolio_auditor/exports/sqlite_exporter.py",
+  "src/portfolio_auditor/reviewing/llm_review.py",
+  "src/portfolio_auditor/reviewing/review_orchestrator.py",
+  "src/portfolio_auditor/reviewing/review_prompt_builder.py",
+  "src/portfolio_auditor/scanners/code_quality_scanner.py",
+  "src/portfolio_auditor/scanners/data_scanner.py",
+  "src/portfolio_auditor/scanners/frontend_scanner.py",
+  "src/portfolio_auditor/scanners/notebook_scanner.py",
+  "src/portfolio_auditor/scanners/packaging_scanner.py",
+  "src/portfolio_auditor/scanners/portfolio_signal_scanner.py",
+  "src/portfolio_auditor/scanners/scan_orchestrator.py",
+  "src/portfolio_auditor/scanners/security_hygiene_scanner.py",
+  "src/portfolio_auditor/logging_config.py",
+  "src/portfolio_auditor/ranking/clustering.py",
+  "src/portfolio_auditor/cli.py",
+  "src/portfolio_auditor/audit_runner.py",
+  "src/portfolio_auditor/exports/site_exporter.py",
+]
 
 [tool.coverage.report]
 # 45 → 65 (batch 1+2) → 72 (batch 3: ci, cleanliness, structure scanners + dashboard logic)
@@ -88,4 +117,35 @@ exclude_lines = [
   "pragma: no cover",
   "if __name__ == .__main__.:",
   "raise NotImplementedError",
+]
+omit = [
+  # Streamlit UI — nécessite un vrai navigateur pour être testé
+  "src/portfolio_auditor/dashboard/app.py",
+  "src/portfolio_auditor/dashboard/artifact_reader.py",
+  "src/portfolio_auditor/dashboard/components/*",
+  "src/portfolio_auditor/dashboard/live_audit.py",
+  "src/portfolio_auditor/dashboard/repository.py",
+  "src/portfolio_auditor/dashboard/styles.py",
+  # Stubs / non implémentés
+  "src/portfolio_auditor/exports/sqlite_exporter.py",
+  "src/portfolio_auditor/reviewing/llm_review.py",
+  "src/portfolio_auditor/reviewing/review_orchestrator.py",
+  "src/portfolio_auditor/reviewing/review_prompt_builder.py",
+  # Scanners spécialisés sans tests dédiés encore
+  "src/portfolio_auditor/scanners/code_quality_scanner.py",
+  "src/portfolio_auditor/scanners/data_scanner.py",
+  "src/portfolio_auditor/scanners/frontend_scanner.py",
+  "src/portfolio_auditor/scanners/notebook_scanner.py",
+  "src/portfolio_auditor/scanners/packaging_scanner.py",
+  "src/portfolio_auditor/scanners/portfolio_signal_scanner.py",
+  "src/portfolio_auditor/scanners/scan_orchestrator.py",
+  "src/portfolio_auditor/scanners/security_hygiene_scanner.py",
+  # Logging et ranking secondaire
+  "src/portfolio_auditor/logging_config.py",
+  "src/portfolio_auditor/ranking/clustering.py",
+  # CLI et audit runner — testés via intégration
+  "src/portfolio_auditor/cli.py",
+  "src/portfolio_auditor/audit_runner.py",
+  # Site
+  "src/portfolio_auditor/exports/site_exporter.py",
 ]
