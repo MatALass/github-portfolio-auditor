@@ -50,11 +50,15 @@ jobs:
       - name: Install dependencies
         run: python -m pip install --upgrade pip && python -m pip install -e .[dev]
 
-      - name: Run golden tests
-        run: python -m pytest tests/golden -q
-
       - name: Run smoke tests
         run: python -m pytest tests/smoke -q
 
       - name: Run full test suite with coverage
         run: python -m pytest --cov=portfolio_auditor --cov-report=term-missing --cov-fail-under=72
+
+      - name: Run golden tests
+        # Golden tests run last: a snapshot drift (e.g. after an intentional policy
+        # change) should not block coverage reporting. Fix snapshots with:
+        #   python -m pytest tests/golden --snapshot-update  (if using syrupy)
+        # or by regenerating the JSON files in tests/golden/snapshots/.
+        run: python -m pytest tests/golden -q

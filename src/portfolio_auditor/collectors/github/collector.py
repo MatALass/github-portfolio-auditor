@@ -187,41 +187,6 @@ class GitHubCollector:
                     return cached_payload, "normalized_snapshot"
             raise
 
-    def _load_raw_owner_snapshot_payload(self, owner: str) -> list[dict[str, Any]]:
-        snapshot_path = self.get_raw_owner_snapshot_path(owner)
-        payload = json.loads(snapshot_path.read_text(encoding="utf-8"))
-        if not isinstance(payload, list):
-            raise ValueError(
-                f"Cached GitHub snapshot for owner '{owner}' is not a valid list payload."
-            )
-
-        normalized_payload: list[dict[str, Any]] = []
-        for item in payload:
-            if isinstance(item, dict):
-                normalized_payload.append(item)
-        return normalized_payload
-
-    def _build_rate_limit_message(
-        self,
-        *,
-        owner: str,
-        original_error: GitHubRateLimitError,
-    ) -> str:
-        snapshot_path = self.get_raw_owner_snapshot_path(owner)
-        if snapshot_path.exists():
-            return (
-                f"GitHub API rate limit exceeded while collecting owner '{owner}', and a cached "
-                f"snapshot exists at {snapshot_path}. The pipeline can fall back to cached metadata. "
-                f"Original error: {original_error}"
-            )
-
-        return (
-            f"GitHub API rate limit exceeded while collecting owner '{owner}'. "
-            f"No cached snapshot is available at {snapshot_path}. "
-            f"Add GITHUB_TOKEN to increase your rate limit, then rerun the command. "
-            f"Original error: {original_error}"
-        )
-
     def _apply_filters(self, repos: list[RepoMetadata]) -> list[RepoMetadata]:
         filtered = repos
         excluded_names = self.settings.normalized_excluded_repo_names

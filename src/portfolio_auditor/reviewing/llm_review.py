@@ -11,8 +11,6 @@ from portfolio_auditor.reviewing.deterministic_review import DeterministicReview
 
 logger = logging.getLogger(__name__)
 
-_deterministic_reviewer = DeterministicReviewer()
-
 
 class LLMReviewNotImplemented(NotImplementedError):
     """
@@ -62,4 +60,4 @@ def review_repo_with_llm(
         "LLM review not yet implemented — falling back to deterministic reviewer for %s",
         repo.full_name,
     )
-    return _deterministic_reviewer.review(repo, scan, score)
+    return DeterministicReviewer().review(repo, scan, score)
