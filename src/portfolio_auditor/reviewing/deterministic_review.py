@@ -95,9 +95,7 @@ class DeterministicReviewer:
                 "would make it safer to highlight prominently."
             )
         if score.global_score >= 60:
-            return (
-                "Mixed recruiter signal. The project may have value, but the current delivery still creates doubt."
-            )
+            return "Mixed recruiter signal. The project may have value, but the current delivery still creates doubt."
         if score.global_score >= 45:
             return (
                 "Weak recruiter signal. The repository may reflect effort, but the presentation and engineering "
@@ -121,7 +119,9 @@ class DeterministicReviewer:
             review.add_strength("Repository uses a dedicated app/ directory.", priority="medium")
 
         if scan.structure.has_tests_dir:
-            review.add_strength("Repository exposes a top-level tests/ directory.", priority="medium")
+            review.add_strength(
+                "Repository exposes a top-level tests/ directory.", priority="medium"
+            )
 
         if scan.documentation.has_readme:
             review.add_strength(
@@ -136,7 +136,9 @@ class DeterministicReviewer:
             review.add_strength("README includes usage instructions.", priority="high")
 
         if scan.documentation.has_architecture_section:
-            review.add_strength("README documents the project structure or architecture.", priority="medium")
+            review.add_strength(
+                "README documents the project structure or architecture.", priority="medium"
+            )
 
         if scan.testing.has_tests:
             review.add_strength(
@@ -154,7 +156,9 @@ class DeterministicReviewer:
             review.add_strength("CI appears to run automated tests.", priority="high")
 
         if scan.ci.has_lint_workflow:
-            review.add_strength("CI includes linting or static validation checks.", priority="medium")
+            review.add_strength(
+                "CI includes linting or static validation checks.", priority="medium"
+            )
 
         if scan.cleanliness.has_gitignore:
             review.add_strength(".gitignore is present.", priority="low")
@@ -163,10 +167,14 @@ class DeterministicReviewer:
             review.add_strength("Repository exposes a homepage or demo URL.", priority="medium")
 
         if scan.documentation.has_screenshots_or_assets:
-            review.add_strength("Documentation assets or screenshots were detected.", priority="medium")
+            review.add_strength(
+                "Documentation assets or screenshots were detected.", priority="medium"
+            )
 
         if score.global_score >= 85 and not review.strengths:
-            review.add_strength("Repository achieves a strong overall portfolio score.", priority="high")
+            review.add_strength(
+                "Repository achieves a strong overall portfolio score.", priority="high"
+            )
 
     def _populate_weaknesses(
         self,
@@ -208,7 +216,9 @@ class DeterministicReviewer:
             review.add_weakness("Detected test baseline is still very small.", priority="medium")
 
         if scan.testing.has_tests and not scan.ci.has_test_workflow:
-            review.add_weakness("Tests exist but do not appear to be enforced in CI.", priority="medium")
+            review.add_weakness(
+                "Tests exist but do not appear to be enforced in CI.", priority="medium"
+            )
 
         if not scan.ci.has_github_actions:
             review.add_weakness("No CI workflow was detected.", priority="medium")
@@ -229,7 +239,9 @@ class DeterministicReviewer:
             )
 
         if not repo.description:
-            review.add_weakness("Repository description is missing or empty on GitHub.", priority="low")
+            review.add_weakness(
+                "Repository description is missing or empty on GitHub.", priority="low"
+            )
 
         if not repo.links.homepage and not repo.flags.has_pages:
             review.add_weakness("No homepage or demo link was detected.", priority="low")
@@ -288,13 +300,17 @@ class DeterministicReviewer:
             review.add_quick_win("Add a usage section with concrete run examples.", priority="high")
 
         if scan.documentation.has_readme and not scan.documentation.has_installation_section:
-            review.add_quick_win("Add installation/setup commands to the README.", priority="medium")
+            review.add_quick_win(
+                "Add installation/setup commands to the README.", priority="medium"
+            )
 
         if not scan.cleanliness.has_gitignore:
             review.add_quick_win("Add a proper .gitignore file.", priority="high")
 
         if scan.cleanliness.committed_pycache or scan.cleanliness.committed_pytest_cache:
-            review.add_quick_win("Remove Python cache artifacts from version control.", priority="high")
+            review.add_quick_win(
+                "Remove Python cache artifacts from version control.", priority="high"
+            )
 
         if scan.cleanliness.committed_build_artifacts or scan.cleanliness.committed_egg_info:
             review.add_quick_win(
@@ -303,7 +319,9 @@ class DeterministicReviewer:
             )
 
         if not scan.ci.has_github_actions:
-            review.add_quick_win("Add a basic GitHub Actions workflow for validation.", priority="medium")
+            review.add_quick_win(
+                "Add a basic GitHub Actions workflow for validation.", priority="medium"
+            )
 
         if scan.testing.has_tests and not scan.ci.has_test_workflow:
             review.add_quick_win("Connect the existing tests to CI.", priority="medium")
@@ -354,7 +372,9 @@ class DeterministicReviewer:
             actions.append(("Remove generated build/cache artifacts.", "medium"))
 
         if scan.cleanliness.oversized_files:
-            actions.append(("Review large committed files and keep only necessary assets.", "medium"))
+            actions.append(
+                ("Review large committed files and keep only necessary assets.", "medium")
+            )
 
         if not repo.description:
             actions.append(("Add a concise GitHub description.", "low"))
@@ -362,7 +382,10 @@ class DeterministicReviewer:
         if not repo.links.homepage and scan.documentation.has_results_section:
             actions.append(("Expose a demo or homepage link when relevant.", "low"))
 
-        if score.global_score >= self.policy.review_thresholds.feature_now_min_score and not actions:
+        if (
+            score.global_score >= self.policy.review_thresholds.feature_now_min_score
+            and not actions
+        ):
             actions.append(("Maintain the repository at its current quality level.", "low"))
 
         seen: set[str] = set()
@@ -388,10 +411,7 @@ class DeterministicReviewer:
             ]
         )
 
-        if (
-            global_score >= thresholds.feature_now_min_score
-            and not review_has_major_blockers(scan)
-        ):
+        if global_score >= thresholds.feature_now_min_score and not review_has_major_blockers(scan):
             return PortfolioDecision.FEATURE_NOW
 
         if (

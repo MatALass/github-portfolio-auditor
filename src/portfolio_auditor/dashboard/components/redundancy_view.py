@@ -8,7 +8,9 @@ from portfolio_auditor.dashboard.data_loader import DashboardData
 
 def render_redundancy_view(data: DashboardData) -> None:
     st.markdown("## Redundancy analysis")
-    st.caption("Cluster-level redundancy is read directly from redundancy_analysis.json. The dashboard does not recompute overlap.")
+    st.caption(
+        "Cluster-level redundancy is read directly from redundancy_analysis.json. The dashboard does not recompute overlap."
+    )
 
     redundancy = data.redundancy_analysis
     clusters = redundancy.get("overlap_clusters", []) or []
@@ -38,7 +40,9 @@ def render_redundancy_view(data: DashboardData) -> None:
             )
             if pairs:
                 st.markdown("### Near-overlap evidence")
-                st.dataframe(pd.DataFrame(pairs).head(10), use_container_width=True, hide_index=True)
+                st.dataframe(
+                    pd.DataFrame(pairs).head(10), use_container_width=True, hide_index=True
+                )
         return
 
     st.markdown("### Overlap clusters")

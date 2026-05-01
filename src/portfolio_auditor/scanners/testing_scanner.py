@@ -226,7 +226,11 @@ class TestingScanner(BaseScanner):
     def _detect_frameworks(self, root: Path) -> list[str]:
         frameworks: list[str] = []
 
-        if self._has_pytest_config(root) or list(root.rglob("test_*.py")) or list(root.rglob("*_test.py")):
+        if (
+            self._has_pytest_config(root)
+            or list(root.rglob("test_*.py"))
+            or list(root.rglob("*_test.py"))
+        ):
             frameworks.append("pytest")
 
         if self._has_jest_config(root):
@@ -234,7 +238,11 @@ class TestingScanner(BaseScanner):
             content = self.safe_read_text(package_json) if package_json.exists() else ""
             if "jest" in content.lower() or "react-scripts test" in content.lower():
                 frameworks.append("jest")
-            elif (root / "jest.config.js").exists() or (root / "jest.config.ts").exists() or (root / "jest.config.cjs").exists():
+            elif (
+                (root / "jest.config.js").exists()
+                or (root / "jest.config.ts").exists()
+                or (root / "jest.config.cjs").exists()
+            ):
                 frameworks.append("jest")
 
         if self._has_vitest_config(root):

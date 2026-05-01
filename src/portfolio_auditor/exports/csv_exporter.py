@@ -91,7 +91,9 @@ class CsvExporter:
                         "executive_summary": review.executive_summary,
                         "portfolio_rationale": review.portfolio_rationale,
                         "recruiter_signal": review.recruiter_signal,
-                        "priority_actions": " | ".join(item.text for item in review.priority_actions),
+                        "priority_actions": " | ".join(
+                            item.text for item in review.priority_actions
+                        ),
                         "blockers": " | ".join(item.text for item in review.blockers),
                         "quick_wins": " | ".join(item.text for item in review.quick_wins),
                     }

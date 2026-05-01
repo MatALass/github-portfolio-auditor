@@ -7,7 +7,9 @@ from portfolio_auditor.dashboard.data_loader import DashboardData
 
 def render_repo_table(data: DashboardData, selected_repo: str) -> str:
     st.markdown("## Repository table")
-    st.caption("Filter the portfolio inventory, compare repository quality, and select what to inspect next.")
+    st.caption(
+        "Filter the portfolio inventory, compare repository quality, and select what to inspect next."
+    )
 
     df = data.repo_df.copy()
 
@@ -103,10 +105,10 @@ def render_repo_table(data: DashboardData, selected_repo: str) -> str:
             f"""
 <div class="metric-card">
     <div class="card-title">Selected repository</div>
-    <div class="card-value">#{int(selected_row['rank'])} · {selected_row['repo_full_name']}</div>
-    <div class="card-caption">{selected_row['global_score']:.2f}/100 · {selected_row['decision_label']}</div>
-    <div class="card-body">Next action: {selected_row['next_action']}</div>
-    <div class="card-body">Recoverable score estimate: {selected_row['estimated_recoverable_points']:.2f} points · ROI {selected_row['top_action_roi']:.2f}</div>
+    <div class="card-value">#{int(selected_row["rank"])} · {selected_row["repo_full_name"]}</div>
+    <div class="card-caption">{selected_row["global_score"]:.2f}/100 · {selected_row["decision_label"]}</div>
+    <div class="card-body">Next action: {selected_row["next_action"]}</div>
+    <div class="card-body">Recoverable score estimate: {selected_row["estimated_recoverable_points"]:.2f} points · ROI {selected_row["top_action_roi"]:.2f}</div>
 </div>
 """,
             unsafe_allow_html=True,

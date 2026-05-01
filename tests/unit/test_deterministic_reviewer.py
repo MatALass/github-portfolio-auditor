@@ -357,7 +357,9 @@ class TestNarratives:
             (25, "too weak"),
         ],
     )
-    def test_executive_summary_reflects_score(self, global_score: float, expected_fragment: str) -> None:
+    def test_executive_summary_reflects_score(
+        self, global_score: float, expected_fragment: str
+    ) -> None:
         repo = _repo()
         scan = _scan_base(repo)
         scan.documentation.has_readme = True

@@ -18,14 +18,15 @@ def _canonicalize_ranked_repo(repo) -> dict:
     }
 
 
-
 def test_ranking_matches_golden_snapshot(ranking_summary) -> None:
     redundancy = ranking_summary.redundancy_analysis.to_dict()
     actual = {
         "ranked_repos": [_canonicalize_ranked_repo(repo) for repo in ranking_summary.ranked_repos],
         "feature_now": [repo.repo_full_name for repo in ranking_summary.feature_now],
         "keep_and_improve": [repo.repo_full_name for repo in ranking_summary.keep_and_improve],
-        "merge_or_reposition": [repo.repo_full_name for repo in ranking_summary.merge_or_reposition],
+        "merge_or_reposition": [
+            repo.repo_full_name for repo in ranking_summary.merge_or_reposition
+        ],
         "archive_public": [repo.repo_full_name for repo in ranking_summary.archive_public],
         "make_private": [repo.repo_full_name for repo in ranking_summary.make_private],
         "highest_priority_improvements": [

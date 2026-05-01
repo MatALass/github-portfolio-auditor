@@ -111,7 +111,6 @@ class TestParseInvalidResponse:
 
         assert review.portfolio_decision == PortfolioDecision.KEEP_AND_IMPROVE
 
-
     def test_invalid_decision_falls_back_to_keep_and_improve(self) -> None:
         raw = _build_valid_payload(portfolio_decision="NOT_A_REAL_DECISION")
         review = parse_llm_review(raw, repo_name="r", repo_full_name="u/r")

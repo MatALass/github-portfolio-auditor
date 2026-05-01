@@ -49,7 +49,9 @@ def test_build_site_payload_creates_valid_summary() -> None:
         top_repos=repos,
         worst_repos=list(reversed(repos)),
         highest_priority_improvements=[repos[1]],
-        redundancy_analysis=RedundancyAnalysis(overlap_pairs=[], overlap_clusters=[], repo_statuses={}),
+        redundancy_analysis=RedundancyAnalysis(
+            overlap_pairs=[], overlap_clusters=[], repo_statuses={}
+        ),
     )
     selection = PortfolioSelector().select(ranking)
 

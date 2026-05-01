@@ -29,11 +29,50 @@ _GENERIC_NAME_TOKENS = {
 
 # Common stopwords to strip before TF-IDF vectorisation
 _STOPWORDS = {
-    "a", "an", "the", "and", "or", "but", "in", "on", "at", "to", "for",
-    "of", "with", "by", "from", "is", "are", "was", "were", "be", "been",
-    "that", "this", "it", "its", "as", "i", "my", "your", "our", "their",
-    "using", "based", "built", "use", "used", "uses", "simple", "small",
-    "new", "old", "python", "js", "ts",
+    "a",
+    "an",
+    "the",
+    "and",
+    "or",
+    "but",
+    "in",
+    "on",
+    "at",
+    "to",
+    "for",
+    "of",
+    "with",
+    "by",
+    "from",
+    "is",
+    "are",
+    "was",
+    "were",
+    "be",
+    "been",
+    "that",
+    "this",
+    "it",
+    "its",
+    "as",
+    "i",
+    "my",
+    "your",
+    "our",
+    "their",
+    "using",
+    "based",
+    "built",
+    "use",
+    "used",
+    "uses",
+    "simple",
+    "small",
+    "new",
+    "old",
+    "python",
+    "js",
+    "ts",
 }
 
 
@@ -269,9 +308,7 @@ class RedundancyDetector:
         full_names = sorted(set(repo_index) & set(score_index) & set(review_index))
 
         # Build TF-IDF index once across the whole corpus for richer descriptions
-        desc_index = _DescriptionSimilarityIndex(
-            [repo_index[fn] for fn in full_names]
-        )
+        desc_index = _DescriptionSimilarityIndex([repo_index[fn] for fn in full_names])
 
         pairs: list[OverlapPair] = []
         for left_index, left_name in enumerate(full_names):
@@ -508,7 +545,13 @@ class RedundancyDetector:
         stars_bonus = min(2.0, repo.engagement.stargazers_count * 0.1)
         blocker_penalty = min(4.0, len(review.blockers) * 1.0)
         action_penalty = min(3.0, len(review.priority_actions) * 0.35)
-        return score.global_score + score.confidence * 2.0 + stars_bonus - blocker_penalty - action_penalty
+        return (
+            score.global_score
+            + score.confidence * 2.0
+            + stars_bonus
+            - blocker_penalty
+            - action_penalty
+        )
 
 
 # ---------------------------------------------------------------------------

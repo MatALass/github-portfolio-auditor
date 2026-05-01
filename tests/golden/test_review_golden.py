@@ -18,7 +18,6 @@ def _canonicalize_review(review) -> dict:
     }
 
 
-
 def test_review_matches_golden_snapshot(reviewed_repositories: list[dict]) -> None:
     actual = [_canonicalize_review(item["review"]) for item in reviewed_repositories]
     assert_matches_snapshot("review_baseline.json", actual)

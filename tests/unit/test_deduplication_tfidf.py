@@ -118,7 +118,11 @@ class TestTfIdfHelpers:
         assert _cosine_similarity(vec_a, vec_b) == 0.0
 
     def test_tfidf_vectors_length_matches_corpus(self) -> None:
-        corpus = ["data pipeline etl automation", "web frontend react dashboard", "testing pytest coverage"]
+        corpus = [
+            "data pipeline etl automation",
+            "web frontend react dashboard",
+            "testing pytest coverage",
+        ]
         vectors = _tfidf_vectors(corpus)
         assert len(vectors) == 3
 
@@ -242,7 +246,9 @@ class TestRedundancyDetectorSemanticSimilarity:
         """When two similar repos exist, the one with the higher score should be representative."""
         repos = [
             _repo("project-alpha", "Data ingestion and transformation tool.", topics=["data"]),
-            _repo("project-beta", "Tool for data ingestion, ETL and transformation.", topics=["data"]),
+            _repo(
+                "project-beta", "Tool for data ingestion, ETL and transformation.", topics=["data"]
+            ),
         ]
         scores = [
             _score("project-alpha", 85.0),  # higher

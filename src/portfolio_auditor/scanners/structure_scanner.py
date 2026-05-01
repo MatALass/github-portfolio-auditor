@@ -41,11 +41,7 @@ class StructureScanner(BaseScanner):
         has_scripts_dir = (local_path / "scripts").is_dir()
 
         large_root_files = sorted(
-            [
-                file.name
-                for file in root_files
-                if file.stat().st_size > 200_000
-            ]
+            [file.name for file in root_files if file.stat().st_size > 200_000]
         )
 
         layout_type = self._detect_layout_type(

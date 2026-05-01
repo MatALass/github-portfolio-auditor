@@ -39,16 +39,12 @@ class ScoringRules:
             documentation_delivery_ratio=ScoringRules.compute_documentation_delivery_ratio(
                 scan, policy
             ),
-            testing_reliability_ratio=ScoringRules.compute_testing_reliability_ratio(
-                scan, policy
-            ),
+            testing_reliability_ratio=ScoringRules.compute_testing_reliability_ratio(scan, policy),
             technical_depth_ratio=ScoringRules.compute_technical_depth_ratio(repo, scan, policy),
             portfolio_relevance_ratio=ScoringRules.compute_portfolio_relevance_ratio(
                 repo, scan, policy
             ),
-            maintainability_cleanliness_ratio=ScoringRules.compute_cleanliness_ratio(
-                scan, policy
-            ),
+            maintainability_cleanliness_ratio=ScoringRules.compute_cleanliness_ratio(scan, policy),
         )
 
     @staticmethod
@@ -227,7 +223,9 @@ class ScoringRules:
             score += signals.pages_bonus
 
         if repo.topics.items:
-            score += min(signals.topic_bonus_cap, len(repo.topics.items) * signals.topic_bonus_per_topic)
+            score += min(
+                signals.topic_bonus_cap, len(repo.topics.items) * signals.topic_bonus_per_topic
+            )
 
         if repo.engagement.stargazers_count > 0:
             score += signals.stars_bonus

@@ -58,8 +58,7 @@ def load_scoring_policy(version: str = "v1") -> ScoringPolicy:
 
     if policy.version != version:
         raise PolicyValidationError(
-            f"Policy version mismatch: requested '{version}', "
-            f"but file declares '{policy.version}'."
+            f"Policy version mismatch: requested '{version}', but file declares '{policy.version}'."
         )
 
     return policy
@@ -96,9 +95,7 @@ def _load_yaml(path: Path) -> dict[str, Any]:
         raise PolicyLoadError(f"Scoring policy file '{path}' is empty.")
 
     if not isinstance(loaded, dict):
-        raise PolicyLoadError(
-            f"Scoring policy file '{path}' must contain a top-level mapping."
-        )
+        raise PolicyLoadError(f"Scoring policy file '{path}' must contain a top-level mapping.")
 
     return loaded
 
@@ -142,17 +139,12 @@ def _build_policy(data: dict[str, Any]) -> ScoringPolicy:
     oversized_files_data = _require_mapping(
         dynamic_penalties_data, "oversized_files", parent="dynamic_penalties"
     )
-    scanner_count_data = _require_mapping(
-        confidence_data, "scanner_count", parent="confidence"
-    )
-    evidence_count_data = _require_mapping(
-        confidence_data, "evidence_count", parent="confidence"
-    )
+    scanner_count_data = _require_mapping(confidence_data, "scanner_count", parent="confidence")
+    evidence_count_data = _require_mapping(confidence_data, "evidence_count", parent="confidence")
     decision_bonus_data = _require_mapping(ranking_data, "decision_bonus", parent="ranking")
 
     penalties: dict[str, float] = {
-        str(name): _as_float(value, f"penalties.{name}")
-        for name, value in penalties_data.items()
+        str(name): _as_float(value, f"penalties.{name}") for name, value in penalties_data.items()
     }
 
     recognized_languages = _as_str_tuple(
@@ -765,9 +757,7 @@ def _as_str_tuple(value: Any, field_name: str) -> tuple[str, ...]:
             )
         stripped = item.strip()
         if not stripped:
-            raise PolicyValidationError(
-                f"Field '{field_name}[{index}]' must not be empty."
-            )
+            raise PolicyValidationError(f"Field '{field_name}[{index}]' must not be empty.")
         result.append(stripped)
 
     if not result:

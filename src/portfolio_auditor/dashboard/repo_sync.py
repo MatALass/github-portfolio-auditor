@@ -107,7 +107,11 @@ def fetch_live_repo_sync_result(owner: str, settings: Settings) -> RepoSyncResul
             verified_live = True
             warning = None
     except GitHubApiError as exc:
-        cached_repos = collector.load_raw_owner_snapshot(owner) if collector.has_raw_owner_snapshot(owner) else []
+        cached_repos = (
+            collector.load_raw_owner_snapshot(owner)
+            if collector.has_raw_owner_snapshot(owner)
+            else []
+        )
         delta = compare_repo_states(
             live_repos=cached_repos,
             cached_repos=cached_repos,
@@ -127,7 +131,9 @@ def fetch_live_repo_sync_result(owner: str, settings: Settings) -> RepoSyncResul
     finally:
         client.close()
 
-    cached_repos = collector.load_raw_owner_snapshot(owner) if collector.has_raw_owner_snapshot(owner) else []
+    cached_repos = (
+        collector.load_raw_owner_snapshot(owner) if collector.has_raw_owner_snapshot(owner) else []
+    )
     delta = compare_repo_states(
         live_repos=live_repos,
         cached_repos=cached_repos,

@@ -45,8 +45,12 @@ class ScoringEngine:
         weights = self.policy.weights
 
         return ScoreBreakdown(
-            architecture_structure=round(components.architecture_structure_ratio * weights.architecture, 2),
-            documentation_delivery=round(components.documentation_delivery_ratio * weights.documentation, 2),
+            architecture_structure=round(
+                components.architecture_structure_ratio * weights.architecture, 2
+            ),
+            documentation_delivery=round(
+                components.documentation_delivery_ratio * weights.documentation, 2
+            ),
             testing_reliability=round(components.testing_reliability_ratio * weights.testing, 2),
             technical_depth=round(components.technical_depth_ratio * weights.technical_depth, 2),
             portfolio_relevance=round(

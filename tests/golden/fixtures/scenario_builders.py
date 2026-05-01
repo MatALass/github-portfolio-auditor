@@ -21,7 +21,6 @@ class GoldenPortfolioCase:
     scans: list[RepoScanResult]
 
 
-
 def build_golden_portfolio_case() -> GoldenPortfolioCase:
     repos = [
         _build_repo(
@@ -69,7 +68,6 @@ def build_golden_portfolio_case() -> GoldenPortfolioCase:
     return GoldenPortfolioCase(repos=repos, scans=scans)
 
 
-
 def _build_repo(
     *,
     repo_id: int,
@@ -104,7 +102,6 @@ def _build_repo(
         language_stats=RepoLanguageStats(languages={"Python": 1000}),
         topics=RepoTopics(items=topics),
     )
-
 
 
 def _build_featured_scan() -> RepoScanResult:
@@ -150,7 +147,6 @@ def _build_featured_scan() -> RepoScanResult:
     return scan
 
 
-
 def _build_keep_and_improve_scan() -> RepoScanResult:
     scan = RepoScanResult(
         repo_name="portfolio-analytics-dashboard",
@@ -186,7 +182,6 @@ def _build_keep_and_improve_scan() -> RepoScanResult:
     return scan
 
 
-
 def _build_merge_or_reposition_scan() -> RepoScanResult:
     scan = RepoScanResult(
         repo_name="csv-helper-cli",
@@ -214,7 +209,6 @@ def _build_merge_or_reposition_scan() -> RepoScanResult:
     return scan
 
 
-
 def _build_make_private_scan() -> RepoScanResult:
     scan = RepoScanResult(
         repo_name="notes-dump",
@@ -235,11 +229,9 @@ def _build_make_private_scan() -> RepoScanResult:
     return scan
 
 
-
 def _add_scanner_summaries(scan: RepoScanResult, names: list[str]) -> None:
     for name in names:
         scan.add_scanner_summary(ScannerSummary(scanner_name=name))
-
 
 
 def _add_evidence(scan: RepoScanResult, count: int) -> None:

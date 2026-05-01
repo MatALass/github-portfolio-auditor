@@ -127,7 +127,9 @@ def _build_repo_dataframe(
             "ranking.json is empty. Run the pipeline before launching the dashboard."
         )
 
-    df["decision_label"] = df["portfolio_decision"].map(DECISION_LABEL_MAP).fillna(df["portfolio_decision"])
+    df["decision_label"] = (
+        df["portfolio_decision"].map(DECISION_LABEL_MAP).fillna(df["portfolio_decision"])
+    )
     df["decision_group"] = df["portfolio_decision"].map(DECISION_GROUP_MAP).fillna("review")
     df["global_score"] = pd.to_numeric(df["global_score"], errors="coerce").fillna(0.0)
     df["confidence"] = pd.to_numeric(df["confidence"], errors="coerce").fillna(0.0)
@@ -185,9 +187,7 @@ def _build_repo_dataframe(
     df["optimizer_payload"] = optimizer_payloads
 
     decision_weight = (
-        df["decision_group"]
-        .map({"keep": 3, "improve": 2, "discard": 1, "review": 0})
-        .fillna(0)
+        df["decision_group"].map({"keep": 3, "improve": 2, "discard": 1, "review": 0}).fillna(0)
     )
     score_weight = df["global_score"] / 100.0
     blocker_penalty = df["blockers_count"] * 0.05

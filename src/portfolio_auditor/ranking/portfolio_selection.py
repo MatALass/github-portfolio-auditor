@@ -161,17 +161,11 @@ class PortfolioSelector:
         redundancy_count = len(redundancy_candidates)
 
         if featured_count == 0 and visible_improve_count == 0:
-            headline = (
-                "The current GitHub portfolio does not yet contain strong repositories ready to be highlighted."
-            )
+            headline = "The current GitHub portfolio does not yet contain strong repositories ready to be highlighted."
         elif featured_count <= 3:
-            headline = (
-                "The portfolio contains a limited number of strong repositories and still needs targeted consolidation."
-            )
+            headline = "The portfolio contains a limited number of strong repositories and still needs targeted consolidation."
         else:
-            headline = (
-                "The portfolio already contains several credible repositories, with additional improvement opportunities."
-            )
+            headline = "The portfolio already contains several credible repositories, with additional improvement opportunities."
 
         return (
             f"{headline} Total repositories analyzed: {total_count}. "

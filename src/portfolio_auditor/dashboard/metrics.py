@@ -35,7 +35,9 @@ def compute_overview_metrics(
     Compute the top-level portfolio overview metrics shown in the sidebar and
     Overview tab.
     """
-    visible_now = set(selection_repo_full_names(selection, "featured_repos", "keep_visible_but_improve"))
+    visible_now = set(
+        selection_repo_full_names(selection, "featured_repos", "keep_visible_but_improve")
+    )
     visible_df = df[df["repo_full_name"].isin(visible_now)]
     selected_df = df[df["decision_group"].isin(["keep", "improve"])]
 

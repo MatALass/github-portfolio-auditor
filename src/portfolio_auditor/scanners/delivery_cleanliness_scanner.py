@@ -51,9 +51,12 @@ class DeliveryCleanlinessScanner(BaseScanner):
             if (local_path / candidate).is_dir()
         )
 
-        committed_pycache = any(path.is_dir() and path.name == "__pycache__" for path in local_path.rglob("__pycache__"))
+        committed_pycache = any(
+            path.is_dir() and path.name == "__pycache__" for path in local_path.rglob("__pycache__")
+        )
         committed_pytest_cache = any(
-            path.is_dir() and path.name == ".pytest_cache" for path in local_path.rglob(".pytest_cache")
+            path.is_dir() and path.name == ".pytest_cache"
+            for path in local_path.rglob(".pytest_cache")
         )
 
         committed_build_artifacts = any(
@@ -61,7 +64,9 @@ class DeliveryCleanlinessScanner(BaseScanner):
         )
 
         committed_egg_info = any(
-            path.name.endswith(self.EGG_INFO_SUFFIX) for path in local_path.rglob("*") if path.exists()
+            path.name.endswith(self.EGG_INFO_SUFFIX)
+            for path in local_path.rglob("*")
+            if path.exists()
         )
 
         oversized_files = sorted(

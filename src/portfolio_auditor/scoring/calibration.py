@@ -529,9 +529,13 @@ def calibrate_from_processed_artifacts(
 if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(description="Calibrate scoring weights from processed artifacts.")
+    parser = argparse.ArgumentParser(
+        description="Calibrate scoring weights from processed artifacts."
+    )
     parser.add_argument("--owner", required=True, help="GitHub owner whose artifacts to use")
-    parser.add_argument("--data-dir", default="data/processed", help="Base processed data directory")
+    parser.add_argument(
+        "--data-dir", default="data/processed", help="Base processed data directory"
+    )
     args = parser.parse_args()
 
     owner_dir = Path(args.data_dir) / args.owner

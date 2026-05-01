@@ -84,7 +84,10 @@ class TestCiScanner:
     def test_workflow_file_detected(self, tmp_path: Path) -> None:
         workflows = tmp_path / ".github" / "workflows"
         workflows.mkdir(parents=True)
-        (workflows / "ci.yml").write_text("name: CI\non: push\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - run: pytest\n", encoding="utf-8")
+        (workflows / "ci.yml").write_text(
+            "name: CI\non: push\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - run: pytest\n",
+            encoding="utf-8",
+        )
         repo = _make_repo()
         scan = _make_scan(repo, tmp_path)
 
@@ -144,7 +147,9 @@ class TestCiScanner:
         full_dir.mkdir()
         wf = full_dir / ".github" / "workflows"
         wf.mkdir(parents=True)
-        (wf / "ci.yml").write_text("steps:\n  - run: pytest\n  - run: ruff check .\n", encoding="utf-8")
+        (wf / "ci.yml").write_text(
+            "steps:\n  - run: pytest\n  - run: ruff check .\n", encoding="utf-8"
+        )
         repo_full = _make_repo("full")
         scan_full = _make_scan(repo_full, full_dir)
         summary_full = self.scanner.scan(repo_full, full_dir, scan_full)

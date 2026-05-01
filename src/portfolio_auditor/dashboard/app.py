@@ -358,8 +358,7 @@ def main() -> None:
             )
             if data.comparison_summary.get("snapshot_created_at_utc"):
                 st.caption(
-                    "Compared with snapshot: "
-                    f"{data.comparison_summary['snapshot_created_at_utc']}"
+                    f"Compared with snapshot: {data.comparison_summary['snapshot_created_at_utc']}"
                 )
 
         if data.next_actions:

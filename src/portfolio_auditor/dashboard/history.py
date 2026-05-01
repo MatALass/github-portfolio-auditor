@@ -30,7 +30,9 @@ def list_snapshots(owner: str, settings: Settings) -> list[Path]:
     history_dir = settings.get_processed_history_owner_dir(owner)
     if not history_dir.exists():
         return []
-    return sorted((path for path in history_dir.iterdir() if path.is_dir()), key=lambda item: item.name)
+    return sorted(
+        (path for path in history_dir.iterdir() if path.is_dir()), key=lambda item: item.name
+    )
 
 
 def latest_snapshot_dir(owner: str, settings: Settings) -> Path | None:

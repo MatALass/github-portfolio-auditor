@@ -34,9 +34,7 @@ def _render_repo_card(data: DashboardData, repo_full_name: str) -> None:
     matches = data.repo_df[data.repo_df["repo_name"] == repo_name]
 
     if matches.empty:
-        st.warning(
-            f"Repository metadata not found in ranking artifacts for: {repo_full_name}"
-        )
+        st.warning(f"Repository metadata not found in ranking artifacts for: {repo_full_name}")
         return
 
     row = matches.iloc[0]
@@ -51,10 +49,10 @@ def _render_repo_card(data: DashboardData, repo_full_name: str) -> None:
         f"""
 <div class="repo-card">
     <div class="repo-card-header">
-        <span class="repo-card-title">#{int(row['rank'])} · {repo_full_name}</span>
-        <span class="repo-card-badge">{row['global_score']:.2f}/100 · {str(row['score_label']).upper()}</span>
+        <span class="repo-card-title">#{int(row["rank"])} · {repo_full_name}</span>
+        <span class="repo-card-badge">{row["global_score"]:.2f}/100 · {str(row["score_label"]).upper()}</span>
     </div>
-    <div class="repo-card-subtitle">{row['decision_label']} · {row['primary_language']} · Recoverable upside {row['estimated_recoverable_points']:.2f}</div>
+    <div class="repo-card-subtitle">{row["decision_label"]} · {row["primary_language"]} · Recoverable upside {row["estimated_recoverable_points"]:.2f}</div>
     <div class="repo-card-body">{rationale}</div>
 </div>
 """,

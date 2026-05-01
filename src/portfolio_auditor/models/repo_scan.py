@@ -232,4 +232,6 @@ class RepoScanResult(BaseModel):
 
     def issues_by_severity(self) -> dict[str, int]:
         levels = ["info", "low", "medium", "high", "critical"]
-        return {level: sum(1 for issue in self.issues if issue.severity == level) for level in levels}
+        return {
+            level: sum(1 for issue in self.issues if issue.severity == level) for level in levels
+        }

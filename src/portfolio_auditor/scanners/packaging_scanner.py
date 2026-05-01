@@ -17,8 +17,18 @@ class PackagingScanner(BaseScanner):
             "has_gitignore": (repo_path / ".gitignore").exists(),
         }
         issues = []
-        if not (signals["has_pyproject"] or signals["has_requirements"] or signals["has_package_json"]):
-            issues.append(Issue(code="NO_DEPENDENCY_MANIFEST", severity="high", message="No dependency manifest detected."))
+        if not (
+            signals["has_pyproject"] or signals["has_requirements"] or signals["has_package_json"]
+        ):
+            issues.append(
+                Issue(
+                    code="NO_DEPENDENCY_MANIFEST",
+                    severity="high",
+                    message="No dependency manifest detected.",
+                )
+            )
         if not signals["has_gitignore"]:
-            issues.append(Issue(code="MISSING_GITIGNORE", severity="medium", message=".gitignore is missing."))
+            issues.append(
+                Issue(code="MISSING_GITIGNORE", severity="medium", message=".gitignore is missing.")
+            )
         return RepoScanSection(signals=signals, issues=issues)

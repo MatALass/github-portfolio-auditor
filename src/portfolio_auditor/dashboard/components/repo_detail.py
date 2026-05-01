@@ -36,7 +36,11 @@ def render_repo_detail(data: DashboardData, selected_repo: str) -> None:
 
     optimizer_cols = st.columns(4, gap="medium")
     optimizer_cols[0].metric("Current score", f"{row['global_score']:.2f}/100")
-    optimizer_cols[1].metric("Score ceiling", f"{row['score_ceiling']:.2f}/100", delta=round(row['score_ceiling'] - row['global_score'], 2))
+    optimizer_cols[1].metric(
+        "Score ceiling",
+        f"{row['score_ceiling']:.2f}/100",
+        delta=round(row["score_ceiling"] - row["global_score"], 2),
+    )
     optimizer_cols[2].metric("Top action ROI", f"{row['top_action_roi']:.2f}")
     optimizer_cols[3].metric("Recoverable points", f"{row['estimated_recoverable_points']:.2f}")
 
@@ -46,9 +50,7 @@ def render_repo_detail(data: DashboardData, selected_repo: str) -> None:
         st.markdown("### Score breakdown")
         breakdown = score_entry.get("breakdown", {}) or {}
         breakdown_df = (
-            pd.DataFrame(
-                [{"category": key, "score": value} for key, value in breakdown.items()]
-            )
+            pd.DataFrame([{"category": key, "score": value} for key, value in breakdown.items()])
             if breakdown
             else pd.DataFrame(columns=["category", "score"])
         )
@@ -81,12 +83,26 @@ def render_repo_detail(data: DashboardData, selected_repo: str) -> None:
         st.markdown("### Review summary")
         st.markdown(review.get("executive_summary") or "No review summary available.")
 
-        review_tabs = st.tabs(["Priority actions", "Quick wins", "Blockers", "Strengths", "Weaknesses"])
-        review_tabs[0].markdown(_items_to_bullet_list(review.get("priority_actions", []) or [], "No priority action available."))
-        review_tabs[1].markdown(_items_to_bullet_list(review.get("quick_wins", []) or [], "No quick win available."))
-        review_tabs[2].markdown(_items_to_bullet_list(review.get("blockers", []) or [], "No blocker detected."))
-        review_tabs[3].markdown(_items_to_bullet_list(review.get("strengths", []) or [], "No strength captured."))
-        review_tabs[4].markdown(_items_to_bullet_list(review.get("weaknesses", []) or [], "No weakness captured."))
+        review_tabs = st.tabs(
+            ["Priority actions", "Quick wins", "Blockers", "Strengths", "Weaknesses"]
+        )
+        review_tabs[0].markdown(
+            _items_to_bullet_list(
+                review.get("priority_actions", []) or [], "No priority action available."
+            )
+        )
+        review_tabs[1].markdown(
+            _items_to_bullet_list(review.get("quick_wins", []) or [], "No quick win available.")
+        )
+        review_tabs[2].markdown(
+            _items_to_bullet_list(review.get("blockers", []) or [], "No blocker detected.")
+        )
+        review_tabs[3].markdown(
+            _items_to_bullet_list(review.get("strengths", []) or [], "No strength captured.")
+        )
+        review_tabs[4].markdown(
+            _items_to_bullet_list(review.get("weaknesses", []) or [], "No weakness captured.")
+        )
 
         st.markdown("### Improvement simulator")
         if opportunities:
@@ -106,19 +122,27 @@ def render_repo_detail(data: DashboardData, selected_repo: str) -> None:
                 hide_index=True,
                 column_config={
                     "estimated_score_lift": st.column_config.NumberColumn("lift", format="%.2f"),
-                    "projected_score": st.column_config.NumberColumn("projected_score", format="%.2f"),
+                    "projected_score": st.column_config.NumberColumn(
+                        "projected_score", format="%.2f"
+                    ),
                     "effort_units": st.column_config.NumberColumn("effort", format="%.2f"),
                     "roi": st.column_config.NumberColumn("ROI", format="%.2f"),
                 },
             )
         else:
-            st.info("No deterministic improvement opportunities could be estimated for this repository.")
+            st.info(
+                "No deterministic improvement opportunities could be estimated for this repository."
+            )
 
     st.markdown("### Detected issues")
     issues = scan_entry.get("issues", []) or []
     if issues:
         issues_df = pd.DataFrame(issues)
-        preferred_columns = [column for column in ["severity", "code", "title", "recommendation"] if column in issues_df.columns]
+        preferred_columns = [
+            column
+            for column in ["severity", "code", "title", "recommendation"]
+            if column in issues_df.columns
+        ]
         st.dataframe(issues_df[preferred_columns], use_container_width=True, hide_index=True)
     else:
         st.success("No issues recorded in repo_scans.json for this repository.")
@@ -140,7 +164,9 @@ def render_repo_detail(data: DashboardData, selected_repo: str) -> None:
         evidence = scan_entry.get("evidence", []) or []
         if evidence:
             evidence_df = pd.DataFrame(evidence)
-            preferred_columns = [column for column in ["source", "message", "path"] if column in evidence_df.columns]
+            preferred_columns = [
+                column for column in ["source", "message", "path"] if column in evidence_df.columns
+            ]
             st.dataframe(evidence_df[preferred_columns], use_container_width=True, hide_index=True)
         else:
             st.info("No evidence rows available for this repository.")

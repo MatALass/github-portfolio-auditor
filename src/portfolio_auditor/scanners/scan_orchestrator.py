@@ -46,4 +46,7 @@ def load_scans() -> list[RepoScan]:
     in_dir = get_settings().data_dir / "interim" / "scans"
     if not in_dir.exists():
         return []
-    return [RepoScan.model_validate_json(path.read_text(encoding="utf-8")) for path in sorted(in_dir.glob("*.json"))]
+    return [
+        RepoScan.model_validate_json(path.read_text(encoding="utf-8"))
+        for path in sorted(in_dir.glob("*.json"))
+    ]

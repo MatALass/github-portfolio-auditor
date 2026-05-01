@@ -139,7 +139,9 @@ class TestComputeOverviewMetrics:
 
     def test_total_repositories_count(self) -> None:
         df = _df(_row("a", 80), _row("b", 70), _row("c", 50))
-        metrics = compute_overview_metrics(df, self._site_payload(), self._selection([]), self._redundancy())
+        metrics = compute_overview_metrics(
+            df, self._site_payload(), self._selection([]), self._redundancy()
+        )
         assert metrics["total_repositories"] == 3
 
     def test_highlight_count(self) -> None:
@@ -167,13 +169,17 @@ class TestComputeOverviewMetrics:
     def test_redundancy_counts_forwarded(self) -> None:
         df = _df(_row("a", 70.0))
         redundancy = {"overlap_clusters": [{}], "overlap_pairs": [{}, {}]}
-        metrics = compute_overview_metrics(df, self._site_payload(), self._selection([]), redundancy)
+        metrics = compute_overview_metrics(
+            df, self._site_payload(), self._selection([]), redundancy
+        )
         assert metrics["redundancy_clusters"] == 1
         assert metrics["redundancy_pairs"] == 2
 
     def test_manager_summary_forwarded(self) -> None:
         df = _df(_row("a", 70.0))
-        metrics = compute_overview_metrics(df, self._site_payload(), self._selection([]), self._redundancy())
+        metrics = compute_overview_metrics(
+            df, self._site_payload(), self._selection([]), self._redundancy()
+        )
         assert metrics["manager_summary"] == "All good."
 
 
@@ -258,7 +264,11 @@ class TestEstimateActionImpact:
             "Expose a demo or homepage link when relevant.",
             review={},
             score_entry={},
-            repo_row={"global_score": 70.0, "homepage": "https://demo.example.com", "description": "a repo"},
+            repo_row={
+                "global_score": 70.0,
+                "homepage": "https://demo.example.com",
+                "description": "a repo",
+            },
         )
         assert result["estimated_score_lift"] == 0.0
 
@@ -369,7 +379,12 @@ class TestSimulatePortfolio:
     def test_top_actions_list_has_at_most_three(self) -> None:
         df = _df(_row("a", 70.0, group="keep"))
         actions = [
-            {"action": f"Action {i}", "roi": float(i), "estimated_total_score_lift": 1.0, "repos": []}
+            {
+                "action": f"Action {i}",
+                "roi": float(i),
+                "estimated_total_score_lift": 1.0,
+                "repos": [],
+            }
             for i in range(10)
         ]
         result = simulate_portfolio(df, actions, visible_repo_names=["a"])
@@ -388,8 +403,24 @@ class TestBuildNextActions:
             _row("b", 55.0),
         )
         # Manually inject optimizer_payload into the df rows
-        actions_a = [{"text": "Write a complete README.", "estimated_score_lift": 10.0, "effort_units": 2.0, "roi": 5.0, "matched_penalty_codes": []}]
-        actions_b = [{"text": "Write a complete README.", "estimated_score_lift": 8.0, "effort_units": 2.0, "roi": 4.0, "matched_penalty_codes": []}]
+        actions_a = [
+            {
+                "text": "Write a complete README.",
+                "estimated_score_lift": 10.0,
+                "effort_units": 2.0,
+                "roi": 5.0,
+                "matched_penalty_codes": [],
+            }
+        ]
+        actions_b = [
+            {
+                "text": "Write a complete README.",
+                "estimated_score_lift": 8.0,
+                "effort_units": 2.0,
+                "roi": 4.0,
+                "matched_penalty_codes": [],
+            }
+        ]
         df.at[0, "optimizer_payload"] = actions_a
         df.at[1, "optimizer_payload"] = actions_b
 
@@ -408,8 +439,20 @@ class TestBuildNextActions:
     def test_actions_sorted_by_roi(self) -> None:
         df = _df(_row("a", 60.0))
         df.at[0, "optimizer_payload"] = [
-            {"text": "Low ROI action.", "estimated_score_lift": 1.0, "effort_units": 3.0, "roi": 0.33, "matched_penalty_codes": []},
-            {"text": "High ROI action.", "estimated_score_lift": 6.0, "effort_units": 1.0, "roi": 6.0, "matched_penalty_codes": []},
+            {
+                "text": "Low ROI action.",
+                "estimated_score_lift": 1.0,
+                "effort_units": 3.0,
+                "roi": 0.33,
+                "matched_penalty_codes": [],
+            },
+            {
+                "text": "High ROI action.",
+                "estimated_score_lift": 6.0,
+                "effort_units": 1.0,
+                "roi": 6.0,
+                "matched_penalty_codes": [],
+            },
         ]
         review_index = {"a": {"priority_actions": []}}
         result = build_next_actions(df, review_index)

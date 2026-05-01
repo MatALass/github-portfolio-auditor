@@ -11,7 +11,11 @@ class FrontendScanner(BaseScanner):
 
     def scan(self, repo_path: Path) -> RepoScanSection:
         signals = {
-            "has_nextjs": (repo_path / "next.config.js").exists() or (repo_path / "next.config.mjs").exists(),
-            "has_streamlit": "streamlit" in (repo_path / "requirements.txt").read_text(encoding="utf-8", errors="ignore") if (repo_path / "requirements.txt").exists() else False,
+            "has_nextjs": (repo_path / "next.config.js").exists()
+            or (repo_path / "next.config.mjs").exists(),
+            "has_streamlit": "streamlit"
+            in (repo_path / "requirements.txt").read_text(encoding="utf-8", errors="ignore")
+            if (repo_path / "requirements.txt").exists()
+            else False,
         }
         return RepoScanSection(signals=signals, issues=[])

@@ -100,4 +100,7 @@ def test_ranker_detects_overlap_and_marks_representative() -> None:
 
     ranked_index = {repo.repo_full_name: repo for repo in ranking.ranked_repos}
     assert ranked_index["user/ml-football-predictor"].overlap_cluster_id is not None
-    assert ranked_index["user/ml-football-predictor"].representative_repo_full_name == "user/footpredict-pl"
+    assert (
+        ranked_index["user/ml-football-predictor"].representative_repo_full_name
+        == "user/footpredict-pl"
+    )

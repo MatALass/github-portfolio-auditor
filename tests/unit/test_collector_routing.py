@@ -13,6 +13,7 @@ from portfolio_auditor.settings import Settings
 # Helpers
 # ---------------------------------------------------------------------------
 
+
 def _make_settings(tmp_path: Path) -> Settings:
     return Settings(
         workspace_dir=tmp_path / "data",
@@ -87,6 +88,7 @@ def _make_client(
 # ---------------------------------------------------------------------------
 # Routing tests
 # ---------------------------------------------------------------------------
+
 
 class TestCollectorRouting:
     """Verify that _list_owner_repos calls the correct client method."""
@@ -197,6 +199,7 @@ class TestCollectorRouting:
 # Rate-limit fallback tests
 # ---------------------------------------------------------------------------
 
+
 class TestRateLimitFallback:
     def test_falls_back_to_snapshot_on_rate_limit(self, tmp_path: Path) -> None:
         """On GitHubRateLimitError the collector must load the on-disk snapshot."""
@@ -205,7 +208,9 @@ class TestRateLimitFallback:
 
         client = MagicMock()
         client.get_authenticated_login.return_value = "alice"
-        client.list_authenticated_user_repos.side_effect = GitHubRateLimitError("rate limit exceeded")
+        client.list_authenticated_user_repos.side_effect = GitHubRateLimitError(
+            "rate limit exceeded"
+        )
 
         collector = GitHubCollector(client, settings)
 
@@ -225,7 +230,9 @@ class TestRateLimitFallback:
 
         client = MagicMock()
         client.get_authenticated_login.return_value = "alice"
-        client.list_authenticated_user_repos.side_effect = GitHubRateLimitError("rate limit exceeded")
+        client.list_authenticated_user_repos.side_effect = GitHubRateLimitError(
+            "rate limit exceeded"
+        )
 
         collector = GitHubCollector(client, settings)
 

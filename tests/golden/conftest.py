@@ -90,11 +90,9 @@ def selection_result(
     return selector.select(ranking_summary)
 
 
-
 def load_snapshot(name: str) -> Any:
     with (SNAPSHOT_DIR / name).open("r", encoding="utf-8") as handle:
         return json.load(handle)
-
 
 
 def assert_matches_snapshot(snapshot_name: str, actual: Any) -> None:

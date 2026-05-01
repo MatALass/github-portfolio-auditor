@@ -14,5 +14,11 @@ class NotebookScanner(BaseScanner):
         signals = {"notebook_count": len(notebooks)}
         issues = []
         if len(notebooks) > 5:
-            issues.append(Issue(code="MANY_NOTEBOOKS", severity="low", message="Many notebooks detected; portfolio signal may be diluted."))
+            issues.append(
+                Issue(
+                    code="MANY_NOTEBOOKS",
+                    severity="low",
+                    message="Many notebooks detected; portfolio signal may be diluted.",
+                )
+            )
         return RepoScanSection(signals=signals, issues=issues)

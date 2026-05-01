@@ -71,7 +71,9 @@ def test_selector_builds_expected_buckets() -> None:
         top_repos=repos[:3],
         worst_repos=repos[-2:],
         highest_priority_improvements=[repos[1], repos[2]],
-        redundancy_analysis=RedundancyAnalysis(overlap_pairs=[], overlap_clusters=[], repo_statuses={}),
+        redundancy_analysis=RedundancyAnalysis(
+            overlap_pairs=[], overlap_clusters=[], repo_statuses={}
+        ),
     )
 
     selection = PortfolioSelector().select(ranking)

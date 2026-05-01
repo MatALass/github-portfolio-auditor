@@ -131,7 +131,9 @@ class AuditRunner:
         result_index: dict[str, _RepoPipelineResult] = {
             r.repo.full_name: r for r in pipeline_results
         }
-        ordered_results = [result_index[repo.full_name] for repo in repos if repo.full_name in result_index]
+        ordered_results = [
+            result_index[repo.full_name] for repo in repos if repo.full_name in result_index
+        ]
 
         scans = [r.scan for r in ordered_results]
         scores = [r.score for r in ordered_results]
@@ -165,9 +167,7 @@ class AuditRunner:
 
         return artifacts
 
-    def _run_pipeline_parallel(
-        self, repos: list[RepoMetadata]
-    ) -> list[_RepoPipelineResult]:
+    def _run_pipeline_parallel(self, repos: list[RepoMetadata]) -> list[_RepoPipelineResult]:
         """
         Process each repo (scan → score → review) in a thread pool.
 
@@ -178,8 +178,7 @@ class AuditRunner:
 
         with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
             future_to_repo = {
-                executor.submit(self._process_single_repo, repo): repo
-                for repo in repos
+                executor.submit(self._process_single_repo, repo): repo for repo in repos
             }
             for future in as_completed(future_to_repo):
                 repo = future_to_repo[future]

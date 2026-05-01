@@ -65,14 +65,18 @@ class DocumentationScanner(BaseScanner):
         license_path = self._find_first_existing(local_path, self.LICENSE_CANDIDATES)
         env_example_path = self._find_first_existing(local_path, self.ENV_EXAMPLE_CANDIDATES)
 
-        has_assets = any((local_path / candidate).exists() for candidate in self.ASSET_DIR_CANDIDATES)
+        has_assets = any(
+            (local_path / candidate).exists() for candidate in self.ASSET_DIR_CANDIDATES
+        )
 
         has_readme = readme_path is not None
         readme_text = self.safe_read_text(readme_path) if readme_path else ""
         readme_word_count = len(readme_text.split()) if readme_text else 0
 
         has_installation = self._contains_section(readme_text, ["install", "installation", "setup"])
-        has_usage = self._contains_section(readme_text, ["usage", "how to run", "run", "quick start"])
+        has_usage = self._contains_section(
+            readme_text, ["usage", "how to run", "run", "quick start"]
+        )
         has_architecture = self._contains_section(
             readme_text,
             ["architecture", "project structure", "structure", "design"],

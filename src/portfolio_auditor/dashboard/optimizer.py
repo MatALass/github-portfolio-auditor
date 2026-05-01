@@ -210,9 +210,7 @@ def build_next_actions(
                     "estimated_score_lift": float(opportunity.get("estimated_score_lift", 0.0)),
                     "effort_units": float(opportunity.get("effort_units", 0.0)),
                     "roi": float(opportunity.get("roi", 0.0)),
-                    "matched_penalty_codes": list(
-                        opportunity.get("matched_penalty_codes", [])
-                    ),
+                    "matched_penalty_codes": list(opportunity.get("matched_penalty_codes", [])),
                 }
             )
 

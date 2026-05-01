@@ -253,7 +253,9 @@ class TestTestingScanner:
     def test_tests_directory_detected(self, tmp_path: Path) -> None:
         tests_dir = tmp_path / "tests"
         tests_dir.mkdir()
-        (tests_dir / "test_something.py").write_text("def test_pass(): assert True", encoding="utf-8")
+        (tests_dir / "test_something.py").write_text(
+            "def test_pass(): assert True", encoding="utf-8"
+        )
         repo = _make_repo()
         scan = _make_scan(repo, tmp_path)
 
@@ -263,7 +265,6 @@ class TestTestingScanner:
         assert scan.testing.test_file_count >= 1
         issue_codes = {issue.code for issue in summary.issues}
         assert "NO_TESTS_DETECTED" not in issue_codes
-
 
     def test_pytest_framework_detected_via_pyproject(self, tmp_path: Path) -> None:
         tests_dir = tmp_path / "tests"
@@ -284,7 +285,9 @@ class TestTestingScanner:
         tests_dir = tmp_path / "tests"
         tests_dir.mkdir()
         for i in range(5):
-            (tests_dir / f"test_{i}.py").write_text("def test_pass(): assert True", encoding="utf-8")
+            (tests_dir / f"test_{i}.py").write_text(
+                "def test_pass(): assert True", encoding="utf-8"
+            )
         repo = _make_repo()
         scan = _make_scan(repo, tmp_path)
 
@@ -308,7 +311,9 @@ class TestTestingScanner:
         few_dir = tmp_path / "few"
         few_dir.mkdir()
         (few_dir / "tests").mkdir()
-        (few_dir / "tests" / "test_a.py").write_text("def test_pass(): assert True", encoding="utf-8")
+        (few_dir / "tests" / "test_a.py").write_text(
+            "def test_pass(): assert True", encoding="utf-8"
+        )
         repo_few = _make_repo("few")
         scan_few = _make_scan(repo_few, few_dir)
         summary_few = self.scanner.scan(repo_few, few_dir, scan_few)

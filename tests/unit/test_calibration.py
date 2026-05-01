@@ -60,7 +60,9 @@ def _make_sample(
     )
 
 
-def _full_breakdown(arch=15.0, doc=15.0, test=10.0, depth=10.0, rel=15.0, clean=8.0) -> dict[str, float]:
+def _full_breakdown(
+    arch=15.0, doc=15.0, test=10.0, depth=10.0, rel=15.0, clean=8.0
+) -> dict[str, float]:
     return {
         "architecture_structure": arch,
         "documentation_delivery": doc,
@@ -199,7 +201,7 @@ class TestWeightCalibratorFit:
             base = (i + 1) * 4.0  # 4 to 60
             breakdown = _full_breakdown(
                 arch=base * 0.5,
-                doc=base,         # documentation is the signal
+                doc=base,  # documentation is the signal
                 test=base * 0.3,
                 depth=base * 0.4,
                 rel=base * 0.6,
@@ -257,7 +259,14 @@ class TestWeightCalibratorFit:
         samples = self._synthetic_samples()
         result = self.calibrator.fit(samples, _DEFAULT_WEIGHTS)
         yaml = result.suggested_yaml_block
-        for policy_name in ["architecture", "documentation", "testing", "technical_depth", "portfolio_relevance", "maintainability"]:
+        for policy_name in [
+            "architecture",
+            "documentation",
+            "testing",
+            "technical_depth",
+            "portfolio_relevance",
+            "maintainability",
+        ]:
             assert policy_name in yaml
 
     def test_perfect_linear_data_produces_reasonable_r_squared(self) -> None:
@@ -266,7 +275,9 @@ class TestWeightCalibratorFit:
         samples = []
         for i in range(12):
             ratio = (i + 1) / 12
-            breakdown = {cat: ratio * _MAX_PER_CATEGORY.get(cat, 15.0) for cat in BREAKDOWN_CATEGORIES}
+            breakdown = {
+                cat: ratio * _MAX_PER_CATEGORY.get(cat, 15.0) for cat in BREAKDOWN_CATEGORIES
+            }
             reference = ratio * 100.0
             samples.append(_make_sample(f"r{i}", breakdown, reference))
         result = self.calibrator.fit(samples, _DEFAULT_WEIGHTS)

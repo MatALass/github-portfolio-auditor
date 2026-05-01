@@ -37,9 +37,7 @@ def full_run_command(
         console.print("[bold red]GitHub API rate limit exceeded.[/bold red]")
         console.print(str(exc))
         if snapshot_path.exists():
-            console.print(
-                f"[yellow]Cached snapshot available:[/yellow] {snapshot_path}"
-            )
+            console.print(f"[yellow]Cached snapshot available:[/yellow] {snapshot_path}")
         else:
             console.print(
                 "[yellow]No cached snapshot found.[/yellow] "

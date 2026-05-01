@@ -159,9 +159,7 @@ class GitHubCollector:
         except Exception:
             pass
 
-        include_private = bool(
-            authenticated_login and authenticated_login.lower() == owner.lower()
-        )
+        include_private = bool(authenticated_login and authenticated_login.lower() == owner.lower())
 
         try:
             if include_private:

@@ -48,9 +48,7 @@ class ScoringWeights:
 
         total = self.total
         if abs(total - 100.0) > 1e-9:
-            raise PolicyValidationError(
-                f"Scoring weights must sum to 100.0, got {total:.4f}."
-            )
+            raise PolicyValidationError(f"Scoring weights must sum to 100.0, got {total:.4f}.")
 
     @property
     def total(self) -> float:
@@ -237,7 +235,9 @@ class TestFileCountSignalPolicy:
                 "testing_signals.test_file_count thresholds must be descending."
             )
 
-        _require_probability(self.excellent_bonus, "testing_signals.test_file_count.excellent_bonus")
+        _require_probability(
+            self.excellent_bonus, "testing_signals.test_file_count.excellent_bonus"
+        )
         _require_probability(self.strong_bonus, "testing_signals.test_file_count.strong_bonus")
         _require_probability(self.adequate_bonus, "testing_signals.test_file_count.adequate_bonus")
         _require_probability(self.minimal_bonus, "testing_signals.test_file_count.minimal_bonus")
@@ -257,12 +257,8 @@ class TestingSignals:
         _require_probability(
             self.framework_detected_bonus, "testing_signals.framework_detected_bonus"
         )
-        _require_probability(
-            self.coverage_config_bonus, "testing_signals.coverage_config_bonus"
-        )
-        _require_probability(
-            self.ci_test_workflow_bonus, "testing_signals.ci_test_workflow_bonus"
-        )
+        _require_probability(self.coverage_config_bonus, "testing_signals.coverage_config_bonus")
+        _require_probability(self.ci_test_workflow_bonus, "testing_signals.ci_test_workflow_bonus")
 
 
 @dataclass(frozen=True, slots=True)
@@ -272,9 +268,7 @@ class IssueBonusPolicy:
 
     def __post_init__(self) -> None:
         if self.max_issue_count < 0:
-            raise PolicyValidationError(
-                "technical_depth_signals issue thresholds must be >= 0."
-            )
+            raise PolicyValidationError("technical_depth_signals issue thresholds must be >= 0.")
         _require_probability(self.bonus, "technical_depth_signals issue bonus")
 
 
@@ -358,9 +352,7 @@ class PortfolioRelevanceSignals:
         _require_probability(
             self.topic_bonus_per_topic, "portfolio_relevance_signals.topic_bonus_per_topic"
         )
-        _require_probability(
-            self.topic_bonus_cap, "portfolio_relevance_signals.topic_bonus_cap"
-        )
+        _require_probability(self.topic_bonus_cap, "portfolio_relevance_signals.topic_bonus_cap")
         _require_probability(self.stars_bonus, "portfolio_relevance_signals.stars_bonus")
         _require_probability(self.forks_bonus, "portfolio_relevance_signals.forks_bonus")
         _require_probability(self.tests_bonus, "portfolio_relevance_signals.tests_bonus")
@@ -397,9 +389,7 @@ class MaintainabilitySignals:
             self.no_build_artifacts_bonus,
             "maintainability_signals.no_build_artifacts_bonus",
         )
-        _require_probability(
-            self.no_egg_info_bonus, "maintainability_signals.no_egg_info_bonus"
-        )
+        _require_probability(self.no_egg_info_bonus, "maintainability_signals.no_egg_info_bonus")
         _require_probability(
             self.no_oversized_files_bonus,
             "maintainability_signals.no_oversized_files_bonus",
@@ -440,16 +430,12 @@ class ReviewThresholds:
     archive_or_hide_below: float
 
     def __post_init__(self) -> None:
-        _require_non_negative(
-            self.feature_now_min_score, "review_thresholds.feature_now_min_score"
-        )
+        _require_non_negative(self.feature_now_min_score, "review_thresholds.feature_now_min_score")
         _require_non_negative(
             self.improve_then_feature_min_score,
             "review_thresholds.improve_then_feature_min_score",
         )
-        _require_non_negative(
-            self.archive_or_hide_below, "review_thresholds.archive_or_hide_below"
-        )
+        _require_non_negative(self.archive_or_hide_below, "review_thresholds.archive_or_hide_below")
 
         if not (
             self.feature_now_min_score
@@ -520,12 +506,8 @@ class RankingPolicy:
 
     def __post_init__(self) -> None:
         _require_non_negative(self.confidence_weight, "ranking.confidence_weight")
-        _require_non_negative(
-            self.blocker_penalty_weight, "ranking.blocker_penalty_weight"
-        )
-        _require_non_negative(
-            self.redundancy_penalty_weight, "ranking.redundancy_penalty_weight"
-        )
+        _require_non_negative(self.blocker_penalty_weight, "ranking.blocker_penalty_weight")
+        _require_non_negative(self.redundancy_penalty_weight, "ranking.redundancy_penalty_weight")
 
 
 @dataclass(frozen=True, slots=True)
@@ -535,20 +517,14 @@ class RedundancyPolicy:
     same_category_feature_limit: int
 
     def __post_init__(self) -> None:
-        _require_non_negative(
-            self.strong_overlap_penalty, "redundancy.strong_overlap_penalty"
-        )
-        _require_non_negative(
-            self.medium_overlap_penalty, "redundancy.medium_overlap_penalty"
-        )
+        _require_non_negative(self.strong_overlap_penalty, "redundancy.strong_overlap_penalty")
+        _require_non_negative(self.medium_overlap_penalty, "redundancy.medium_overlap_penalty")
         if self.strong_overlap_penalty < self.medium_overlap_penalty:
             raise PolicyValidationError(
                 "redundancy.strong_overlap_penalty must be >= medium_overlap_penalty."
             )
         if self.same_category_feature_limit <= 0:
-            raise PolicyValidationError(
-                "redundancy.same_category_feature_limit must be > 0."
-            )
+            raise PolicyValidationError("redundancy.same_category_feature_limit must be > 0.")
 
 
 @dataclass(frozen=True, slots=True)
@@ -557,9 +533,7 @@ class SelectionPolicy:
 
     def __post_init__(self) -> None:
         if self.max_featured_repositories <= 0:
-            raise PolicyValidationError(
-                "selection.max_featured_repositories must be > 0."
-            )
+            raise PolicyValidationError("selection.max_featured_repositories must be > 0.")
 
 
 @dataclass(frozen=True, slots=True)

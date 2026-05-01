@@ -16,7 +16,6 @@ def _canonicalize_score(score) -> dict:
     }
 
 
-
 def test_scoring_matches_golden_snapshot(scored_repositories: list[dict]) -> None:
     actual = [_canonicalize_score(item["score"]) for item in scored_repositories]
     assert_matches_snapshot("scoring_baseline.json", actual)

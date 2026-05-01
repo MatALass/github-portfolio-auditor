@@ -52,7 +52,9 @@ def main() -> int:
     if artifacts.scores:
         print("")
         print("Top repositories:")
-        for item in sorted(artifacts.scores, key=lambda score: score.global_score, reverse=True)[:5]:
+        for item in sorted(artifacts.scores, key=lambda score: score.global_score, reverse=True)[
+            :5
+        ]:
             print(f"  - {item.repo_full_name}: {item.global_score:.2f}/100 ({item.score_label})")
 
     return 0

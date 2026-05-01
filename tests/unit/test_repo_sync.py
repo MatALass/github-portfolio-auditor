@@ -6,7 +6,9 @@ from portfolio_auditor.dashboard.repo_sync import compare_repo_states, should_re
 from portfolio_auditor.models.repo_metadata import RepoMetadata
 
 
-def make_repo(name: str, *, owner: str = "MatALass", pushed_at: datetime | None = None) -> RepoMetadata:
+def make_repo(
+    name: str, *, owner: str = "MatALass", pushed_at: datetime | None = None
+) -> RepoMetadata:
     now = datetime(2026, 3, 31, 12, 0, tzinfo=timezone.utc)
     return RepoMetadata.model_validate(
         {

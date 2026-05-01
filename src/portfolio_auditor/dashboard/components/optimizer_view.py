@@ -20,17 +20,19 @@ def render_optimizer_view(data: DashboardData) -> None:
     headline[1].metric(
         "After top action",
         f"{optimizer['quality_after_top_1']:.2f}/100",
-        delta=round(optimizer['quality_after_top_1'] - optimizer['current_quality'], 2),
+        delta=round(optimizer["quality_after_top_1"] - optimizer["current_quality"], 2),
     )
     headline[2].metric(
         "After top 3 actions",
         f"{optimizer['quality_after_top_3']:.2f}/100",
-        delta=round(optimizer['quality_after_top_3'] - optimizer['current_quality'], 2),
+        delta=round(optimizer["quality_after_top_3"] - optimizer["current_quality"], 2),
     )
     headline[3].metric(
         "Selected scope after top 3",
         f"{optimizer['selected_scope_after_top_3']:.2f}/100",
-        delta=round(optimizer['selected_scope_after_top_3'] - optimizer['selected_scope_current'], 2),
+        delta=round(
+            optimizer["selected_scope_after_top_3"] - optimizer["selected_scope_current"], 2
+        ),
     )
 
     left, right = st.columns([1.15, 0.85], gap="large")
@@ -51,7 +53,9 @@ def render_optimizer_view(data: DashboardData) -> None:
                 use_container_width=True,
                 hide_index=True,
                 column_config={
-                    "estimated_total_score_lift": st.column_config.NumberColumn("estimated_lift", format="%.2f"),
+                    "estimated_total_score_lift": st.column_config.NumberColumn(
+                        "estimated_lift", format="%.2f"
+                    ),
                     "total_effort_units": st.column_config.NumberColumn("effort", format="%.2f"),
                     "roi": st.column_config.NumberColumn("ROI", format="%.2f"),
                 },
@@ -71,7 +75,9 @@ def render_optimizer_view(data: DashboardData) -> None:
 
     st.markdown("### Top actions with repository targets")
     for idx, action in enumerate(top_actions[:6], start=1):
-        with st.expander(f"#{idx} · {action['action']} · ROI {action['roi']:.2f}", expanded=(idx <= 2)):
+        with st.expander(
+            f"#{idx} · {action['action']} · ROI {action['roi']:.2f}", expanded=(idx <= 2)
+        ):
             cols = st.columns(4, gap="medium")
             cols[0].metric("Affected repos", action["affected_repo_count"])
             cols[1].metric("Estimated lift", f"{action['estimated_total_score_lift']:.2f}")
@@ -83,7 +89,9 @@ def render_optimizer_view(data: DashboardData) -> None:
                 hide_index=True,
                 column_config={
                     "global_score": st.column_config.NumberColumn("score", format="%.2f"),
-                    "estimated_score_lift": st.column_config.NumberColumn("repo_lift", format="%.2f"),
+                    "estimated_score_lift": st.column_config.NumberColumn(
+                        "repo_lift", format="%.2f"
+                    ),
                     "effort_units": st.column_config.NumberColumn("effort", format="%.2f"),
                     "roi": st.column_config.NumberColumn("ROI", format="%.2f"),
                 },
@@ -111,7 +119,9 @@ def render_optimizer_view(data: DashboardData) -> None:
         hide_index=True,
         column_config={
             "global_score": st.column_config.NumberColumn("score", format="%.2f"),
-            "estimated_recoverable_points": st.column_config.NumberColumn("recoverable", format="%.2f"),
+            "estimated_recoverable_points": st.column_config.NumberColumn(
+                "recoverable", format="%.2f"
+            ),
             "score_ceiling": st.column_config.NumberColumn("ceiling", format="%.2f"),
             "top_action_roi": st.column_config.NumberColumn("ROI", format="%.2f"),
         },

@@ -11,7 +11,9 @@ class ScoreExplainabilityBuilder:
     """
 
     @staticmethod
-    def build(repo: RepoMetadata, scan: RepoScanResult, score: RepoScore) -> list[ScoreExplanationItem]:
+    def build(
+        repo: RepoMetadata, scan: RepoScanResult, score: RepoScore
+    ) -> list[ScoreExplanationItem]:
         return [
             ScoreExplainabilityBuilder._architecture_explanation(scan, score),
             ScoreExplainabilityBuilder._documentation_explanation(scan, score),
@@ -57,7 +59,9 @@ class ScoreExplainabilityBuilder:
         points: list[str] = []
 
         if scan.documentation.has_readme:
-            points.append(f"README detected with about {scan.documentation.readme_word_count} words.")
+            points.append(
+                f"README detected with about {scan.documentation.readme_word_count} words."
+            )
         else:
             points.append("README missing.")
 
