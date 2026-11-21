@@ -173,6 +173,33 @@ portfolio-auditor full-run --owner <github-username>
 
 Use `--refresh-clones` to force re-cloning even if local clones already exist.
 
+### Rank by potential and pick a varied portfolio (offline)
+
+The full audit scores what each repository is today. `potential-run` scores what it can
+become for a target role (data analyst by default) and picks a set of repositories that
+covers different skills and different subjects, instead of the same project three times.
+
+```bash
+portfolio-auditor potential-run \
+  --clones-dir path/to/clones \
+  --inventory inventory.json \
+  --overrides configs/potential_overrides.example.yaml \
+  --output-dir data/processed/potential
+```
+
+It works on local clones, so no GitHub token is needed and private repositories cloned with
+other credentials are included. Outputs:
+
+| File | Content |
+|---|---|
+| `potential_report.md` | featured set, bench, and a table of every repository with its decision and the reason |
+| `potential_scores.json` | potential, current level, the six components and the effort items per repository |
+| `repo_profiles.json` | detected skill domains with their evidence, theme, personal-data files |
+| `diverse_portfolio.json` | each greedy selection step, what it covered, what was skipped and why |
+| `prompts/*.md` | one improvement prompt per selected repository |
+
+How the score and the selection work: [docs/potential_methodology.md](docs/potential_methodology.md).
+
 ### Launch the dashboard
 
 ```bash
@@ -235,6 +262,8 @@ It transforms a portfolio from a collection of repositories into a curated, inte
 
 - heuristic-based scoring
 - no empirical calibration yet
+- potential detection reads files, dependencies and README keywords: a project that is
+  badly documented can be underrated, which is what the overrides file is for
 - redundancy detection is approximate
 - dashboard depends on generated artifacts
 

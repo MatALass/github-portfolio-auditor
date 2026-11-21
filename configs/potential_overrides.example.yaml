@@ -1,0 +1,17 @@
+# Per-repository knowledge for `portfolio-auditor potential-run --overrides`.
+# Keys are repository names (or owner/name). Keep your real file outside the repo
+# if it names private projects.
+repos:
+  my-profile-readme:
+    exclude: "GitHub profile README, not a project"
+  sales-dashboard:
+    realness_bonus: 0.3          # real client, not visible in the README
+    note: "built for a local shop, data from their POS exports"
+  pbi-generator:
+    theme: bi_tooling            # sample data is about esports, the subject is not
+  old-sales-notebook:
+    merge_into: sales-dashboard  # same subject, keep one
+  hr-analytics:
+    extra_effort: {"rebuild the dataset as synthetic data": 3}
+  card-game-engine:
+    primary_domain: decision_simulation

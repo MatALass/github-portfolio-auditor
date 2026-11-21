@@ -1,0 +1,253 @@
+# Potential policy v1
+#
+# The base audit scores what a repository IS today. This policy scores what it
+# COULD BE in a portfolio after a focused round of work, for a given target
+# role, and then picks a set of repositories that covers that role's skills
+# without repeating the same subject.
+#
+# Everything here is a tunable assumption. Weights are relative inside each
+# block and are normalised at load time.
+
+version: v1
+target_role: data_analyst
+
+# ---------------------------------------------------------------------------
+# Skill domains. A repository gets a 0..1 strength per domain from four kinds
+# of evidence. `role_weight` says how much the domain matters for the target
+# role (1.0 = core skill, 0.1 = off-topic for this role).
+# `saturation` is the raw evidence total that maps to strength 1.0.
+# ---------------------------------------------------------------------------
+domains:
+  bi_reporting:
+    label: "BI et reporting (Power BI, modèle en étoile, DAX)"
+    role_weight: 1.0
+    saturation: 4
+    extensions: {".tmdl": 2, ".pbip": 2, ".pbix": 2, ".dax": 1, ".pbir": 1}
+    dependencies: {}
+    keywords: {"power bi": 1.5, "dax": 1, "star schema": 1, "schéma en étoile": 1, "modèle en étoile": 1, "kpi": 0.5, "tableau de bord": 0.5, "reporting": 0.5, "semantic model": 1}
+    paths: {"definition/tables": 1, ".semanticmodel": 1, ".report": 1}
+
+  sql_warehouse:
+    label: "SQL et entrepôt de données"
+    role_weight: 1.0
+    saturation: 4
+    extensions: {".sql": 1}
+    dependencies: {"duckdb": 1.5, "sqlalchemy": 1, "psycopg2": 1, "psycopg2-binary": 1, "psycopg": 1, "sqlite3": 0.5, "dbt-core": 2, "dbt-duckdb": 2}
+    keywords: {"data warehouse": 1.5, "entrepôt": 1.5, "fact table": 1, "table de faits": 1, "dimension": 0.5, "window function": 1, "cte": 0.5, "postgresql": 1, "duckdb": 1, "sql": 0.5}
+    paths: {"sql/": 1, "models/marts": 1, "warehouse": 1}
+
+  data_pipeline:
+    label: "Pipeline et ingénierie de données (ETL, API, scraping)"
+    role_weight: 0.9
+    saturation: 4
+    extensions: {}
+    dependencies: {"requests": 0.5, "httpx": 0.5, "aiohttp": 0.5, "beautifulsoup4": 1, "bs4": 1, "selenium": 1, "playwright": 1, "pyarrow": 1, "polars": 1, "prefect": 2, "apache-airflow": 2, "dagster": 2, "pandera": 1.5, "great-expectations": 1.5, "openpyxl": 0.5, "rapidfuzz": 1, "thefuzz": 1}
+    keywords: {"pipeline": 1, "etl": 1.5, "ingestion": 1, "scraping": 1, "api": 0.5, "append-only": 1, "data quality": 1, "qualité des données": 1, "nettoyage": 0.5, "cleaning": 0.5, "dédoublonnage": 1, "deduplication": 1, "cron": 0.5, "github actions": 0.5, "parquet": 1}
+    paths: {"data/raw": 1, "data/processed": 1, "pipeline": 1, "etl": 1, "ingest": 1}
+
+  machine_learning:
+    label: "Machine learning et modélisation prédictive"
+    role_weight: 0.8
+    saturation: 4
+    extensions: {}
+    dependencies: {"scikit-learn": 2, "sklearn": 2, "xgboost": 1.5, "lightgbm": 1.5, "catboost": 1.5, "torch": 1, "tensorflow": 1, "statsmodels": 1, "skore": 1, "joblib": 0.5, "shap": 1}
+    keywords: {"machine learning": 1.5, "classification": 1, "regression": 1, "régression": 1, "cross-validation": 1, "validation croisée": 1, "feature engineering": 1, "roc": 0.5, "auc": 0.5, "brier": 1, "prediction": 0.5, "prédiction": 0.5, "predict": 0.5}
+    paths: {"models/": 0.5, "train": 0.5}
+
+  decision_simulation:
+    label: "Aide à la décision, simulation et optimisation"
+    role_weight: 0.8
+    saturation: 4
+    extensions: {}
+    dependencies: {"pulp": 2, "ortools": 2, "scipy": 0.5, "networkx": 0.5, "simpy": 2}
+    keywords: {"monte carlo": 2, "simulation": 1, "optimisation": 1, "optimization": 1, "decision": 0.2, "décision": 0.2, "prioritisation": 1, "priorisation": 1, "recommendation": 0.5, "scenario": 0.5, "scénario": 0.5, "elo": 1, "expected value": 1, "espérance": 1, "kelly": 1}
+    paths: {"simulation": 1, "optimizer": 1}
+
+  statistics_survey:
+    label: "Statistiques, enquêtes et analyse exploratoire"
+    role_weight: 0.9
+    saturation: 4
+    extensions: {".ipynb": 0.5}
+    dependencies: {"scipy": 1, "statsmodels": 1, "pingouin": 2, "seaborn": 0.5}
+    keywords: {"survey": 1.5, "enquête": 1.5, "exploratory": 1, "exploratoire": 1, "eda": 1, "hypothesis": 1, "test statistique": 1, "chi2": 1, "corrélation": 0.5, "correlation": 0.5, "pondération": 1, "weighted": 0.5, "distribution": 0.5, "segmentation": 1, "clustering": 1}
+    paths: {"notebooks": 0.5, "eda": 1}
+
+  data_app:
+    label: "Application data interactive (Streamlit, Dash, web)"
+    role_weight: 0.7
+    saturation: 3
+    extensions: {}
+    dependencies: {"streamlit": 2, "dash": 2, "plotly": 1, "altair": 1, "panel": 1.5, "gradio": 1, "chart.js": 1, "d3": 1, "recharts": 1, "echarts": 1}
+    keywords: {"dashboard": 1, "streamlit": 1, "interactive": 0.5, "interactif": 0.5, "infographie": 1, "infographic": 1, "visualisation": 0.5, "visualization": 0.5}
+    paths: {"app.py": 0.5, "pages/": 0.5, "dashboard": 1}
+
+  nosql_bigdata:
+    label: "NoSQL et big data"
+    role_weight: 0.6
+    saturation: 3
+    extensions: {}
+    dependencies: {"pymongo": 1.5, "elasticsearch": 1.5, "neo4j": 1.5, "cassandra-driver": 1.5, "redis": 1, "pyspark": 2}
+    keywords: {"mongodb": 1, "elasticsearch": 1, "neo4j": 1, "cassandra": 1, "spark": 1, "nosql": 1.5}
+    paths: {}
+
+  automation_tooling:
+    label: "Automatisation et outillage métier (Excel, génération, CLI)"
+    role_weight: 0.6
+    saturation: 4
+    extensions: {}
+    dependencies: {"openpyxl": 1, "xlsxwriter": 1, "typer": 1, "click": 1, "jinja2": 0.5, "python-docx": 1, "reportlab": 1}
+    keywords: {"generator": 1, "générateur": 1, "automate": 1, "automatise": 1, "automation": 1, "cli": 0.5, "excel": 0.5, "workbook": 1, "template": 0.5}
+    paths: {"cli.py": 0.5, "templates": 0.5}
+
+  software_engineering:
+    label: "Génie logiciel et algorithmique"
+    role_weight: 0.4
+    saturation: 4
+    extensions: {".java": 1, ".c": 1, ".cpp": 1}
+    dependencies: {"pytest": 0.5, "mypy": 0.5}
+    keywords: {"algorithm": 1, "algorithme": 1, "graph": 0.5, "automata": 1, "complexity": 0.5, "architecture": 0.5}
+    paths: {}
+
+  game_dev:
+    label: "Jeu vidéo et front ludique"
+    role_weight: 0.15
+    saturation: 3
+    extensions: {".gml": 2}
+    dependencies: {"pygame": 2, "pygame-ce": 2, "pyxel": 2, "phaser": 2}
+    keywords: {"game": 0.5, "jeu": 0.5, "player": 0.3, "joueur": 0.3, "level": 0.3, "gameplay": 1, "arcade": 1}
+    paths: {"sprites": 1, "assets/sprites": 1}
+
+  web_frontend:
+    label: "Site web et front-end"
+    role_weight: 0.2
+    saturation: 4
+    extensions: {".html": 0.3, ".css": 0.3, ".vue": 1, ".tsx": 0.5}
+    dependencies: {"react": 1, "vue": 1, "next": 1, "vite": 0.5, "tailwindcss": 0.5, "astro": 1}
+    keywords: {"website": 1, "site": 0.3, "landing": 1, "portfolio": 0.5, "github pages": 1}
+    paths: {"public/": 0.3, "src/components": 0.5}
+
+# ---------------------------------------------------------------------------
+# Subject themes. Two repositories on the same theme tell the reader the same
+# story, whatever their technique. The selector caps repositories per theme.
+# Matched on repository name and README; first keyword hit counts double when
+# it appears in the name.
+# ---------------------------------------------------------------------------
+themes:
+  esports: ["valorant", "vct", "vlr", "esport", "e-sport", "riot"]
+  football: ["football", "premier league", "world cup", "coupe du monde", "ligue 1", "soccer", "wc-tracker", "footpredict"]
+  education: ["student", "étudiant", "ects", "efrei", "study program", "grade", "nachweis", "sws", "stage", "internship", "graduate", "academic", "université"]
+  cybersecurity: ["cve", "anssi", "cert-fr", "vulnerab", "phishing", "epss", "cwe"]
+  environment: ["nappe", "hub'eau", "hubeau", "eau", "water", "aquifer", "aqui'brie", "climat"]
+  mobility_energy: ["school bus", "electric bus", "bus électrique", "transport", "véhicule électrique"]
+  culture_media: ["culture", "culturel", "twitch", "stream", "film", "musique", "livre", "library", "bibliothèque"]
+  card_board_games: ["tarot", "skyjo", "tic-tac-toe", "morpion", "puissance 4", "connect four", "card", "carte", "clash royale", "merge tactics"]
+  video_games: ["pygame", "pyxel", "gamemaker", "tetris", "platformer", "arcade"]
+  dev_tooling: ["repo audit", "repository", "github portfolio", "portfolio auditor", "repo-auditor", "codebase"]
+  business_crm: ["hubspot", "crm", "lead", "targroup", "factur", "invoice"]
+  smart_city: ["waste", "bin", "déchet", "smart city"]
+  email_nlp: ["enron", "email corpus", "nlp", "text mining"]
+  personal_finance: ["budget", "banque", "dépense", "expense"]
+
+# ---------------------------------------------------------------------------
+# Real-world signals. A project built on real data for a real question is
+# worth more to a recruiter than a tutorial dataset, at equal polish.
+# ---------------------------------------------------------------------------
+realness:
+  saturation: 4
+  quantified_weight: 0.4   # per concrete figure (>= 1 000, not a year) in the README
+  quantified_cap: 1.6
+  keywords:
+    "api": 0.5
+    "open data": 1
+    "données publiques": 1
+    "public data": 1
+    "data.gouv": 1.5
+    "insee": 1
+    "scraping": 1
+    "client": 1
+    "stakeholder": 1
+    "commanditaire": 1
+    "association": 0.5
+    "entreprise": 0.5
+    "company": 0.5
+    "business": 0.5
+    "métier": 0.5
+    "decision": 0.5
+    "décision": 0.5
+    "production": 1
+    "en production": 1.5
+    "real data": 1
+    "kaggle": -0.2
+    "titanic": -1.5
+    "iris": -1
+    "synthetic": -0.5
+    "synthétique": -0.5
+    "tp ": -0.5
+
+# ---------------------------------------------------------------------------
+# Effort model. Each missing element costs effort units. Feasibility is
+# 1 - effort / max_effort, so a repository that needs everything rebuilt is
+# rated low even if its subject is strong.
+# ---------------------------------------------------------------------------
+effort:
+  max_effort: 12
+  missing_readme: 2
+  thin_readme: 1          # under readme_min_words
+  readme_min_words: 300
+  missing_tests: 2
+  missing_ci: 1
+  missing_visuals: 1      # no screenshot / gif / demo link
+  notebook_only: 2        # analysis lives only in notebooks
+  flat_layout: 1          # no src/ app/ package structure
+  heavy_repo: 1           # tracked size above heavy_repo_kb
+  heavy_repo_kb: 50000
+  stale: 1                # no commit for stale_days
+  stale_days: 270
+  personal_data_tracked: 3  # CSV headers with names, emails, ids tracked in git
+
+# ---------------------------------------------------------------------------
+# Final potential score (0..100). Weights are normalised.
+# ---------------------------------------------------------------------------
+weights:
+  role_relevance: 30      # how much the repo shows target-role skills
+  realness: 20            # real data / real question / real stakeholder
+  substance: 15           # volume and depth of genuine work already there
+  current_level: 15       # base audit score: a head start is worth something
+  feasibility: 15         # how cheap the remaining work is
+  recency: 5              # fresher context is cheaper to resume
+
+substance:
+  # log-scaled: code_kb at or above this maps to 1.0
+  full_credit_code_kb: 150
+
+recency:
+  full_credit_days: 60
+  zero_credit_days: 540
+
+# ---------------------------------------------------------------------------
+# Eligibility. Automatic exclusions; per-repo overrides live in a separate
+# YAML passed on the command line.
+# ---------------------------------------------------------------------------
+personal_data:
+  # column names (lowercase, exact token) that indicate personal data
+  columns: ["nom", "prenom", "prénom", "first_name", "last_name", "firstname", "lastname", "name", "email", "e-mail", "mail", "telephone", "phone", "mnr", "matrikelnummer", "student_id", "date_of_birth", "birthdate", "date_naissance", "iban", "adresse", "address", "nationality", "nationalité"]
+  min_hits: 2   # a file is flagged when at least this many columns match
+
+eligibility:
+  min_owner_commit_share: 0.3   # below this the repo is mostly someone else's work
+  exclude_name_patterns: ["^\\.github$"]
+
+# ---------------------------------------------------------------------------
+# Selection. Greedy pick under diversity constraints.
+# ---------------------------------------------------------------------------
+selection:
+  featured_count: 6
+  bench_count: 4
+  max_per_theme: 1
+  max_per_primary_domain: 2
+  domain_similarity_penalty: 0.35  # gain *= (1 - p * max cosine similarity to already picked)
+  core_coverage_min_strength: 0.7  # a secondary domain counts as covered from this strength
+  coverage_bonus: 0.15             # gain *= 1 + bonus for each core domain newly covered
+  core_domains: ["bi_reporting", "sql_warehouse", "data_pipeline", "machine_learning", "statistics_survey", "decision_simulation"]
+  min_role_relevance: 0.35         # below this a repo is never featured
+  min_primary_role_weight: 0.5     # primary domain must matter for the role (no game as a featured data project)

@@ -1,0 +1,91 @@
+# What "portfolio-ready" means per skill domain, for a data analyst profile.
+# Used to write the improvement prompt of each repository.
+
+domains:
+  bi_reporting:
+    shows: "concevoir un modèle de données et un rapport BI qui répond à des questions métier"
+    targets:
+      - "Un schéma du modèle (étoile ou constellation) en image dans le README, avec le grain de chaque table de faits."
+      - "Les mesures DAX principales listées et expliquées en une phrase chacune (calcul, filtre, piège évité)."
+      - "Une capture par page du rapport, avec la question métier à laquelle la page répond."
+      - "Une section « Décisions de modélisation » : pourquoi ces tables, ces relations, ces colonnes calculées ou non."
+      - "Les données d'entrée reproductibles (script ou jeu d'exemple) pour ouvrir le rapport sans accès privé."
+  sql_warehouse:
+    shows: "écrire du SQL propre et testable, de la donnée brute jusqu'aux tables d'analyse"
+    targets:
+      - "Une couche par étape (staging, intermédiaire, marts) avec une requête par fichier et des noms explicites."
+      - "Des tests de données (unicité, non-null, intégrité référentielle, valeurs attendues) exécutés en CI."
+      - "Un exemple de résultat (tableau) pour chaque requête métier clé dans le README."
+      - "Un diagramme du schéma final."
+  data_pipeline:
+    shows: "construire une chaîne de données fiable, de la source à un jeu exploitable"
+    targets:
+      - "Un schéma du flux source → nettoyage → stockage → sortie, avec la fréquence d'exécution."
+      - "Des contrôles qualité explicites (schéma, doublons, valeurs manquantes) qui font échouer le pipeline si besoin."
+      - "Une exécution idempotente et une commande unique pour tout relancer."
+      - "Des chiffres de volume réels (lignes, période couverte, taux de rejet) dans le README."
+  machine_learning:
+    shows: "poser un problème prédictif honnêtement et évaluer un modèle sans se mentir"
+    targets:
+      - "Une baseline simple et un tableau de métriques modèle vs baseline, sur un découpage adapté (temporel si besoin)."
+      - "Un contrôle explicite des fuites de données et des choix de features."
+      - "Une section limites : ce que le modèle ne sait pas faire, et le coût d'une erreur."
+      - "Le pipeline d'entraînement reproductible (seed, script, versions) plutôt qu'un notebook seul."
+  decision_simulation:
+    shows: "transformer des données en recommandation chiffrée pour une décision"
+    targets:
+      - "La décision cible énoncée en une phrase en tête du README (qui décide quoi, avec quel critère)."
+      - "Les hypothèses du modèle de simulation listées, avec un test de sensibilité sur les plus fortes."
+      - "Un exemple concret de sortie (une recommandation et son explication)."
+      - "Des tests sur la logique de calcul (cas limites, convergence, reproductibilité avec seed)."
+  statistics_survey:
+    shows: "lire une enquête ou un jeu de données avec rigueur statistique"
+    targets:
+      - "Les questions d'analyse posées avant les graphiques, et une réponse chiffrée à chacune."
+      - "La pondération, les intervalles de confiance ou les tests utilisés, et pourquoi."
+      - "Trois ou quatre graphiques soignés avec un titre qui dit la conclusion."
+      - "Une section limites (biais d'échantillon, variables manquantes)."
+  data_app:
+    shows: "livrer un outil data utilisable par quelqu'un qui ne code pas"
+    targets:
+      - "Une démo en ligne (Streamlit Community Cloud ou équivalent) avec données d'exemple."
+      - "Un GIF ou des captures du parcours utilisateur principal dans le README."
+      - "La logique de calcul séparée de l'interface et testée."
+      - "Un état vide et des messages d'erreur clairs quand les données manquent."
+  nosql_bigdata:
+    shows: "choisir le bon moteur de stockage selon la question posée"
+    targets:
+      - "Un tableau comparatif des moteurs testés (requête, temps, quand l'utiliser)."
+      - "Un docker-compose qui monte tout l'environnement en une commande."
+      - "Les requêtes clés lisibles dans le README avec leur résultat."
+  automation_tooling:
+    shows: "automatiser une tâche métier répétitive et la rendre fiable"
+    targets:
+      - "Le temps gagné ou l'erreur évitée, chiffré, en tête du README."
+      - "Un exemple d'entrée et de sortie (fichiers d'exemple anonymisés)."
+      - "Une CLI ou une commande unique documentée, et des tests sur les règles métier."
+  software_engineering:
+    shows: "écrire du code structuré et testé"
+    targets:
+      - "Relier le projet à un usage data (benchmark chiffré, visualisation des résultats) pour qu'il parle à un recruteur data."
+      - "Tests et CI verts, README court qui dit ce que le projet démontre."
+  game_dev:
+    shows: "créativité et logique de jeu"
+    targets:
+      - "Si le projet reste au portfolio : ajouter une couche data (télémétrie des parties, analyse des stats de jeu) pour le relier au métier."
+  web_frontend:
+    shows: "mise en forme et front-end"
+    targets:
+      - "Relier le site à de la donnée (visualisations, données réelles) ou le garder hors de la sélection data."
+
+effort_fixes:
+  "README à écrire": "Écrire un README complet : problème, données, méthode, résultats chiffrés, captures, comment lancer."
+  "README trop court": "Étoffer le README : contexte, question métier, résultats chiffrés, limites, comment lancer."
+  "pas de tests": "Ajouter des tests pytest sur la logique métier (calculs, nettoyage, règles), pas seulement des imports."
+  "pas de CI": "Ajouter une CI GitHub Actions : lint (ruff) + tests sur chaque push."
+  "aucune capture ni démo": "Ajouter des captures d'écran ou un GIF, et un lien de démo si possible."
+  "analyse uniquement en notebooks": "Sortir la logique des notebooks vers un package src/ ; garder les notebooks pour la narration."
+  "structure plate (pas de src/)": "Réorganiser en layout src/ avec un point d'entrée unique."
+  "dépôt lourd (données ou sorties versionnées)": "Retirer les données lourdes et sorties générées du suivi git, documenter comment les régénérer."
+  "données personnelles versionnées": "Retirer les fichiers de données personnelles du dépôt ET de l'historique git (git filter-repo), les remplacer par un jeu synthétique au même schéma, et ajouter un test qui échoue si une colonne nominative réapparaît."
+  "contexte ancien": "Relire le projet de bout en bout et vérifier qu'il tourne encore avec les versions actuelles."
