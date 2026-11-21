@@ -17,9 +17,19 @@
 - ROI-based action optimizer
 - Historical comparison (snapshot diff)
 
-## Phase 4 — In progress
+## Phase 4 — Potential audit ✓
+- Offline local collector (no token, private clones included)
+- Skill-domain and theme detection with traceable evidence
+- Potential score (role relevance, real data, substance, current level, feasibility, recency)
+- Personal data detection in tracked CSV files
+- Diversity-aware greedy selection (theme cap, domain cap, similarity penalty, coverage bonus)
+- One improvement prompt per selected repository
+
+## Phase 5 — In progress
 
 ### Short term
+- [ ] Show the potential audit in the dashboard (selection steps, domain radar)
+- [ ] Remove the legacy scanners that use the old interface (`scan_orchestrator`, `data_scanner`, `notebook_scanner`, `portfolio_signal_scanner`)
 - [ ] SQLite exporter — enable ad-hoc SQL queries on audit artifacts
 - [ ] Empirical calibration of effort_units in action_impact_rules.yaml
 - [ ] Improve redundancy detection (beyond TF-IDF: language + structure signals)

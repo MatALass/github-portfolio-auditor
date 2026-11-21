@@ -10,6 +10,7 @@ from portfolio_auditor.collectors.github.client import GitHubApiError, GitHubRat
 from portfolio_auditor.settings import get_settings
 
 app = typer.Typer(help="GitHub portfolio auditor CLI.")
+DEFAULT_POTENTIAL_OUTPUT = Path("data/processed/potential")
 console = Console()
 
 
@@ -68,6 +69,47 @@ def full_run_command(
 
     processed_dir = settings.processed_dir / owner
     console.print(f"Processed artifacts directory: {Path(processed_dir)}")
+
+
+@app.command("potential-run")
+def potential_run_command(
+    clones_dir: Path = typer.Option(
+        ..., "--clones-dir", exists=True, file_okay=False, help="Directory of local clones."
+    ),
+    inventory: Path | None = typer.Option(
+        None, "--inventory", exists=True, dir_okay=False, help="Optional inventory JSON."
+    ),
+    owner: str | None = typer.Option(
+        None, "--owner", help="Owner login, required without an inventory."
+    ),
+    overrides: Path | None = typer.Option(
+        None, "--overrides", exists=True, dir_okay=False, help="Per-repo overrides YAML."
+    ),
+    policy: Path | None = typer.Option(
+        None, "--policy", exists=True, dir_okay=False, help="Custom potential policy YAML."
+    ),
+    output_dir: Path = typer.Option(
+        DEFAULT_POTENTIAL_OUTPUT, "--output-dir", help="Where to write the report."
+    ),
+) -> None:
+    """Rank repositories by portfolio potential and pick a varied set to feature.
+
+    Works offline on local clones: no GitHub token needed.
+    """
+    from portfolio_auditor.potential import PotentialRunner
+
+    runner = PotentialRunner.from_paths(policy, overrides)
+    artifacts = runner.run(clones_dir, inventory=inventory, owner=owner)
+    report = runner.export(artifacts, output_dir)
+    by_name = {s.full_name: s for s in artifacts.scores}
+    console.print(
+        f"[bold green]Potential audit completed[/bold green]: {len(artifacts.scores)} repos"
+    )
+    console.print("[bold]Featured:[/bold]")
+    for name in artifacts.portfolio.featured:
+        s = by_name[name]
+        console.print(f"  - {s.name}: {s.potential:.1f} ({s.primary_domain}, {s.theme})")
+    console.print(f"Report: {report}")
 
 
 if __name__ == "__main__":
